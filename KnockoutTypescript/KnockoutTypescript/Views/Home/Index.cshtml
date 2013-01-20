@@ -1,11 +1,17 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Knockout.js + TypeScript";
 }
 
 <h2>@ViewBag.Message</h2>
 
-<div id="messagebox">
+<ul>
+    <li><a href="@Url.Action("SimpleBinding")">Simple binding</a></li>
+    <li><a href="@Url.Action("ComputedValues")">Computed values</a></li>
+</ul>
 
+
+<!-- TODO: Remove this -->
+<div id="messagebox">
 </div>
 
 

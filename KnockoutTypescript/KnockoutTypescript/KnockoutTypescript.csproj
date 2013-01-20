@@ -169,12 +169,14 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\knockout-2.2.1.debug.js" />
     <Content Include="Scripts\knockout-2.2.1.js" />
-    <Content Include="Views\Home\SimpleBinding.cshtml" />
-    <TypeScriptCompile Include="Scripts\Knockuot\001_binding.ts" />
-    <Content Include="Scripts\knockout.d.ts" />
-    <Content Include="Scripts\Knockuot\001_binding.js">
-      <DependentUpon>001_binding.ts</DependentUpon>
+    <TypeScriptCompile Include="Scripts\Knockuot\002-computed-values.ts" />
+    <Content Include="Scripts\Knockuot\002-computed-values.js">
+      <DependentUpon>002-computed-values.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Home\SimpleBinding.cshtml" />
+    <Content Include="Views\Home\ComputedValues.cshtml" />
+    <TypeScriptCompile Include="Scripts\Knockuot\001-binding.ts" />
+    <Content Include="Scripts\knockout.d.ts" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <None Include="Scripts\TypeScript\greeter1.ts" />
     <Content Include="Scripts\TypeScript\greeter.js">
@@ -208,7 +210,6 @@
     <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
     <Content Include="Views\Account\LogOn.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
