@@ -15,10 +15,12 @@ namespace MvcTypeScriptFirst.Controllers
             return View();
         }
 
-        public ActionResult Test()
+        public ActionResult SimpleBinding()
         {
             return View();
         }
+
+
 
         public ActionResult About()
         {

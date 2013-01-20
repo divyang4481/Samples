@@ -169,7 +169,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\knockout-2.2.1.debug.js" />
     <Content Include="Scripts\knockout-2.2.1.js" />
-    <Content Include="Views\Home\Test.cshtml" />
+    <Content Include="Views\Home\SimpleBinding.cshtml" />
     <TypeScriptCompile Include="Scripts\Knockuot\001_binding.ts" />
     <Content Include="Scripts\knockout.d.ts" />
     <Content Include="Scripts\Knockuot\001_binding.js">
