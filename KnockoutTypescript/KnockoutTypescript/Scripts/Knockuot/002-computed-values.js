@@ -8,6 +8,10 @@ var ComputedValue;
                 return this.firstName() + " " + this.lastName();
             }, this);
         }
+        ViewModel.prototype.capitalizeLastName = function () {
+            var currentVal = this.lastName();
+            this.lastName(currentVal.toUpperCase());
+        };
         return ViewModel;
     })();    
     $(function () {

@@ -8,6 +8,11 @@ module ComputedValue {
         public lastName : KnockoutObservableString;
         public fullName : KnockoutComputed;
 
+        public capitalizeLastName() {   
+            var currentVal = this.lastName();        // Read the current value
+            this.lastName(currentVal.toUpperCase()); // Write back a modified value
+        }
+
         constructor(firstName: string, lastName: string) {
 
             this.firstName = ko.observable(firstName);
