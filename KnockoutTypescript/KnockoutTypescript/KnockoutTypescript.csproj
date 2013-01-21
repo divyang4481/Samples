@@ -169,9 +169,14 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\knockout-2.2.1.debug.js" />
     <Content Include="Scripts\knockout-2.2.1.js" />
+    <Content Include="Views\Home\Collections.cshtml" />
     <TypeScriptCompile Include="Scripts\Knockuot\002-computed-values.ts" />
     <Content Include="Scripts\Knockuot\002-computed-values.js">
       <DependentUpon>002-computed-values.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Scripts\Knockuot\003-collections.ts" />
+    <Content Include="Scripts\Knockuot\003-collections.js">
+      <DependentUpon>003-collections.ts</DependentUpon>
     </Content>
     <Content Include="Views\Home\SimpleBinding.cshtml" />
     <Content Include="Views\Home\ComputedValues.cshtml" />

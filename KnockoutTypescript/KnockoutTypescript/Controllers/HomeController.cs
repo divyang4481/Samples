@@ -24,5 +24,10 @@ namespace MvcTypeScriptFirst.Controllers
         {
             return View();
         }
+
+        public ActionResult Collections()
+        {
+            return View();
+        }
     }
 }
