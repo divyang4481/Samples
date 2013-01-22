@@ -5,11 +5,9 @@
             this.name = name;
             this.meal = ko.observable(initialMeal);
             this.formattedPrice = ko.computed(function () {
-                debugger;
-
                 var price = this.meal().price;
                 return price ? "$" + price.toFixed(2) : "None";
-            });
+            }, this);
         }
         return SeatReservation;
     })();    

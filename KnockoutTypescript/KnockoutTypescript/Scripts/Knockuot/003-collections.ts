@@ -10,11 +10,9 @@ module Collections {
             this.meal = ko.observable(initialMeal);
 
             this.formattedPrice = ko.computed(function() {
-            
-            var price: number = this.meal().price;
-                
-            return price ? "$" + price.toFixed(2) : "None";        
-            });
+                var price: number = this.meal().price;
+                return price ? "$" + price.toFixed(2) : "None";        
+            }, this);
         }
     }
 
