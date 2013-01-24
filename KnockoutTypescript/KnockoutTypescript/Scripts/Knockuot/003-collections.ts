@@ -1,52 +1,72 @@
 /// <reference path="../jquery.d.ts" />
 /// <reference path="../knockout.d.ts"/>
 
-module Collections {
-    class SeatReservation {
-        public meal: KnockoutObservableAny;
-        public formattedPrice: KnockoutComputed;
+module Collections 
+{
+    class Meal 
+    {
+        constructor(public mealName: string, public price: number) {}
+    }
 
-        constructor(public name: string, initialMeal: Meal) {
+    // Class to represent a row in the seat reservations grid
+    class SeatReservation 
+    {
+        public name;
+        public meal;
+        public formattedPrice;
+
+        constructor(name: string, initialMeal: Meal) 
+        {
+            this.name = name;
             this.meal = ko.observable(initialMeal);
 
-            this.formattedPrice = ko.computed(function() {
-                var price: number = this.meal().price;
-                return price ? "$" + price.toFixed(2) : "None";        
-            }, this);
+            this.formattedPrice = ko.computed(() => {
+                var price = this.meal().price;
+                return price ? "$" + price.toFixed(2) : "N/A";
+            });
         }
     }
 
-    class Meal {
-        constructor(public name: string, public price: number) {
-        }
-    }
-
-    class ReservationsViewModel {
-        // Non-editable data from server
+    // Overall viewmodel for this screen, along with initial state
+    class ReservationsViewModel 
+    {    
         public availableMeals: Meal[];
-
-        // Editable data
         public seats: KnockoutObservableArray;
 
-        constructor() {
-          this.availableMeals  = [
-          new Meal("Standard (sandwich)", 0),
-          new Meal("Premium (lobster)", 34.95),
-          new Meal("Ultimate (whole zebra)", 290),
-          new Meal("Bak³a¿an", 2)]; 
-            
-          this.seats = ko.observableArray([
-            new SeatReservation("Steve", this.availableMeals[0]),
-            new SeatReservation("Bert", this.availableMeals[0])]);
-        }
+        public addSeat;
+        public removeSeat;
+        public totalSurcharge: KnockoutComputed;
 
-        public addSeat() {
-            this.seats.push(new SeatReservation("", this.availableMeals[0]));
+        constructor() 
+        {
+            // Non-editable catalog data - would come from the server
+            this.availableMeals = [
+                new Meal("Standard (sandwich)", 0),
+                new Meal("Premium (lobster)", 34.95),
+                new Meal("Ultimate (whole zebra)", 290)
+            ];
+
+            // Editable data
+            this.seats = ko.observableArray([
+                new SeatReservation("Steve", this.availableMeals[0]),
+                new SeatReservation("Bert", this.availableMeals[0])
+            ]);
+
+            // Operations
+            this.addSeat = () => {
+                this.seats.push(new SeatReservation("", this.availableMeals[0]));
+            }
+
+            this.removeSeat = (seat) => { this.seats.remove(seat) }
+
+            this.totalSurcharge = ko.computed(() => {
+                var total = 0;
+                for (var i = 0; i < this.seats().length; i++)
+                    total += this.seats()[i].meal().price;
+                return total;
+            });
         }
     }
 
-    $(function () { 
-        ko.applyBindings(new ReservationsViewModel());
-    });
+    $(() => ko.applyBindings(new ReservationsViewModel()));
 }
-
