@@ -20,7 +20,8 @@ module Collections
             this.name = name;
             this.meal = ko.observable(initialMeal);
 
-            this.formattedPrice = ko.computed(() => {
+            this.formattedPrice = ko.computed(() => 
+            {
                 var price = this.meal().price;
                 return price ? "$" + price.toFixed(2) : "N/A";
             });

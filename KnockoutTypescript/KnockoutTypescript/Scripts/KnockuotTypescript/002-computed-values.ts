@@ -1,30 +1,33 @@
 /// <reference path="../jquery.d.ts" />
 /// <reference path="../knockout.d.ts"/>
 
-module ComputedValue {
+module ComputedValue 
+{
+    class ViewModel 
+    {
+        public firstName: KnockoutObservableString;
+        public lastName: KnockoutObservableString;
+        public fullName: KnockoutComputed;
 
-    class ViewModel {
-        public firstName : KnockoutObservableString;
-        public lastName : KnockoutObservableString;
-        public fullName : KnockoutComputed;
-
-        public capitalizeLastName() {   
+        public capitalizeLastName() 
+        {   
             var currentVal = this.lastName();        // Read the current value
             this.lastName(currentVal.toUpperCase()); // Write back a modified value
         }
 
-        constructor(firstName: string, lastName: string) {
-
+        constructor(firstName: string, lastName: string) 
+        {
             this.firstName = ko.observable(firstName);
             this.lastName = ko.observable(lastName);
 
-            this.fullName = ko.computed(function () {
+            this.fullName = ko.computed(() => 
+            {
                 return this.firstName() + " " + this.lastName();
             }, this);
         }
     }
 
-    $(function () {
+    $(() => {
         ko.applyBindings(new ViewModel("Eugeniusz", "Kowalski"));
     });
 }

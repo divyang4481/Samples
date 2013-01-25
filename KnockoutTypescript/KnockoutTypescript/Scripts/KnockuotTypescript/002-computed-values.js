@@ -2,10 +2,11 @@ var ComputedValue;
 (function (ComputedValue) {
     var ViewModel = (function () {
         function ViewModel(firstName, lastName) {
+            var _this = this;
             this.firstName = ko.observable(firstName);
             this.lastName = ko.observable(lastName);
             this.fullName = ko.computed(function () {
-                return this.firstName() + " " + this.lastName();
+                return _this.firstName() + " " + _this.lastName();
             }, this);
         }
         ViewModel.prototype.capitalizeLastName = function () {

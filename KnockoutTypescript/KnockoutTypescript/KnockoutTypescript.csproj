@@ -95,7 +95,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -169,18 +168,23 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\knockout-2.2.1.debug.js" />
     <Content Include="Scripts\knockout-2.2.1.js" />
+    <Content Include="Views\Home\SinglePageApps.cshtml" />
+    <TypeScriptCompile Include="Scripts\KnockuotTypescript\004-single-page-apps.ts" />
+    <Content Include="Scripts\KnockuotTypescript\004-single-page-appps.js">
+      <DependentUpon>004-single-page-apps.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Home\Collections.cshtml" />
-    <TypeScriptCompile Include="Scripts\Knockuot\002-computed-values.ts" />
-    <Content Include="Scripts\Knockuot\002-computed-values.js">
+    <TypeScriptCompile Include="Scripts\KnockuotTypescript\002-computed-values.ts" />
+    <Content Include="Scripts\KnockuotTypescript\002-computed-values.js">
       <DependentUpon>002-computed-values.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Scripts\Knockuot\003-collections.ts" />
-    <Content Include="Scripts\Knockuot\003-collections.js">
+    <TypeScriptCompile Include="Scripts\KnockuotTypescript\003-collections.ts" />
+    <Content Include="Scripts\KnockuotTypescript\003-collections.js">
       <DependentUpon>003-collections.ts</DependentUpon>
     </Content>
     <Content Include="Views\Home\SimpleBinding.cshtml" />
     <Content Include="Views\Home\ComputedValues.cshtml" />
-    <TypeScriptCompile Include="Scripts\Knockuot\001-binding.ts" />
+    <TypeScriptCompile Include="Scripts\KnockuotTypescript\001-binding.ts" />
     <Content Include="Scripts\knockout.d.ts" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <None Include="Scripts\TypeScript\greeter1.ts" />
@@ -211,10 +215,6 @@
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Account\ChangePassword.cshtml" />
-    <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
-    <Content Include="Views\Account\LogOn.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />

@@ -10,8 +10,6 @@ namespace MvcTypeScriptFirst.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Using knockout.js library together with TypeScript.";
-
             return View();
         }
 
@@ -26,6 +24,11 @@ namespace MvcTypeScriptFirst.Controllers
         }
 
         public ActionResult Collections()
+        {
+            return View();
+        }
+
+        public ActionResult SinglePageApps()
         {
             return View();
         }

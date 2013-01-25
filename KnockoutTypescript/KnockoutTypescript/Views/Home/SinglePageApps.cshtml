@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Single page applications";
+}
+
+@section header {
+    <script src="@Url.Content("~/Scripts/KnockuotTypescript/004-single-page-apps.js")" type="text/javascript"></script>
+}
+
+<!-- Folders -->
+<ul class="folders" data-bind="foreach: folders">
+    <li data-bind="text: Name"></li>
+</ul>
