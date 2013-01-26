@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MvcTypeScriptFirst</RootNamespace>
-    <AssemblyName>MvcTypeScriptFirst</AssemblyName>
+    <RootNamespace>KnockoutTypescript</RootNamespace>
+    <AssemblyName>KnockoutTypescript</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -29,6 +29,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PublishDatabases>true</PublishDatabases>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -96,9 +97,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Mail.cs" />
+    <Compile Include="Models\MailFolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -167,11 +171,11 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\knockout-2.2.1.debug.js" />
     <Content Include="Scripts\knockout-2.2.1.js" />
-    <Content Include="Views\Home\SinglePageApps.cshtml" />
     <TypeScriptCompile Include="Scripts\KnockuotTypescript\004-single-page-apps.ts" />
-    <Content Include="Scripts\KnockuotTypescript\004-single-page-appps.js">
+    <Content Include="Scripts\KnockuotTypescript\004-single-page-apps.js">
       <DependentUpon>004-single-page-apps.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Home\SinglePageApps.cshtml" />
     <Content Include="Views\Home\Collections.cshtml" />
     <TypeScriptCompile Include="Scripts\KnockuotTypescript\002-computed-values.ts" />
     <Content Include="Scripts\KnockuotTypescript\002-computed-values.js">
@@ -220,9 +224,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

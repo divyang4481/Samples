@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MvcTypeScriptFirst.Controllers
+namespace KnockoutTypescript.Controllers
 {
     public class HomeController : Controller
     {
