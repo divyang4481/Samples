@@ -7,14 +7,13 @@
     <script src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/modernizr-2.5.3.js")" type="text/javascript"></script>
 	<script src="@Url.Content("~/Scripts/knockout-2.2.1.debug.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/sammy-0.7.2.js")" type="text/javascript"></script>
 
     @RenderSection("header", required: false)
-
 </head>
 <body>
     <div class="page">
         <header>
-            
             <nav>
                 <ul id="menu">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
@@ -26,11 +25,6 @@
         </section>
         <footer>
         </footer>
-		<section>
-            
-
-
-        </section>
     </div>
 </body>
 </html>

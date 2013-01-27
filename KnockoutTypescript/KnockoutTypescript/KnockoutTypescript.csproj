@@ -177,6 +177,9 @@
     <Content Include="Scripts\KnockuotTypescript\004-single-page-apps.js">
       <DependentUpon>004-single-page-apps.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\sammy-0.7.2.js" />
+    <Content Include="Scripts\sammy-0.7.2.min.js" />
+    <Content Include="Scripts\sammyjs.d.ts" />
     <Content Include="Views\Home\SinglePageApps.cshtml" />
     <Content Include="Views\Home\Collections.cshtml" />
     <TypeScriptCompile Include="Scripts\KnockuotTypescript\002-computed-values.ts" />
@@ -222,7 +225,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_LogOnPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
   </ItemGroup>

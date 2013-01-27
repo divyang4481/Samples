@@ -26,26 +26,37 @@ var SinglePageApps;
             this.chosenFolderId = ko.observable();
             this.chosenFolderData = ko.observable();
             this.chosenMailData = ko.observable();
+            var self = this;
+            Sammy(function () {
+                this.get('#:folder', function () {
+                    self.chosenFolderId(this.params.folder);
+                    self.chosenMailData(null);
+                    $.get("/Folder/Get", {
+                        id: this.params.folder
+                    }, self.chosenFolderData);
+                });
+                this.get('#:folder/:mailId', function () {
+                    self.chosenFolderId(this.params.folder);
+                    self.chosenFolderData(null);
+                    $.get("/Mail/Get", {
+                        id: this.params.mailId
+                    }, self.chosenMailData);
+                });
+                this.get('', function () {
+                    this.app.runRoute('get', '#1');
+                });
+            }).run();
             $.ajax("/Folder", {
                 async: false
             }).done(function (data) {
                 _this.folders = data;
             });
             this.goToFolder = function (folder) {
-                _this.chosenFolderId(folder.Id);
-                _this.chosenMailData(null);
-                $.get('/Folder/Get', {
-                    id: folder.Id
-                }, _this.chosenFolderData);
+                location.hash = folder.Id.toString();
             };
             this.goToMail = function (mail) {
-                _this.chosenFolderId(mail.FolderId);
-                _this.chosenFolderData(null);
-                $.get("/Mail/Get", {
-                    id: mail.Id
-                }, _this.chosenMailData);
+                location.hash = mail.FolderId + '/' + mail.Id;
             };
-            this.goToFolder(this.folders[0]);
         }
         return WebmailViewModel;
     })();    
