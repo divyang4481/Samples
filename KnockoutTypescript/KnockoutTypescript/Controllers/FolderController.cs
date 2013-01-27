@@ -7,21 +7,20 @@ using System.Web.Mvc;
 
 namespace KnockoutTypescript.Controllers
 {
-    public class MailController : Controller
+    public class FolderController : Controller
     {
         private Repository repository = new Repository();
 
         [HttpGet]
         public ActionResult Index()
         {
-            return Json(repository.Mails, JsonRequestBehavior.AllowGet);
+            return Json(repository.Folders, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public ActionResult Get(int id)
         {
-            return Json(repository.Mails.SingleOrDefault(m => m.Id == id), JsonRequestBehavior.AllowGet);
+            return Json(repository.Folders.SingleOrDefault(f => f.Id == id), JsonRequestBehavior.AllowGet);
         }
-
     }
 }

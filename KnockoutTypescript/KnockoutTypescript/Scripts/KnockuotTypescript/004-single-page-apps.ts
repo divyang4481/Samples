@@ -4,13 +4,21 @@
 module SinglePageApps 
 {
     class Folder {
-        public Name: string;
-        public Id: number;
+        constructor(
+            public Id: number,
+            public Name: string,
+            public Mails: Mail[]) { }
+    }
 
-        constructor(id: number, name: string) {
-            this.Name = name;
-            this.Id = id;
-        }
+    class Mail {
+        constructor(
+            public Id: number,
+            public From: string, 
+            public To: string, 
+            public Subject: string, 
+            public Date: Date,
+            public FolderId: number,
+            public MessageContent: string) {}
     }
 
     class WebmailViewModel {
@@ -19,24 +27,36 @@ module SinglePageApps
         public folders: Folder[];
         public chosenFolderId: KnockoutObservableAny;
         public chosenFolderData: KnockoutObservableAny;
+        public chosenMailData: KnockoutObservableAny;
 
         // Actions
         public goToFolder;
-        
-        constructor() {
-            this.folders = [
-                new Folder(1, 'Inbox'),
-                new Folder(2, 'Archive'),
-                new Folder(3, 'Sent'),
-                new Folder(4, 'Spam') ];
+        public goToMail;
 
+        constructor() {            
             this.chosenFolderId = ko.observable();
             this.chosenFolderData = ko.observable();
+            this.chosenMailData = ko.observable();
+            
+            $.ajax("/Folder", { async: false }).done((data) =>
+            {
+                this.folders = data;
+            });
 
             this.goToFolder = (folder: Folder) => { 
                 this.chosenFolderId(folder.Id); 
-                var result = $.get('/Mail', { folderId: folder.Id }, this.chosenFolderData);
+                this.chosenMailData(null); // Stop showing a mail
+                $.get('/Folder/Get', { id: folder.Id }, this.chosenFolderData);
             };
+
+            this.goToMail = (mail: Mail) => { 
+                this.chosenFolderId(mail.FolderId);
+                this.chosenFolderData(null); // Stop showing a folder
+                $.get("/Mail/Get", { id: mail.Id }, this.chosenMailData);
+            };
+
+            // Show inbox by default
+            this.goToFolder(this.folders[0]);
         }
     }
 

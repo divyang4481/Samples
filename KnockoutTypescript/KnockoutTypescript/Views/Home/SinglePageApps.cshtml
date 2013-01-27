@@ -15,9 +15,16 @@
 
 <!-- Mails grid -->
 <table class="mails" data-bind="with: chosenFolderData">
-    <thead><tr><th>From</th><th>To</th><th>Subject</th><th>Date</th></tr></thead>
-    <tbody data-bind="foreach: Mails">
+    <thead>
         <tr>
+            <th>From</th>
+            <th>To</th>
+            <th>Subject</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: Mails">
+        <tr data-bind="click: $root.goToMail">
             <td data-bind="text: From"></td>
             <td data-bind="text: To"></td>
             <td data-bind="text: Subject"></td>
@@ -25,3 +32,14 @@
         </tr>     
     </tbody>
 </table>
+
+<!-- Chosen mail -->
+<div class="viewMail" data-bind="with: chosenMailData">
+    <div class="mailInfo">
+        <h1 data-bind="text: Subject"></h1>
+        <p><label>From</label>: <span data-bind="text: From"></span></p>
+        <p><label>To</label>: <span data-bind="text: To"></span></p>
+        <p><label>Date</label>: <span data-bind="text: Date"></span></p>
+    </div>
+    <p class="message" data-bind="html: MessageContent" />
+</div>
