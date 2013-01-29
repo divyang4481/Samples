@@ -2,6 +2,16 @@
 /// <reference path="../knockout.d.ts" />
 
 module CustomBindings {
+
+    ko.bindingHandlers["fadeVisible"] =
+    {
+        update: function(element, valueAccessor) {
+            // On update, fade in/out
+            var shouldDisplay = valueAccessor();
+            shouldDisplay ? $(element).fadeIn() : $(element).fadeOut();
+        }
+    };
+
     class Answer {
         public points: KnockoutObservableNumber;
 
@@ -18,9 +28,9 @@ module CustomBindings {
         // Actions
         public save;
 
-        constructor(public question: string, public pointsBudget: number, _answers: string[]) {
+        constructor(public question: string, public pointsBudget: number, answers: string[]) {
             
-            this.answers = $.map(_answers, (text) => { return new Answer(text); });
+            this.answers = $.map(answers, (text) => { return new Answer(text); });
             this.save = () => { alert('To do') };
                        
             this.pointsUsed = ko.computed(() => {

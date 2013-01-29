@@ -1,5 +1,11 @@
 var CustomBindings;
 (function (CustomBindings) {
+    ko.bindingHandlers["fadeVisible"] = {
+        update: function (element, valueAccessor) {
+            var shouldDisplay = valueAccessor();
+            shouldDisplay ? $(element).fadeIn() : $(element).fadeOut();
+        }
+    };
     var Answer = (function () {
         function Answer(text) {
             this.text = text;
@@ -8,11 +14,11 @@ var CustomBindings;
         return Answer;
     })();    
     var SurveyViewModel = (function () {
-        function SurveyViewModel(question, pointsBudget, _answers) {
+        function SurveyViewModel(question, pointsBudget, answers) {
             this.question = question;
             this.pointsBudget = pointsBudget;
             var _this = this;
-            this.answers = $.map(_answers, function (text) {
+            this.answers = $.map(answers, function (text) {
                 return new Answer(text);
             });
             this.save = function () {
