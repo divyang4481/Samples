@@ -32,5 +32,10 @@ namespace KnockoutTypescript.Controllers
         {
             return View();
         }
+
+        public ActionResult CustomBindings()
+        {
+            return View();
+        }
     }
 }

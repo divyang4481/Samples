@@ -173,6 +173,11 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\knockout-2.2.1.debug.js" />
     <Content Include="Scripts\knockout-2.2.1.js" />
+    <TypeScriptCompile Include="Scripts\KnockuotTypescript\005-custom-bindings.ts" />
+    <Content Include="Scripts\KnockuotTypescript\005-custom-bindings.js">
+      <DependentUpon>005-custom-bindings.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Home\CustomBindings.cshtml" />
     <TypeScriptCompile Include="Scripts\KnockuotTypescript\004-single-page-apps.ts" />
     <Content Include="Scripts\KnockuotTypescript\004-single-page-apps.js">
       <DependentUpon>004-single-page-apps.ts</DependentUpon>

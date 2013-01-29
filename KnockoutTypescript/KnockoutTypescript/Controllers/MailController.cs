@@ -7,6 +7,8 @@ using System.Web.Mvc;
 
 namespace KnockoutTypescript.Controllers
 {
+    // Used in 004
+
     public class MailController : Controller
     {
         private Repository repository = new Repository();
