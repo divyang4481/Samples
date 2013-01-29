@@ -21,4 +21,4 @@
 
 <h3 data-bind="fadeVisible: pointsUsed() > pointsBudget">You've used too many points! Please remove some.</h3>
 <p>You've got <b data-bind="text: pointsBudget - pointsUsed()"></b> points left to use.</p>
-<button data-bind="enable: pointsUsed() <= pointsBudget, click: save">Finished</button>
+<button data-bind="jqButton: { enable: pointsUsed() <= pointsBudget }, click: save">Finished</button>

@@ -1,9 +1,22 @@
 var CustomBindings;
 (function (CustomBindings) {
     ko.bindingHandlers["fadeVisible"] = {
+        init: function (element, valueAccessor) {
+            var shouldDisplay = valueAccessor();
+            $(element).toggle(shouldDisplay);
+        },
         update: function (element, valueAccessor) {
             var shouldDisplay = valueAccessor();
             shouldDisplay ? $(element).fadeIn() : $(element).fadeOut();
+        }
+    };
+    ko.bindingHandlers["jqButton"] = {
+        init: function (element) {
+            $(element).button();
+        },
+        update: function (element, valueAccessor) {
+            var currentValue = valueAccessor();
+            $(element).button("option", "disabled", currentValue.enable === false);
         }
     };
     var Answer = (function () {

@@ -1,14 +1,34 @@
 /// <reference path="../jquery.d.ts" />
 /// <reference path="../knockout.d.ts" />
+/// <reference path="../jqueryui.d.ts" />
 
 module CustomBindings {
 
+    // New binding handler declaration
+    // TypeScript does not allow  ko.bindingHandlers.fadeVisible = { ... };
     ko.bindingHandlers["fadeVisible"] =
     {
+         init: function(element, valueAccessor) {
+            // Start visible/invisible according to initial value
+            var shouldDisplay = valueAccessor();
+            $(element).toggle(shouldDisplay);
+        },
+
         update: function(element, valueAccessor) {
             // On update, fade in/out
             var shouldDisplay = valueAccessor();
             shouldDisplay ? $(element).fadeIn() : $(element).fadeOut();
+        }
+    };
+
+    ko.bindingHandlers["jqButton"] = {
+        init: function(element) {
+           $(element).button(); // Turns the element into a jQuery UI button
+        },
+        update: function (element, valueAccessor) {
+            var currentValue = valueAccessor();
+            // Here we just update the "disabled" state, but you could update other properties too
+            $(element).button("option", "disabled", currentValue.enable === false);
         }
     };
 
