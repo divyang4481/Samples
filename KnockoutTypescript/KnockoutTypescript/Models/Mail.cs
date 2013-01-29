@@ -5,6 +5,9 @@ using System.Web;
 
 namespace KnockoutTypescript.Models
 {
+    /// <summary>
+    /// Mail (used in 004 webmail)
+    /// </summary>
     public class Mail
     {
         public int Id { get; set; }

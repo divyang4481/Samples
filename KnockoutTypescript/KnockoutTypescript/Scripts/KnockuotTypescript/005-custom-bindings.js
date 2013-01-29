@@ -19,6 +19,30 @@ var CustomBindings;
             $(element).button("option", "disabled", currentValue.enable === false);
         }
     };
+    ko.bindingHandlers["starRating"] = {
+        init: function (element, valueAccessor) {
+            $(element).addClass("starRating");
+            for(var i = 0; i < 5; i++) {
+                $("<span>").appendTo(element);
+            }
+            $("span", element).each(function (index) {
+                $(this).hover(function () {
+                    $(this).prevAll().add(this).addClass("hoverChosen");
+                }, function () {
+                    $(this).prevAll().add(this).removeClass("hoverChosen");
+                }).click(function () {
+                    var observable = valueAccessor();
+                    observable(index + 1);
+                });
+            });
+        },
+        update: function (element, valueAccessor) {
+            var observable = valueAccessor();
+            $("span", element).each(function (index) {
+                $(this).toggleClass("chosen", index < observable());
+            });
+        }
+    };
     var Answer = (function () {
         function Answer(text) {
             this.text = text;

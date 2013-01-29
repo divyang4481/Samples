@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace KnockoutTypescript.Controllers
 {
-    // Used in 004
+    // Used in 004 webmail
 
     public class FolderController : Controller
     {

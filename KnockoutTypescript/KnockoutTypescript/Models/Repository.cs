@@ -5,6 +5,9 @@ using System.Web;
 
 namespace KnockoutTypescript.Models
 {
+    /// <summary>
+    /// Fake mail repository (used in 004 webmail)
+    /// </summary>
     public class Repository
     {
         private static List<Mail> mails;
