@@ -1,4 +1,4 @@
-﻿using KnockoutTypescript.Models;
+﻿using KnockoutTypescript.Models._004;
 using System;
 using System.Collections.Generic;
 using System.Linq;

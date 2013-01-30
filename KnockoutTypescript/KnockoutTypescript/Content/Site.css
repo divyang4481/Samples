@@ -366,3 +366,14 @@ table th:last-child { min-width: 130px; }
 .starRating span.chosen { background-position: 0 0; }
 .starRating:hover span { background-position: -24px 0; }
 .starRating:hover span.hoverChosen { background-position: 0 0; }
+
+/*
+006
+*/
+.codeRunner ul { list-style-type: none; margin: 1em 0; background-color: #cde; padding: 1em; border-radius: 0.5em;  }
+.taskList ul li a { color: Gray; font-size: 90%; text-decoration: none }
+.taskList ul li a:hover { text-decoration: underline }
+.taskList input:not([type]), input[type=text] { width: 30em; }
+.taskList input[disabled] { text-decoration: line-through; border-color: Silver; background-color: Silver; }
+.taskList textarea { width: 30em; height: 6em; }
+.taskList form { margin-top: 1em; margin-bottom: 1em; }

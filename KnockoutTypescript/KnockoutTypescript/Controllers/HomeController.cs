@@ -37,5 +37,10 @@ namespace KnockoutTypescript.Controllers
         {
             return View();
         }
+
+        public ActionResult LoadSaveData()
+        { 
+            return View(); 
+        }
     }
 }

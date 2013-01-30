@@ -99,12 +99,14 @@
     <Compile Include="Controllers\FolderController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MailController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Mail.cs" />
-    <Compile Include="Models\Folder.cs" />
-    <Compile Include="Models\Repository.cs" />
+    <Compile Include="Models\004\Mail.cs" />
+    <Compile Include="Models\004\Folder.cs" />
+    <Compile Include="Models\006\Task.cs" />
+    <Compile Include="Models\004\Repository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -175,9 +177,14 @@
     <Content Include="Scripts\jqueryui.d.ts" />
     <Content Include="Scripts\knockout-2.2.1.debug.js" />
     <Content Include="Scripts\knockout-2.2.1.js" />
+    <Content Include="Views\Home\LoadSaveData.cshtml" />
     <TypeScriptCompile Include="Scripts\KnockuotTypescript\005-custom-bindings.ts" />
     <Content Include="Scripts\KnockuotTypescript\005-custom-bindings.js">
       <DependentUpon>005-custom-bindings.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Scripts\KnockuotTypescript\006-load-save-data.ts" />
+    <Content Include="Scripts\KnockuotTypescript\006-load-save-data.js">
+      <DependentUpon>006-load-save-data.ts</DependentUpon>
     </Content>
     <Content Include="Views\Home\CustomBindings.cshtml" />
     <TypeScriptCompile Include="Scripts\KnockuotTypescript\004-single-page-apps.ts" />

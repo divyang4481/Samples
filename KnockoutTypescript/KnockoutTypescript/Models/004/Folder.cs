@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace KnockoutTypescript.Models
+namespace KnockoutTypescript.Models._004
 {
     /// <summary>
     /// Mail folder (used in 004 webmail)
