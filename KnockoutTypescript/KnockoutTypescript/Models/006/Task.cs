@@ -5,6 +5,7 @@ using System.Web;
 
 namespace KnockoutTypescript.Models._006
 {
+    [Serializable]
     public class Task
     {
         public string Title { get; set; }

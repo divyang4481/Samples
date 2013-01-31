@@ -2,8 +2,8 @@ var LoadSaveData;
 (function (LoadSaveData) {
     var Task = (function () {
         function Task(data) {
-            this.title = ko.observable(data.Title);
-            this.isDone = ko.observable(data.IsDone);
+            this.Title = ko.observable(data.Title);
+            this.IsDone = ko.observable(data.IsDone);
         }
         return Task;
     })();    
@@ -14,12 +14,12 @@ var LoadSaveData;
             this.newTaskText = ko.observable();
             this.incompleteTasks = ko.computed(function () {
                 return ko.utils.arrayFilter(_this.tasks(), function (task) {
-                    return !task.isDone();
+                    return !task.IsDone();
                 });
             });
             this.addTask = function () {
                 _this.tasks.push(new Task({
-                    title: _this.newTaskText()
+                    Title: _this.newTaskText()
                 }));
                 _this.newTaskText("");
             };

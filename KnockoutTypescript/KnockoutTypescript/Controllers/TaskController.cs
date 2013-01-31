@@ -22,5 +22,11 @@ namespace KnockoutTypescript.Controllers
             return Json(tasks, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public ActionResult Save(IEnumerable<Task> tasks)
+        {
+            return new EmptyResult();
+        }
+
     }
 }

@@ -5,12 +5,12 @@
 module LoadSaveData {
 
     class Task {
-        public title: KnockoutObservableString;
-        public isDone: KnockoutObservableBool;
+        public Title: KnockoutObservableString;
+        public IsDone: KnockoutObservableBool;
 
         constructor(data: any) {
-            this.title = ko.observable(data.Title);
-            this.isDone = ko.observable(data.IsDone);
+            this.Title = ko.observable(data.Title);
+            this.IsDone = ko.observable(data.IsDone);
         }
     }
 
@@ -30,12 +30,12 @@ module LoadSaveData {
             this.tasks = ko.observableArray([]);
             this.newTaskText = ko.observable();
             this.incompleteTasks = ko.computed(() => {
-                return ko.utils.arrayFilter(this.tasks(), (task: Task) => { return !task.isDone() });
+                return ko.utils.arrayFilter(this.tasks(), (task: Task) => { return !task.IsDone() });
             });
 
             // Operations
             this.addTask = () => {
-                this.tasks.push(new Task({ title: this.newTaskText() }));
+                this.tasks.push(new Task({ Title: this.newTaskText() }));
                 this.newTaskText("");
             };
             this.removeTask = (task: Task) => { this.tasks.remove(task) };
@@ -48,5 +48,9 @@ module LoadSaveData {
         }
     }
 
-    $(() => ko.applyBindings(new TaskListViewModel()));
+    $(() => { 
+        ko.applyBindings(new TaskListViewModel());
+
+        
+    });
 }

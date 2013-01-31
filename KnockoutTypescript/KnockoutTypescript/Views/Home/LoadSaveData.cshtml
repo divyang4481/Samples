@@ -16,8 +16,8 @@
 
     <ul data-bind="foreach: tasks, visible: tasks().length > 0">
         <li>
-            <input type="checkbox" data-bind="checked: isDone" />
-            <input data-bind="value: title, disable: isDone" />
+            <input type="checkbox" data-bind="checked: IsDone" />
+            <input data-bind="value: Title, disable: IsDone" />
             <a href="#" data-bind="click: $parent.removeTask">Delete</a>
         </li> 
     </ul>
@@ -25,3 +25,10 @@
     You have <b data-bind="text: incompleteTasks().length">&nbsp;</b> incomplete task(s)
     <span data-bind="visible: incompleteTasks().length == 0"> - it's beer time!</span>
 </div>
+
+@using (Html.BeginForm("Save", "Task", FormMethod.Post))
+{ 
+    <input type="hidden" name="tasks" data-bind="value: ko.toJSON(tasks)" />
+    <button type="submit">Save</button>    
+}
+
