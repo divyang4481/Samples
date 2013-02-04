@@ -25,7 +25,7 @@ namespace KnockoutTypescript.Controllers
         [HttpPost]
         public ActionResult Save(IEnumerable<Task> tasks)
         {
-            return new EmptyResult();
+            return Json("Success");
         }
 
     }

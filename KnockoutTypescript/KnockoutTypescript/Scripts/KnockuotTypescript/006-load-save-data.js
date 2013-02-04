@@ -26,6 +26,17 @@ var LoadSaveData;
             this.removeTask = function (task) {
                 _this.tasks.remove(task);
             };
+            this.save = function () {
+                $.ajax("/Task/Save", {
+                    data: ko.toJSON({
+                        tasks: _this.tasks
+                    }),
+                    type: "post",
+                    success: function (result) {
+                        alert(result);
+                    }
+                });
+            };
             $.getJSON("/Task", function (allData) {
                 var mappedTasks = $.map(allData, function (item) {
                     return new Task(item);
@@ -36,7 +47,7 @@ var LoadSaveData;
         return TaskListViewModel;
     })();    
     $(function () {
-        return ko.applyBindings(new TaskListViewModel());
+        ko.applyBindings(new TaskListViewModel());
     });
 })(LoadSaveData || (LoadSaveData = {}));
 //@ sourceMappingURL=006-load-save-data.js.map

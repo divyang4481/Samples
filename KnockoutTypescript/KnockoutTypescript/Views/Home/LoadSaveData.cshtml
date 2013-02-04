@@ -26,9 +26,12 @@
     <span data-bind="visible: incompleteTasks().length == 0"> - it's beer time!</span>
 </div>
 
-@using (Html.BeginForm("Save", "Task", FormMethod.Post))
+@*@using (Html.BeginForm("Save", "Task", FormMethod.Post))
 { 
     <input type="hidden" name="tasks" data-bind="value: ko.toJSON(tasks)" />
     <button type="submit">Save</button>    
-}
+}*@
 
+<form data-bind="submit: save">
+<button type="submit">Save</button>
+</form>

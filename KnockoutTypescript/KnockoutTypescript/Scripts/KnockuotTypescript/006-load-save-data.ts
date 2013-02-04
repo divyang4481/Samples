@@ -24,6 +24,7 @@ module LoadSaveData {
         // Operations
         public addTask: Function;
         public removeTask: Function;
+        public save: Function;
 
         constructor() {
             // Data
@@ -40,6 +41,17 @@ module LoadSaveData {
             };
             this.removeTask = (task: Task) => { this.tasks.remove(task) };
 
+            this.save = () => {
+                $.ajax("/Task/Save", {
+                    data: ko.toJSON({ tasks: this.tasks }),
+                    type: "post", 
+                    success: function (result) 
+                    { 
+                        alert(result); 
+                    }
+                });
+            }; 
+
              // Load initial state from server, convert it to Task instances, then populate self.tasks
             $.getJSON("/Task", (allData) => {
                 var mappedTasks = $.map(allData, (item) => { return new Task(item) });
@@ -49,8 +61,6 @@ module LoadSaveData {
     }
 
     $(() => { 
-        ko.applyBindings(new TaskListViewModel());
-
-        
+        ko.applyBindings(new TaskListViewModel());        
     });
 }
