@@ -7,10 +7,12 @@ module LoadSaveData {
     class Task {
         public Title: KnockoutObservableString;
         public IsDone: KnockoutObservableBool;
+        public _destroy: bool;
 
         constructor(data: any) {
             this.Title = ko.observable(data.Title);
             this.IsDone = ko.observable(data.IsDone);
+            this._destroy = data._destroy;
         }
     }
 
@@ -31,7 +33,7 @@ module LoadSaveData {
             this.tasks = ko.observableArray([]);
             this.newTaskText = ko.observable();
             this.incompleteTasks = ko.computed(() => {
-                return ko.utils.arrayFilter(this.tasks(), (task: Task) => { return !task.IsDone() });
+                return ko.utils.arrayFilter(this.tasks(), (task: Task) => { return !task.IsDone() && !task._destroy });
             });
 
             // Operations
@@ -39,15 +41,17 @@ module LoadSaveData {
                 this.tasks.push(new Task({ Title: this.newTaskText() }));
                 this.newTaskText("");
             };
-            this.removeTask = (task: Task) => { this.tasks.remove(task) };
+            //this.removeTask = (task: Task) => { this.tasks.remove(task); }; /* First version */
+            this.removeTask = (task: Task) => { this.tasks.destroy(task) };
 
             this.save = () => {
                 $.ajax("/Task/Save", {
                     data: ko.toJSON({ tasks: this.tasks }),
                     type: "post", 
+                    contentType: 'application/json; charset=utf-8',
                     success: function (result) 
                     { 
-                        alert(result); 
+                        $('#updated').text(result);
                     }
                 });
             }; 

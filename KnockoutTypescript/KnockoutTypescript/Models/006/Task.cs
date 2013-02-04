@@ -10,5 +10,6 @@ namespace KnockoutTypescript.Models._006
     {
         public string Title { get; set; }
         public bool IsDone { get; set; }
+        public bool _destroy { get; set; }
     }
 }

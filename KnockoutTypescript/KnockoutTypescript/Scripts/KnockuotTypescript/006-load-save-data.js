@@ -4,6 +4,7 @@ var LoadSaveData;
         function Task(data) {
             this.Title = ko.observable(data.Title);
             this.IsDone = ko.observable(data.IsDone);
+            this._destroy = data._destroy;
         }
         return Task;
     })();    
@@ -14,7 +15,7 @@ var LoadSaveData;
             this.newTaskText = ko.observable();
             this.incompleteTasks = ko.computed(function () {
                 return ko.utils.arrayFilter(_this.tasks(), function (task) {
-                    return !task.IsDone();
+                    return !task.IsDone() && !task._destroy;
                 });
             });
             this.addTask = function () {
@@ -24,7 +25,7 @@ var LoadSaveData;
                 _this.newTaskText("");
             };
             this.removeTask = function (task) {
-                _this.tasks.remove(task);
+                _this.tasks.destroy(task);
             };
             this.save = function () {
                 $.ajax("/Task/Save", {
@@ -32,8 +33,9 @@ var LoadSaveData;
                         tasks: _this.tasks
                     }),
                     type: "post",
+                    contentType: 'application/json; charset=utf-8',
                     success: function (result) {
-                        alert(result);
+                        $('#updated').text(result);
                     }
                 });
             };

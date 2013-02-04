@@ -43,7 +43,7 @@ namespace KnockoutTypescript
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            ModelBinders.Binders.Add(typeof(IEnumerable<Task>), new JsonModelBinder());
+            //ModelBinders.Binders.Add(typeof(IEnumerable<Task>), new JsonModelBinder());
         }
     }
 }

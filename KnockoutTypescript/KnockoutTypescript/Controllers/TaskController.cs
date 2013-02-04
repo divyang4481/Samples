@@ -27,6 +27,5 @@ namespace KnockoutTypescript.Controllers
         {
             return Json("Success");
         }
-
     }
 }
