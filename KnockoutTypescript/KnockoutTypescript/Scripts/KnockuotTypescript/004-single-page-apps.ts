@@ -1,9 +1,43 @@
 /// <reference path="../jquery.d.ts" />
 /// <reference path="../knockout.d.ts" />
 /// <reference path="../sammyjs.d.ts" />
+/// <reference path="../moment.d.ts" />
 
 module SinglePageApps 
 {
+   ko.bindingHandlers["datetext"] = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        // Provide a custom text value
+        var value = valueAccessor(), allBindings = allBindingsAccessor();
+        var dateFormat = allBindingsAccessor.dateFormat || "M/D/YYYY";
+        var strDate = ko.utils.unwrapObservable(value);
+        if (strDate) {
+            if (moment(strDate).year() > 1970) {
+                var date = moment(strDate).format(dateFormat);
+                $(element).text(date);
+            }
+            else {
+                $(element).text("-");
+            }
+        }
+    },
+    update: function (element, valueAccessor, allBindingsAccessor) {
+        // Provide a custom text value
+        var value = valueAccessor(), allBindings = allBindingsAccessor();
+        var dateFormat = allBindingsAccessor.dateFormat || "M/D/YYYY";
+        var strDate = ko.utils.unwrapObservable(value);
+        if (strDate) {
+            if (moment(strDate).year() > 1970) {
+                var date = moment(strDate).format(dateFormat);
+                $(element).text(date);
+            }
+            else {
+                $(element).text("-");
+            }
+        }
+    }
+};
+
     class Folder {
         constructor(
             public Id: number,
@@ -77,8 +111,6 @@ module SinglePageApps
             //    this.chosenFolderData(null); // Stop showing a folder
             //    $.get("/Mail/Get", { id: mail.Id }, this.chosenMailData);
             //};
-
-
 
             //// Show inbox by default
             //this.goToFolder(this.folders[0]);

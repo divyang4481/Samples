@@ -8,7 +8,7 @@
 
 <h3>Tasks</h3>
 
-<span id="updated"></span>
+<span class="label label-success" id="updated"></span>
 
 <div class="taskList">
     <form data-bind="submit: addTask">
@@ -24,8 +24,8 @@
         </li> 
     </ul>
 
-    You have <b data-bind="text: incompleteTasks().length">&nbsp;</b> incomplete task(s)
-    <span data-bind="visible: incompleteTasks().length == 0"> - it's beer time!</span>
+    You have <span class="badge badge-info" data-bind="text: incompleteTasks().length">&nbsp;</span> incomplete task(s)
+    <span class="label label-info" data-bind="visible: incompleteTasks().length == 0"> - it's vodka time!</span>
 </div>
 
 @*@using (Html.BeginForm("Save", "Task", FormMethod.Post))

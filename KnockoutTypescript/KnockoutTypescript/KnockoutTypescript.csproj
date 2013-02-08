@@ -187,6 +187,8 @@
     <Content Include="Scripts\jqueryui.d.ts" />
     <Content Include="Scripts\knockout-2.2.1.debug.js" />
     <Content Include="Scripts\knockout-2.2.1.js" />
+    <Content Include="Scripts\moment.d.ts" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Views\Home\LoadSaveData.cshtml" />
     <TypeScriptCompile Include="Scripts\KnockuotTypescript\005-custom-bindings.ts" />
     <Content Include="Scripts\KnockuotTypescript\005-custom-bindings.js">
@@ -233,7 +235,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\tutorials.css" />
     <Content Include="packages.config" />
     <None Include="Scripts\jquery.d.ts" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />

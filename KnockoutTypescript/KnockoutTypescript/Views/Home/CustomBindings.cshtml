@@ -7,9 +7,9 @@
 }
 
 <h3 data-bind="text: question"></h3>
-<p>Please distribute <b data-bind="text: pointsBudget"></b> points between the following options.</p>
+<p>Please distribute <span class="badge badge-info" data-bind="text: pointsBudget"></span> points between the following options.</p>
 
-<table>
+<table class="table c-table">
     <thead><tr><th>Option</th><th>Importance</th></tr></thead>
     <tbody data-bind="foreach: answers">
         <tr>
@@ -19,6 +19,12 @@
     </tbody>
 </table>
 
-<h3 data-bind="fadeVisible: pointsUsed() > pointsBudget">You've used too many points! Please remove some.</h3>
-<p>You've got <b data-bind="text: pointsBudget - pointsUsed()"></b> points left to use.</p>
+<div data-bind="fadeVisible: pointsUsed() > pointsBudget">
+    <div class="alert">
+        You've used too many points! <strong>Please remove some.</strong>
+    </div>
+</div>
+
+<p>You've got <span class="badge badge-info" data-bind="text: pointsBudget - pointsUsed()"></span> points left to use.</p>
+
 <button data-bind="jqButton: { enable: pointsUsed() <= pointsBudget }, click: save">Finished</button>

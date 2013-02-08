@@ -7,14 +7,15 @@
 }
 
 <!-- Folders -->
-<ul class="folders" data-bind="foreach: folders">
-    <li data-bind="text: Name, 
-               css: { selected: Id == $root.chosenFolderId() },
-               click: $root.goToFolder"></li>
+<ul class="nav nav-tabs" data-bind="foreach: folders">
+  <li data-bind="css: { active: Id == $root.chosenFolderId() },
+                 click: $root.goToFolder">
+      <a href="#" data-bind="text: Name"></a>
+  </li>
 </ul>
 
 <!-- Mails grid -->
-<table class="mails" data-bind="with: chosenFolderData">
+<table class="table table-bordered" data-bind="with: chosenFolderData">
     <thead>
         <tr>
             <th>From</th>
@@ -28,18 +29,19 @@
             <td data-bind="text: From"></td>
             <td data-bind="text: To"></td>
             <td data-bind="text: Subject"></td>
-            <td data-bind="text: Date"></td>
+            <td data-bind="datetext: Date"></td>
         </tr>     
     </tbody>
 </table>
 
 <!-- Chosen mail -->
-<div class="viewMail" data-bind="with: chosenMailData">
-    <div class="mailInfo">
-        <h1 data-bind="text: Subject"></h1>
-        <p><label>From</label>: <span data-bind="text: From"></span></p>
-        <p><label>To</label>: <span data-bind="text: To"></span></p>
-        <p><label>Date</label>: <span data-bind="text: Date"></span></p>
-    </div>
-    <p class="message" data-bind="html: MessageContent" />
+<div data-bind="with: chosenMailData">
+<div class="hero-unit" data-bind="visible: Id > 0">
+    <h3 data-bind="text: Subject"></h3>
+    <p><label>From:</label> <span data-bind="text: From"></span></p>
+    <p><label>To:</label> <span data-bind="text: To"></span></p>
+    <p><label>Date:</label> <span data-bind="datetext: Date"></span></p>
+    
+    <p data-bind="html: MessageContent" />
+</div>
 </div>
