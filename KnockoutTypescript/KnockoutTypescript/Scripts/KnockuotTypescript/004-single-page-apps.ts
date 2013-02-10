@@ -5,38 +5,38 @@
 
 module SinglePageApps 
 {
-   ko.bindingHandlers["datetext"] = {
-    init: function (element, valueAccessor, allBindingsAccessor) {
-        // Provide a custom text value
-        var value = valueAccessor(), allBindings = allBindingsAccessor();
-        var dateFormat = allBindingsAccessor.dateFormat || "M/D/YYYY";
-        var strDate = ko.utils.unwrapObservable(value);
-        if (strDate) {
-            if (moment(strDate).year() > 1970) {
-                var date = moment(strDate).format(dateFormat);
-                $(element).text(date);
+    ko.bindingHandlers["datetext"] = {
+        init: function (element, valueAccessor, allBindingsAccessor) {
+            // Provide a custom text value
+            var value = valueAccessor(), allBindings = allBindingsAccessor();
+            var dateFormat = allBindingsAccessor.dateFormat || "M/D/YYYY";
+            var strDate = ko.utils.unwrapObservable(value);
+            if (strDate) {
+                if (moment(strDate).year() > 1970) {
+                    var date = moment(strDate).format(dateFormat);
+                    $(element).text(date);
+                }
+                else {
+                    $(element).text("-");
+                }
             }
-            else {
-                $(element).text("-");
+        },
+        update: function (element, valueAccessor, allBindingsAccessor) {
+            // Provide a custom text value
+            var value = valueAccessor(), allBindings = allBindingsAccessor();
+            var dateFormat = allBindingsAccessor.dateFormat || "M/D/YYYY";
+            var strDate = ko.utils.unwrapObservable(value);
+            if (strDate) {
+                if (moment(strDate).year() > 1970) {
+                    var date = moment(strDate).format(dateFormat);
+                    $(element).text(date);
+                }
+                else {
+                    $(element).text("-");
+                }
             }
         }
-    },
-    update: function (element, valueAccessor, allBindingsAccessor) {
-        // Provide a custom text value
-        var value = valueAccessor(), allBindings = allBindingsAccessor();
-        var dateFormat = allBindingsAccessor.dateFormat || "M/D/YYYY";
-        var strDate = ko.utils.unwrapObservable(value);
-        if (strDate) {
-            if (moment(strDate).year() > 1970) {
-                var date = moment(strDate).format(dateFormat);
-                $(element).text(date);
-            }
-            else {
-                $(element).text("-");
-            }
-        }
-    }
-};
+    };
 
     class Folder {
         constructor(
