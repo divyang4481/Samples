@@ -8,16 +8,16 @@
     <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" media="screen">
     <link href="@Url.Content("~/Content/tutorials.css")" rel="stylesheet" media="screen">
 
-    <script src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/jquery-ui-1.8.20.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/lib/jquery-1.9.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/lib/jquery-ui-1.8.20.min.js")" type="text/javascript"></script>
 
-    <script src="@Url.Content("~/Scripts/modernizr-2.5.3.js")" type="text/javascript"></script>
-	<script src="@Url.Content("~/Scripts/knockout-2.2.1.debug.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/sammy-0.7.2.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/moment.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/lib/modernizr-2.5.3.js")" type="text/javascript"></script>
+	<script src="@Url.Content("~/Scripts/lib/knockout-2.2.1.debug.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/lib/sammy-0.7.2.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/lib/moment.min.js")" type="text/javascript"></script>
 
 
-    <script src="@Url.Content("~/Scripts/bootstrap.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/lib/bootstrap.min.js")" type="text/javascript"></script>
 
     @RenderSection("header", required: false)
 
@@ -40,8 +40,8 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
+       @*       <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>*@
             </ul>
           </div><!--/.nav-collapse -->
         </div>

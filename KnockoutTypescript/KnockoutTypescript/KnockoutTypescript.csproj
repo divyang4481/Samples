@@ -173,23 +173,66 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Global.asax" />
-    <None Include="Scripts\jquery-1.7.1.intellisense.js" />
-    <Content Include="Scripts\bootstrap.d.ts" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\jquery-1.7.1.js" />
-    <Content Include="Scripts\jquery-1.7.1.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery-ui-1.8.20.js" />
-    <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jqueryui.d.ts" />
-    <Content Include="Scripts\knockout-2.2.1.debug.js" />
-    <Content Include="Scripts\knockout-2.2.1.js" />
-    <Content Include="Scripts\moment.d.ts" />
-    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\lib\bootstrap.js" />
+    <Content Include="Scripts\lib\bootstrap.min.js" />
+    <None Include="Scripts\lib\jquery-1.9.1.intellisense.js" />
+    <Content Include="Scripts\lib\jquery-1.9.1.js" />
+    <Content Include="Scripts\lib\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\lib\jquery-1.9.1.min.map" />
+    <None Include="Scripts\lib\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\lib\jquery-ui-1.8.20.js" />
+    <Content Include="Scripts\lib\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\lib\jquery.validate.js" />
+    <Content Include="Scripts\lib\jquery.validate.min.js" />
+    <Content Include="Scripts\lib\knockout-2.2.1.debug.js" />
+    <Content Include="Scripts\lib\knockout-2.2.1.js" />
+    <Content Include="Scripts\KnockuotTypescript\001-binding.js">
+      <DependentUpon>001-binding.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\KnockuotTypescript\001-binding.min.js">
+      <DependentUpon>001-binding.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\KnockuotTypescript\002-computed-values.min.js">
+      <DependentUpon>002-computed-values.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\KnockuotTypescript\003-collections.min.js">
+      <DependentUpon>003-collections.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\KnockuotTypescript\004-single-page-apps.min.js">
+      <DependentUpon>004-single-page-apps.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\KnockuotTypescript\005-custom-bindings.min.js">
+      <DependentUpon>005-custom-bindings.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\KnockuotTypescript\006-load-save-data.min.js">
+      <DependentUpon>006-load-save-data.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\lib\moment.min.js" />
+    <Content Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
+    <Content Include="Scripts\typings\jqueryui\jqueryui.d.ts" />
+    <Content Include="Scripts\typings\jquery\jquery.d.ts" />
+    <Content Include="Scripts\typings\knockout\knockout.d.ts" />
+    <Content Include="Scripts\typings\moment\moment.d.ts" />
+    <Content Include="Scripts\typings\sammyjs\sammyjs.d.ts" />
     <Content Include="Views\Home\LoadSaveData.cshtml" />
+    <Content Include="Scripts\KnockuotTypescript\001-binding.js.map">
+      <DependentUpon>001-binding.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\KnockuotTypescript\002-computed-values.js.map">
+      <DependentUpon>002-computed-values.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\KnockuotTypescript\003-collections.js.map">
+      <DependentUpon>003-collections.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\KnockuotTypescript\004-single-page-apps.js.map">
+      <DependentUpon>004-single-page-apps.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\KnockuotTypescript\005-custom-bindings.js.map">
+      <DependentUpon>005-custom-bindings.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\KnockuotTypescript\006-load-save-data.js.map">
+      <DependentUpon>006-load-save-data.ts</DependentUpon>
+    </Content>
     <TypeScriptCompile Include="Scripts\KnockuotTypescript\005-custom-bindings.ts" />
     <Content Include="Scripts\KnockuotTypescript\005-custom-bindings.js">
       <DependentUpon>005-custom-bindings.ts</DependentUpon>
@@ -203,9 +246,8 @@
     <Content Include="Scripts\KnockuotTypescript\004-single-page-apps.js">
       <DependentUpon>004-single-page-apps.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\sammy-0.7.2.js" />
-    <Content Include="Scripts\sammy-0.7.2.min.js" />
-    <Content Include="Scripts\sammyjs.d.ts" />
+    <Content Include="Scripts\lib\sammy-0.7.2.js" />
+    <Content Include="Scripts\lib\sammy-0.7.2.min.js" />
     <Content Include="Views\Home\SinglePageApps.cshtml" />
     <Content Include="Views\Home\Collections.cshtml" />
     <TypeScriptCompile Include="Scripts\KnockuotTypescript\002-computed-values.ts" />
@@ -219,15 +261,7 @@
     <Content Include="Views\Home\SimpleBinding.cshtml" />
     <Content Include="Views\Home\ComputedValues.cshtml" />
     <TypeScriptCompile Include="Scripts\KnockuotTypescript\001-binding.ts" />
-    <Content Include="Scripts\knockout.d.ts" />
-    <Content Include="Scripts\modernizr-2.5.3.js" />
-    <None Include="Scripts\TypeScript\greeter1.ts" />
-    <Content Include="Scripts\TypeScript\greeter.js">
-      <DependentUpon>greeter.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="Scripts\TypeScript\greeter2.ts" />
-    <TypeScriptCompile Include="Scripts\TypeScript\greeter3.ts" />
-    <TypeScriptCompile Include="Scripts\TypeScript\greeter.ts" />
+    <Content Include="Scripts\lib\modernizr-2.5.3.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -237,11 +271,10 @@
     </Content>
     <Content Include="Content\tutorials.css" />
     <Content Include="packages.config" />
-    <None Include="Scripts\jquery.d.ts" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\lib\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\lib\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\lib\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\lib\jquery.validate.unobtrusive.min.js" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />

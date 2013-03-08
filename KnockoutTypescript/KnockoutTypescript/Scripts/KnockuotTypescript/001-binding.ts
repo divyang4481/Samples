@@ -1,5 +1,5 @@
-/// <reference path="../jquery.d.ts" />
-/// <reference path="../knockout.d.ts"/>
+/// <reference path="../typings/jquery/jquery.d.ts" />
+/// <reference path="../typings/knockout/knockout.d.ts"/>
 
 module SimpleBinding {
     // This is a simple *viewmodel* - JavaScript that defines the data and behavior of your UI

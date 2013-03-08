@@ -10,7 +10,7 @@ var CustomBindings;
             shouldDisplay ? $(element).fadeIn() : $(element).fadeOut();
         }
     };
-    ko.bindingHandlers["jqButton"] = {
+    ko.bindingHandlers.jqButton = {
         init: function (element) {
             $(element).button();
         },

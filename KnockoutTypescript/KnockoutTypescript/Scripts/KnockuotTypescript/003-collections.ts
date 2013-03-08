@@ -1,5 +1,5 @@
-/// <reference path="../jquery.d.ts" />
-/// <reference path="../knockout.d.ts"/>
+/// <reference path="../typings/jquery/jquery.d.ts" />
+/// <reference path="../typings/knockout/knockout.d.ts"/>
 
 module Collections 
 {
@@ -20,7 +20,7 @@ module Collections
             this.name = name;
             this.meal = ko.observable(initialMeal);
 
-            this.formattedPrice = ko.computed(() => 
+            this.formattedPrice = ko.computed(() =>
             {
                 var price = this.meal().price;
                 return price ? "$" + price.toFixed(2) : "N/A";
@@ -34,8 +34,8 @@ module Collections
         public availableMeals: Meal[];
         public seats: KnockoutObservableArray;
 
-        public addSeat;
-        public removeSeat;
+        public addSeat: Function;
+        public removeSeat: Function;
         public totalSurcharge: KnockoutComputed;
 
         constructor() 

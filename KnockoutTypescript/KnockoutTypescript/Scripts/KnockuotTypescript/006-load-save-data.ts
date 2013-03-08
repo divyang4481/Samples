@@ -1,6 +1,6 @@
-/// <reference path="../jquery.d.ts" />
-/// <reference path="../knockout.d.ts" />
-/// <reference path="../jqueryui.d.ts" />
+/// <reference path="../typings/jquery/jquery.d.ts" />
+/// <reference path="../typings/knockout/knockout.d.ts" />
+/// <reference path="../typings/jqueryui/jqueryui.d.ts" />
 
 module LoadSaveData {
 
@@ -49,7 +49,7 @@ module LoadSaveData {
                     data: ko.toJSON({ tasks: this.tasks }),
                     type: "post", 
                     contentType: 'application/json; charset=utf-8',
-                    success: function (result) 
+                    success: (result) =>
                     { 
                         $('#updated').text(result);
                     }

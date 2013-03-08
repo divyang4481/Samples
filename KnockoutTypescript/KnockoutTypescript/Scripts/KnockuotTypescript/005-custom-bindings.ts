@@ -1,11 +1,15 @@
-/// <reference path="../jquery.d.ts" />
-/// <reference path="../knockout.d.ts" />
-/// <reference path="../jqueryui.d.ts" />
+/// <reference path="../typings/jquery/jquery.d.ts" />
+/// <reference path="../typings/jqueryui/jqueryui.d.ts" />
+/// <reference path="../typings/knockout/knockout.d.ts" />
+
+// Expand knockout interface
+interface KnockoutBindingHandlers {
+    jqButton: KnockoutBindingHandler;
+}
 
 module CustomBindings {
 
     // New binding handler declaration
-    // TypeScript does not allow  ko.bindingHandlers.fadeVisible = { ... };
     ko.bindingHandlers["fadeVisible"] =
     {
          init: function(element, valueAccessor) {
@@ -21,7 +25,7 @@ module CustomBindings {
         }
     };
 
-    ko.bindingHandlers["jqButton"] = {
+    ko.bindingHandlers.jqButton = {
         init: function(element) {
            $(element).button(); // Turns the element into a jQuery UI button
         },
@@ -70,7 +74,7 @@ module CustomBindings {
     class SurveyViewModel {
 
         public answers: Answer[];
-        public pointsUsed: KnockoutObservableNumber;
+        public pointsUsed: KnockoutComputed;
 
         // Actions
         public save;
@@ -90,11 +94,12 @@ module CustomBindings {
     }
 
     $(() => {
-        ko.applyBindings(new SurveyViewModel("Which factors affect your technology choices?", 10, [
+        ko.applyBindings(new SurveyViewModel("Which factors affect your technology choices?", 10,
+        [
            "Functionality, compatibility, pricing - all that boring stuff",
-           "How often it is mentioned on Hacker News",    
-           "Number of gradients/dropshadows on project homepage",        
+           "How often it is mentioned on Hacker News",
+           "Number of gradients/dropshadows on project homepage",
            "Totally believable testimonials on project homepage"
-        ]))
+        ]));
     });
 }
