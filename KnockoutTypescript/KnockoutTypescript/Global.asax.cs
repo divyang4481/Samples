@@ -1,5 +1,4 @@
-﻿using KnockoutTypescript.Infrastructure.ModelBinders;
-using KnockoutTypescript.Models._006;
+﻿using KnockoutTypescript.Models._006;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -42,8 +41,6 @@ namespace KnockoutTypescript
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-
-            //ModelBinders.Binders.Add(typeof(IEnumerable<Task>), new JsonModelBinder());
         }
     }
 }

@@ -103,7 +103,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\ModelBinders\JsonModelBinder.cs" />
     <Compile Include="Models\004\Mail.cs" />
     <Compile Include="Models\004\Folder.cs" />
     <Compile Include="Models\006\Task.cs" />
