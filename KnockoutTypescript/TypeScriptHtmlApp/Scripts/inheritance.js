@@ -20,3 +20,4 @@ var Inheritance;
         return B;
     })(A);    
 })(Inheritance || (Inheritance = {}));
+//@ sourceMappingURL=inheritance.js.map
