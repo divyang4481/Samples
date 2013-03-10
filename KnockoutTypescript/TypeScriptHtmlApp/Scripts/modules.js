@@ -1,4 +1,12 @@
-/// <reference path="typings/jquery/jquery.d.ts" />
+var Greeter = (function () {
+    function Greeter(greeting) {
+        this.greeting = greeting;
+    }
+    Greeter.prototype.greet = function () {
+        return "Hello, " + this.greeting;
+    };
+    return Greeter;
+})();
 var TestModule;
 (function (TestModule) {
     TestModule.foo = "BBB";
@@ -19,5 +27,5 @@ var TestModule;
 })(TestModule || (TestModule = {}));
 $(function () {
     var greeter = new TestModule.Greeter("Eugeniusz");
+    greeter.greet();
 });
-//@ sourceMappingURL=modules.js.map

@@ -1,0 +1,34 @@
+C:\Program Files (x86)\Microsoft SDKs\TypeScript
+
+- TypeScript
+	- plain javascript, definitions (https://github.com/borisyankov/DefinitelyTyped), types (any)
+	
+	- class
+		- private, public
+		- constructor
+		- methods, private, public - by default public
+	
+		var greeting: string
+		constructor(greeting: string)
+		{
+			this.greeting = greeting;
+		}
+		
+		constructor(public greeting: string)
+	
+	- module
+		- export module, export class, export function, export var
+	
+	- interface, expanding existing interface
+	
+	- inheritance
+	
+	- this, () => vs. function()
+	
+- Knockout.js + TypeScript
+
+
+		
+	
+	
+	

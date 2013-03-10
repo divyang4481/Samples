@@ -19,17 +19,17 @@ namespace KnockoutTypescript.Models._004
                 new Mail 
                 { 
                     Id = 1, 
-                    From = "wiewiorka@lysa.skorka", 
-                    To = "henki@henki.pl", 
+                    From = "monika@poczta.onet.pl", 
+                    To = "adam@onet.pl", 
                     Subject = "Życzenia noworoczne", 
                     Date = DateTime.Now,
                     FolderId = 1,
-                    MessageContent = "Wszystkiego najlepszego w Nowym Roku 1545 życzą mieszkańcy Borów Tucholskich."
+                    MessageContent = "Wszystkiego najlepszego w Nowym Roku 1545."
                 },
                 new Mail 
                 { 
                     Id = 2, 
-                    From = "benedykt16@vatican.va", 
+                    From = "dsfsdf@dsdsadsadas", 
                     To = "eugeniusz@kowalski.com", 
                     Subject = "Wyniki kontroli", 
                     Date = new DateTime(2012, 12, 12),

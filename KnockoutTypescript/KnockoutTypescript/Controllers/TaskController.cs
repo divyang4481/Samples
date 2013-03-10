@@ -16,7 +16,7 @@ namespace KnockoutTypescript.Controllers
             {
                 new Task { IsDone = false, Title = "Zutylizować odpady" },
                 new Task { IsDone = true, Title = "Zlikwidować własność prywatną" },
-                new Task { IsDone = false, Title = "Sprywatyzować przemysł włókienniczy" }
+                new Task { IsDone = false, Title = "Odśnieżyć drogę" }
             };
 
             return Json(tasks, JsonRequestBehavior.AllowGet);

@@ -9,6 +9,17 @@ interface KnockoutBindingHandlers {
 
 module CustomBindings {
 
+    ko.bindingHandlers.jqButton = {
+        init: function (element) {
+            $(element).button(); // Turns the element into a jQuery UI button
+        },
+        update: function (element, valueAccessor) {
+            var currentValue = valueAccessor();
+            // Here we just update the "disabled" state, but you could update other properties too
+            $(element).button("option", "disabled", currentValue.enable === false);
+        }
+    };
+
     // New binding handler declaration
     ko.bindingHandlers["fadeVisible"] =
     {
@@ -22,17 +33,6 @@ module CustomBindings {
             // On update, fade in/out
             var shouldDisplay = valueAccessor();
             shouldDisplay ? $(element).fadeIn() : $(element).fadeOut();
-        }
-    };
-
-    ko.bindingHandlers.jqButton = {
-        init: function(element) {
-           $(element).button(); // Turns the element into a jQuery UI button
-        },
-        update: function (element, valueAccessor) {
-            var currentValue = valueAccessor();
-            // Here we just update the "disabled" state, but you could update other properties too
-            $(element).button("option", "disabled", currentValue.enable === false);
         }
     };
 
@@ -82,8 +82,8 @@ module CustomBindings {
         constructor(public question: string, public pointsBudget: number, answers: string[]) {
             
             this.answers = $.map(answers, (text) => { return new Answer(text); });
-            this.save = () => { alert('To do') };
-                       
+            this.save = () => { alert('To do'); };
+            
             this.pointsUsed = ko.computed(() => {
                 var total: number = 0;
                 for (var i = 0; i < this.answers.length; i++)

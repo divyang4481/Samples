@@ -1,5 +1,17 @@
 /// <reference path="typings/jquery/jquery.d.ts" />
 
+class Greeter {
+    public greeting: string;
+
+    constructor(greeting: string) {
+        this.greeting = greeting;
+    }
+
+    greet(): string {
+        return "Hello, " + this.greeting;
+    }
+}
+
 module TestModule {
 
     export var foo = "BBB";
@@ -9,6 +21,7 @@ module TestModule {
     }
 
     export class Greeter {
+        
         constructor(public greeting: string) {
         }
 
@@ -20,4 +33,6 @@ module TestModule {
 
 $(() => {
     var greeter = new TestModule.Greeter("Eugeniusz");
+
+    greeter.greet();
 });

@@ -1,4 +1,3 @@
-/// <reference path="typings/jquery/jquery.d.ts" />
 var TestInterface;
 (function (TestInterface) {
     var Student = (function () {
@@ -19,9 +18,7 @@ var TestInterface;
         firstname: "Eugeniusz",
         lastname: "Kowalski"
     };
-    //var user = new Student("Eugeniusz", "M.", "Kowalski");
-    })(TestInterface || (TestInterface = {}));
+})(TestInterface || (TestInterface = {}));
 $(function () {
     $("#content2").html(TestInterface.greeter(TestInterface.user));
 });
-//@ sourceMappingURL=interfaces.js.map
