@@ -19,7 +19,7 @@ C:\Program Files (x86)\Microsoft SDKs\TypeScript
 	- module
 		- export module, export class, export function, export var
 	
-	- interface, expanding existing interface
+	- interface, expanding existing interface, implements keyword
 	
 	- inheritance
 	

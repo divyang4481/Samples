@@ -6,10 +6,10 @@ var CustomBindings;
         },
         update: function (element, valueAccessor) {
             var currentValue = valueAccessor();
-            $(element).button("option", "disabled", currentValue.enable === false);
+            $(element).css("display", currentValue.enable == true ? "block" : "none");
         }
     };
-    ko.bindingHandlers["fadeVisible"] = {
+    ko.bindingHandlers.fadeVisible = {
         init: function (element, valueAccessor) {
             var shouldDisplay = valueAccessor();
             $(element).toggle(shouldDisplay);
@@ -19,7 +19,7 @@ var CustomBindings;
             shouldDisplay ? $(element).fadeIn() : $(element).fadeOut();
         }
     };
-    ko.bindingHandlers["starRating"] = {
+    ko.bindingHandlers.starRating = {
         init: function (element, valueAccessor) {
             $(element).addClass("starRating");
             for(var i = 0; i < 5; i++) {
@@ -80,4 +80,3 @@ var CustomBindings;
         ]));
     });
 })(CustomBindings || (CustomBindings = {}));
-//@ sourceMappingURL=005-custom-bindings.js.map

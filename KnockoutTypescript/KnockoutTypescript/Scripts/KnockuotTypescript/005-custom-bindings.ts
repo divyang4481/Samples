@@ -5,6 +5,8 @@
 // Expand knockout interface
 interface KnockoutBindingHandlers {
     jqButton: KnockoutBindingHandler;
+    fadeVisible: KnockoutBindingHandler;
+    starRating: KnockoutBindingHandler;
 }
 
 module CustomBindings {
@@ -15,13 +17,12 @@ module CustomBindings {
         },
         update: function (element, valueAccessor) {
             var currentValue = valueAccessor();
-            // Here we just update the "disabled" state, but you could update other properties too
-            $(element).button("option", "disabled", currentValue.enable === false);
+            $(element).css("display", currentValue.enable == true ? "block" : "none");
         }
     };
 
     // New binding handler declaration
-    ko.bindingHandlers["fadeVisible"] =
+    ko.bindingHandlers.fadeVisible =
     {
          init: function(element, valueAccessor) {
             // Start visible/invisible according to initial value
@@ -36,7 +37,7 @@ module CustomBindings {
         }
     };
 
-    ko.bindingHandlers["starRating"] = {
+    ko.bindingHandlers.starRating = {
         init: function(element, valueAccessor) {
             $(element).addClass("starRating");
             for (var i = 0; i < 5; i++)
