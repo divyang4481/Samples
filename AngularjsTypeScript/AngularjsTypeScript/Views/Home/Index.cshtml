@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@section Head {
+    <script src="@Url.Content("~/Scripts/lib/angular.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/001-controllers.js")"></script>
+}
+
+<h2>Index</h2>
+
+<div ng-controller="PhoneListCtrl">
+  <ul>
+    <li ng-repeat="phone in phones">
+      {{phone.name}}
+      <p>{{phone.snippet}}</p>
+    </li>
+  </ul>
+</div>
+
+<p>Total number of phones: 2</p>
