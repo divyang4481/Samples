@@ -1,7 +1,25 @@
-/// <reference path="../typings/jquery/jquery.d.ts" />
+﻿/// <reference path="../typings/jquery/jquery.d.ts" />
 /// <reference path="../typings/angularjs/angular.d.ts" />
 
-module PhoneList
+module ParticleList
 {
-    // TODO: Add first controller
+    export class Particle
+    {
+        constructor(public name: string, public symbol: string) {
+        }
+    }
+
+    export interface Scope {
+        particles: Particle[];
+    }
+
+    export class ParticleCtrl {
+        constructor($scope: Scope) {
+            $scope.particles = [
+                new Particle("mion", "μ"),
+                new Particle("taon", "τ"),
+                new Particle("electron", "e")
+            ];
+        }
+    }
 }

@@ -1,19 +1,22 @@
-var Shapes;
-(function (Shapes) {
-
-    var Point = Shapes.Point = (function () {
-        function Point(x, y) {
-            this.x = x;
-            this.y = y;
+﻿var ParticleList;
+(function (ParticleList) {
+    var Particle = (function () {
+        function Particle(name, symbol) {
+            this.name = name;
+            this.symbol = symbol;
         }
-        Point.prototype.getDist = function () {
-            return Math.sqrt((this.x * this.x) + (this.y * this.y));
-        };
-        Point.origin = new Point(0, 0);
-        return Point;
+        return Particle;
     })();
-
-})(Shapes || (Shapes = {}));
-
-var p = new Shapes.Point(3, 4);
-var dist = p.getDist(); 
+    ParticleList.Particle = Particle;    
+    var ParticleCtrl = (function () {
+        function ParticleCtrl($scope) {
+            $scope.particles = [
+                new Particle("mion", "μ"), 
+                new Particle("taon", "τ"), 
+                new Particle("electron", "e")
+            ];
+        }
+        return ParticleCtrl;
+    })();
+    ParticleList.ParticleCtrl = ParticleCtrl;    
+})(ParticleList || (ParticleList = {}));

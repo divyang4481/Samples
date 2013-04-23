@@ -9,13 +9,14 @@
 
 <h2>Index</h2>
 
-<div ng-controller="PhoneListCtrl">
+<div ng-controller="ParticleList.ParticleCtrl">
   <ul>
-    <li ng-repeat="phone in phones">
-      {{phone.name}}
-      <p>{{phone.snippet}}</p>
+    <li ng-repeat="particle in particles">
+      <p>{{particle.name}} ({{particle.symbol}})</p>
     </li>
   </ul>
+
+  <p>Total number of particles: {{particles.length}}</p>
+
 </div>
 
-<p>Total number of phones: 2</p>
