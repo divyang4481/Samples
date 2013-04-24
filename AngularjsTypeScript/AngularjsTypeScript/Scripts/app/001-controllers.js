@@ -15,6 +15,7 @@
                 new Particle("taon", "τ"), 
                 new Particle("electron", "e")
             ];
+            $scope.title = "Leptons";
         }
         return ParticleCtrl;
     })();

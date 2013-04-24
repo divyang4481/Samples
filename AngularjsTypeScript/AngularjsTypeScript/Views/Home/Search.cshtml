@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@section Head {
+    <script src="@Url.Content("~/Scripts/lib/angular.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/001-controllers.js")"></script>
+}
+
+<div ng-app>
+    <div ng-controller="ParticleList.ParticleCtrl">
+
+        <div class="container-fluid">
+          <div class="row-fluid">
+            <div class="span3">
+              <!--Sidebar content-->
+ 
+              Search: <input ng-model="query">
+ 
+            </div>
+            <div class="span12">
+              <!--Body content-->
+ 
+              <ul>
+                <li ng-repeat="particle in particles | filter:query">
+                <p>{{particle.name}} ({{particle.symbol}})</p>
+                </li>
+              </ul>
+ 
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

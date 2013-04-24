@@ -10,6 +10,7 @@ module ParticleList
     }
 
     export interface Scope {
+        title: string;
         particles: Particle[];
     }
 
@@ -20,6 +21,8 @@ module ParticleList
                 new Particle("taon", "τ"),
                 new Particle("electron", "e")
             ];
+
+            $scope.title = "Leptons";
         }
     }
 }
