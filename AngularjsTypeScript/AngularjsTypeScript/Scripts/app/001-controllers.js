@@ -24,6 +24,7 @@
                 new Particle("neutrino (taon)", "ν", 0, "τ")
             ];
             $scope.title = "Leptons";
+            $scope.orderProp = "name";
         }
         return ParticleCtrl;
     })();

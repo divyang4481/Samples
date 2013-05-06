@@ -13,6 +13,7 @@ module ParticleList
     export interface Scope {
         title: string;
         particles: Particle[];
+        orderProp: string;
     }
 
     export class ParticleCtrl {
@@ -27,6 +28,8 @@ module ParticleList
             ];
 
             $scope.title = "Leptons";
+
+            $scope.orderProp = "name";
         }
     }
 }
