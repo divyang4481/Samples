@@ -1,14 +1,16 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Search";
 }
 
 @section Head {
     <script src="@Url.Content("~/Scripts/lib/angular.js")"></script>
-    <script src="@Url.Content("~/Scripts/app/001-controllers.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/ParticleCtrl.js")"></script>
 }
 
 <div ng-app>
-    <div ng-controller="ParticleList.ParticleCtrl">
+    <div ng-controller="ParticleApp.ParticleCtrl">
+
+        <p>{{title}}</p>
 
         <div class="container-fluid">
             <div class="row-fluid">
@@ -46,6 +48,11 @@
 
 
             <div id="status">Current filter: {{query}}</div>
+
+            Json:
+            <pre>
+                 {{phones | json}} 
+            </pre>
         </div>
     </div>
 </div>

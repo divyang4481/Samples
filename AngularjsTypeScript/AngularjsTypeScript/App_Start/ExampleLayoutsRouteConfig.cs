@@ -14,7 +14,7 @@ namespace AngularjsTypeScript
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.MapNavigationRoute<HomeController>("Automatic Scaffolding", c => c.Index());
+            routes.MapNavigationRoute<ParticleController>("Automatic Scaffolding", c => c.Index());
 
             //routes.MapNavigationRoute<ExampleLayoutsController>("Example Layouts", c => c.Starter())
             //      .AddChildRoute<ExampleLayoutsController>("Marketing", c => c.Marketing())
