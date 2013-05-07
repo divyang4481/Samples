@@ -2,7 +2,7 @@
     ViewBag.Title = "Search";
 }
 
-@section Head {
+@section head {
     <script src="@Url.Content("~/Scripts/lib/angular.js")"></script>
     <script src="@Url.Content("~/Scripts/app/ParticleCtrl.js")"></script>
 }
@@ -51,7 +51,7 @@
 
             Json:
             <pre>
-                 {{phones | json}} 
+                 {{particles | filter: query | json}} 
             </pre>
         </div>
     </div>

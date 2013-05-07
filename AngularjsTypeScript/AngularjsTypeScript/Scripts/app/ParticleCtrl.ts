@@ -28,7 +28,6 @@ module ParticleApp {
             //    new Particle("neutrino (taon)", "ν", 0, "τ")];
 
             $http.get('Particle/ListLeptons').success(function (data) {
-                debugger;
                 $scope.particles = data;
             });
 

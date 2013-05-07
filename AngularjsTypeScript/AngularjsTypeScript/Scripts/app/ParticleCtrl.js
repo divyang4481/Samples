@@ -16,8 +16,6 @@ var ParticleApp;
     var ParticleCtrl = (function () {
         function ParticleCtrl($scope, $http) {
             $http.get('Particle/ListLeptons').success(function (data) {
-                debugger;
-
                 $scope.particles = data;
             });
             $scope.title = "Leptons";
