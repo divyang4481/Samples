@@ -44,9 +44,10 @@ namespace TicTacToe.UnitTests
             {
                 // Arrange
                 const char expected = 'X';
-                gameBoard[0, 0] = expected;
-                gameBoard[0, 1] = expected;
-                gameBoard[0, 2] = expected;
+                for (int i = 0; i < 3; i++)
+                {
+                    gameBoard[0, i] = expected;
+                }
 
                 // Act 
                 var result = target.Validate(gameBoard);
@@ -55,7 +56,22 @@ namespace TicTacToe.UnitTests
                 Assert.Equal(expected, result);
             }
 
+            [Fact]
+            public void player_should_win_when_they_have_all_spaces_in_first_column()
+            {
+                // Arrange
+                const char expected = 'X';
+                for (int i = 0; i < 3; i++)
+                {
+                    gameBoard[i, 0] = expected;
+                }
 
+                // Act
+                var result = target.Validate(gameBoard);
+
+                // Assert
+                Assert.Equal(expected, result);
+            }
         }
     }
 }
