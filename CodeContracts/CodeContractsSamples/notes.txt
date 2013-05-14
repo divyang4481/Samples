@@ -1,0 +1,42 @@
+Code contracts
+
+- preconditions			Contract.Requires	when methos starts, parameter values	
+	
+	Contract.Requires(x != null);
+	Contract.Requires<ArgumentNullException>(x != null, "x");
+
+- postconditions		Contract.Ensures	when method terminates, always true
+	
+	Contract.Ensures(this.F > 0);
+	Contract.EnsuresOnThrow<T>( this.F > 0 ); - exceptional postcondition, true when exception is thrown
+
+- object invariants		[ContractInvariantMethod] attribute, Contract.Invariant		should be true for all instances whenever the object is visible to the client
+
+	[ContractInvariantMethod]
+	protected void ObjectInvariant() 
+	{
+		Contract.Invariant (this.y >= 0);
+		Contract.Invariant (this.x > this.y);
+	}
+
+- runtime checking
+- static analysis
+- documentation
+
+Static methods in Contract class in System.Diagnostics.Contracts. From CLR v4 Contract class resides in mscorlib.dll.
+
+
+CONTRACTS_FULL compiler symbol (#ifdef)
+
+Legacy
+
+if (x == null) throw new ...
+Contract.EndContractBlock(); // All previous ' if ' checks are preconditions
+
+
+Contract.Assert
+Contract.Assume
+
+
+
+http://channel9.msdn.com/Blogs/martinesmann/Code-Contracts-and-Pex-Power-Charge-Your-Assertions-and-Unit-Tests
