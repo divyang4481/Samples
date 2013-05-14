@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
+using TicTacToe.Services;
+
 namespace TicTacToe.UnitTests
 {
     public class GameWinnerServiceTests
@@ -15,7 +17,7 @@ namespace TicTacToe.UnitTests
             public void neither_player_should_win_when_board_is_empty()
             {
                 // Arrange
-                IGameWinnerService target;
+                IGameWinnerService target = new GameWinnerService();
                 const char expected = ' ';
                 var gameBoard = new[,]
                     {
