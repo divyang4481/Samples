@@ -22,8 +22,7 @@
                 return currentWinningSymbol;
             }
 
-            currentWinningSymbol = CheckForThreeInARowInVerticalColumn();
-            return currentWinningSymbol;
+            return CheckForThreeInARowInVerticalColumn();
         }
 
         private char CheckForThreeInARowInVerticalColumn()
@@ -32,7 +31,7 @@
             var rowTwoChar = gameBoard[1, 0];
             var rowThreeChar = gameBoard[2, 0];
 
-            return AreSymbolsAreEqual(rowOneChar, rowTwoChar, rowThreeChar);
+            return AreSymbolsEqual(rowOneChar, rowTwoChar, rowThreeChar);
         }
 
         private char CheckForThreeInRowInHorizontalRow()
@@ -41,7 +40,7 @@
             var columnTwoChart = gameBoard[0, 1];
             var columnThreeChar = gameBoard[0, 2];
 
-            return AreSymbolsAreEqual(columnOneChar, columnTwoChart, columnThreeChar);
+            return AreSymbolsEqual(columnOneChar, columnTwoChart, columnThreeChar);
         }
 
         private char CheckForThreeInRowDiagonally()
@@ -50,15 +49,14 @@
             var cellTwoChar = gameBoard[1, 1];
             var cellThreeChar = gameBoard[2, 2];
 
-            return AreSymbolsAreEqual(cellOneChar, cellTwoChar, cellThreeChar);
+            return AreSymbolsEqual(cellOneChar, cellTwoChar, cellThreeChar);
         }
 
-        private char AreSymbolsAreEqual(char firstSymbol, char secondSymbol, char thirdSymbol)
+        private char AreSymbolsEqual(char firstSymbol, char secondSymbol, char thirdSymbol)
         {
             return (firstSymbol == secondSymbol && secondSymbol == thirdSymbol)
                        ? firstSymbol
                        : SymbolForNoWinner;
         }
-
     }
 }
