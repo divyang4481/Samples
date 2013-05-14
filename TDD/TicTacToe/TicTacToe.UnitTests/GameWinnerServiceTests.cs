@@ -32,6 +32,28 @@ namespace TicTacToe.UnitTests
                 // Assert
                 Assert.Equal(expected, result);
             }
+
+            [Fact]
+            public void player_should_wind_when_they_have_all_spaces_in_top_row()
+            {
+                // Arrange
+                IGameWinnerService target = new GameWinnerService();
+                const char expected = 'X';
+                var gameBoard = new[,]
+                    {
+                        {expected, expected, expected},
+                        {' ', ' ', ' '},
+                        {' ', ' ', ' '}
+                    };
+
+                // Act 
+                var result = target.Validate(gameBoard);
+
+                // Assert
+                Assert.Equal(expected, result);
+            }
+
+
         }
     }
 }
