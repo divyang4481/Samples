@@ -13,19 +13,25 @@ namespace TicTacToe.UnitTests
     {
         public class ValidateMethod
         {
-            [Fact]
-            public void neither_player_should_win_when_board_is_empty()
-            {
-                // Arrange
-                IGameWinnerService target = new GameWinnerService();
-                const char expected = ' ';
-                var gameBoard = new[,]
+            private readonly IGameWinnerService target;
+            private readonly char[,] gameBoard = new[,]
                     {
                         {' ', ' ', ' '},
                         {' ', ' ', ' '},
                         {' ', ' ', ' '}
                     };
 
+            public ValidateMethod()
+            {
+                target = new GameWinnerService();
+            }
+
+            [Fact]
+            public void neither_player_should_win_when_board_is_empty()
+            {
+                // Arrange
+                const char expected = ' ';
+                
                 // Act
                 var result = target.Validate(gameBoard);
 
@@ -34,17 +40,13 @@ namespace TicTacToe.UnitTests
             }
 
             [Fact]
-            public void player_should_wind_when_they_have_all_spaces_in_top_row()
+            public void player_should_win_when_they_have_all_spaces_in_top_row()
             {
                 // Arrange
-                IGameWinnerService target = new GameWinnerService();
                 const char expected = 'X';
-                var gameBoard = new[,]
-                    {
-                        {expected, expected, expected},
-                        {' ', ' ', ' '},
-                        {' ', ' ', ' '}
-                    };
+                gameBoard[0, 0] = expected;
+                gameBoard[0, 1] = expected;
+                gameBoard[0, 2] = expected;
 
                 // Act 
                 var result = target.Validate(gameBoard);

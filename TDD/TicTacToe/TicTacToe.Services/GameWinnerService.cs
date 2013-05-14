@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TicTacToe.Services
+﻿namespace TicTacToe.Services
 {
     public class GameWinnerService : IGameWinnerService
     {
