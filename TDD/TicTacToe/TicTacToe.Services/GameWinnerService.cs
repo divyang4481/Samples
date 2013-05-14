@@ -2,11 +2,18 @@
 {
     public class GameWinnerService : IGameWinnerService
     {
+        private const char SymbolForNoWinner = ' ';
+
         public char Validate(char[,] gameBoard)
         {
-            var currentWinningSymbol = ' ';
-            currentWinningSymbol = CheckForThreeInRowInHorizontalRow(gameBoard);
-            if (currentWinningSymbol != ' ')
+            var currentWinningSymbol = CheckForThreeInRowInHorizontalRow(gameBoard);
+            if (currentWinningSymbol != SymbolForNoWinner)
+            {
+                return currentWinningSymbol;
+            }
+
+            currentWinningSymbol = CheckForThreeInRowDiagonally(gameBoard);
+            if (currentWinningSymbol != SymbolForNoWinner)
             {
                 return currentWinningSymbol;
             }
@@ -24,7 +31,7 @@
             {
                 return rowOneChar;
             }
-            return ' ';
+            return SymbolForNoWinner;
         }
 
         private char CheckForThreeInRowInHorizontalRow(char[,] gameBoard)
@@ -37,7 +44,21 @@
                 return columnOneChar;
             }
 
-            return ' ';
+            return SymbolForNoWinner;
+        }
+
+        private char CheckForThreeInRowDiagonally(char[,] gameBoard)
+        {
+            var cellOneChar = gameBoard[0, 0];
+            var cellTwoChar = gameBoard[1, 1];
+            var cellThreChar = gameBoard[2, 2];
+
+            if (cellOneChar == cellTwoChar && cellTwoChar == cellThreChar)
+            {
+                return cellOneChar;
+            }
+
+            return SymbolForNoWinner;
         }
     }
 }

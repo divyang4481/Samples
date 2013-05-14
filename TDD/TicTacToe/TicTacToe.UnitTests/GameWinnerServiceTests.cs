@@ -72,6 +72,23 @@ namespace TicTacToe.UnitTests
                 // Assert
                 Assert.Equal(expected, result);
             }
+
+            [Fact]
+            public void player_should_win_when_they_have_all_spaces_in_diagonal()
+            {
+                // Arrange
+                const char expected = 'X';
+                for (int cellIndex = 0; cellIndex < 3; cellIndex++)
+                {
+                    gameBoard[cellIndex, cellIndex] = expected;
+                }
+
+                // Act 
+                var result = target.Validate(gameBoard);
+
+                // Assert
+                Assert.Equal(expected, result);
+            }
         }
     }
 }
