@@ -6,7 +6,7 @@ namespace TicTacToe.Services
     {
         public char Validate(char[,] gameBoard)
         {
-            throw new NotImplementedException();
+            return ' ';
         }
     }
 }
