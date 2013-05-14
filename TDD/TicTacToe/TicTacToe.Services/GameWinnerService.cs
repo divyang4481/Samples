@@ -12,6 +12,13 @@
                 return columnOneChar;
             }
 
+            var rowTwoChar = gameBoard[1, 0];
+            var rowThreeChar = gameBoard[2, 0];
+            if (columnOneChar == rowTwoChar && rowTwoChar == rowThreeChar)
+            {
+                return columnOneChar;
+            }
+
             return ' ';
         }
     }
