@@ -6,6 +6,11 @@
         {
             var currentWinningSymbol = ' ';
             currentWinningSymbol = CheckForThreeInRowInHorizontalRow(gameBoard);
+            if (currentWinningSymbol != ' ')
+            {
+                return currentWinningSymbol;
+            }
+
             currentWinningSymbol = CheckForThreeInARowInVerticalColumn(gameBoard);
             return currentWinningSymbol;
         }
