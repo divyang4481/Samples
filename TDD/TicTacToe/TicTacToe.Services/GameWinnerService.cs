@@ -1,4 +1,6 @@
-﻿namespace TicTacToe.Services
+﻿using System.Diagnostics.Contracts;
+
+namespace TicTacToe.Services
 {
     public class GameWinnerService : IGameWinnerService
     {
@@ -8,6 +10,9 @@
 
         public char Validate(char[,] gameBoard)
         {
+            Contract.Requires(gameBoard != null);
+            Contract.Ensures(Contract.Result<char>() != null);
+
             this.gameBoard = gameBoard;
 
             var currentWinningSymbol = CheckForThreeInRowInHorizontalRow();
