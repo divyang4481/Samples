@@ -22,6 +22,9 @@ namespace AsyncExamples
 
             Thread.Sleep(10000);
             Console.WriteLine("End");
+
+
+          
         }
 
         // If exception occures in first call, then it is propagated and second method is never called
