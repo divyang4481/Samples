@@ -27,7 +27,7 @@ namespace OSIM.Core.Persistence
 
         public ItemType FindById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Set<ItemType>().Find(id);
         }
 
         public ItemType Add(ItemType newEntity)
