@@ -12,7 +12,7 @@ namespace OSIM.Core.Persistence
 
         public ItemTypeRepository(IDbContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         public IEnumerable<ItemType> FindAll()
