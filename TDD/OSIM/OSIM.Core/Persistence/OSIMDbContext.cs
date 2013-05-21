@@ -3,8 +3,11 @@ using OSIM.Core.Entities;
 
 namespace OSIM.Core.Persistence
 {
-    public class OSIMDbContext : DbContext
+    public class OsimDbContext : DbContext, IDbContext
     {
-        public DbSet<ItemType> ItemTypes { get; set; }
+        public new IDbSet<TEntity> Set<TEntity>() where TEntity : class
+        {
+            return base.Set<TEntity>();
+        }
     }
 }

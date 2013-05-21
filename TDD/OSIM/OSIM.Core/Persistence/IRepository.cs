@@ -4,12 +4,12 @@ using System.Linq.Expressions;
 
 namespace OSIM.Core.Persistence
 {
-    public interface IRepository<T>
+    public interface IRepository<TEntity> where TEntity: class
     {
-        IEnumerable<T> FindAll();
-        IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate);
-        T FindById(int id);
-        void Add(T newEntity);
-        void Remove(T entity);
+        IEnumerable<TEntity> FindAll();
+        IEnumerable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate);
+        TEntity FindById(int id);
+        TEntity Add(TEntity newEntity);
+        void Remove(TEntity entity);
     }
 }

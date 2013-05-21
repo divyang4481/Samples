@@ -1,17 +1,44 @@
-﻿using OSIM.Core.Entities;
+﻿using System;
+using OSIM.Core.Entities;
+using System.Data.Entity;
+using System.Linq.Expressions;
+using System.Collections.Generic;
 
 namespace OSIM.Core.Persistence
 {
-    public interface IItemTypeRepository
+    public class ItemTypeRepository : IRepository<ItemType>
     {
-        int Save(ItemType itemType);
-    }
+        private readonly IDbContext _context;
 
-    public class ItemTypeRepository : IItemTypeRepository
-    {
-        public int Save(ItemType itemType)
+        public ItemTypeRepository(IDbContext context)
         {
-            throw new System.NotImplementedException();
+            this._context = context;
+        }
+
+        public IEnumerable<ItemType> FindAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<ItemType> FindBy(Expression<Func<ItemType, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ItemType FindById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ItemType Add(ItemType newEntity)
+        {
+           var result = _context.Set<ItemType>().Add(newEntity);
+            return result;
+        }
+
+        public void Remove(ItemType entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }
