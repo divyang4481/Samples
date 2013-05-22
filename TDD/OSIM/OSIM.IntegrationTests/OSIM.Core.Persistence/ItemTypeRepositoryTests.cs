@@ -35,7 +35,7 @@ namespace OSIM.IntegrationTests.OSIM.Core.Persistence
             {
                 base.Establish_context();
                 
-                _expected = new ItemType {Name = new Guid().ToString()};
+                _expected = new ItemType {Name = Guid.NewGuid().ToString()};
             }
 
             protected override void Because_of()

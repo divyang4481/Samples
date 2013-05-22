@@ -8,12 +8,14 @@ namespace OSIM.Core.Persistence
 {
     public class ItemTypeRepository : IRepository<ItemType>
     {
-        private readonly IDbContext _context;
-
         public ItemTypeRepository(IDbContext context)
         {
             _context = context;
         }
+
+        private readonly IDbContext _context;
+
+        private IDbSet<ItemType> ItemTypes { get { return _context.Set<ItemType>(); } } 
 
         public IEnumerable<ItemType> FindAll()
         {
@@ -27,12 +29,12 @@ namespace OSIM.Core.Persistence
 
         public ItemType FindById(int id)
         {
-            return _context.Set<ItemType>().Find(id);
+            return ItemTypes.Find(id);
         }
 
         public ItemType Add(ItemType newEntity)
         {
-           var result = _context.Set<ItemType>().Add(newEntity);
+           var result = ItemTypes.Add(newEntity);
             return result;
         }
 

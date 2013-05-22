@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using OSIM.Core.Entities;
 
 namespace OSIM.Core.Persistence
 {
