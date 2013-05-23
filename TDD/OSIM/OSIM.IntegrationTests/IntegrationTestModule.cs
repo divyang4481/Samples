@@ -16,6 +16,7 @@ namespace OSIM.IntegrationTests
         {
             Bind<IRepository<ItemType>>().To<ItemTypeRepository>();
             Bind<IDbContext>().To<OsimDbContext>();
+            Bind<IUnitOfWork>().To<SqlUnitOfWork>();
         }
     }
 }

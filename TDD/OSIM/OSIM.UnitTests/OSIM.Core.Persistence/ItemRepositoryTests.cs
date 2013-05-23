@@ -12,7 +12,7 @@ namespace OSIM.UnitTests.OSIM.Core.Persistence
     {
         protected ItemTypeRepository _target;
         protected Mock<IDbContext> _dbContext;
-        protected Mock<IDbSet<ItemType>> _dbSet; 
+        protected Mock<IDbSet<ItemType>> _dbSet;
 
         protected override void Establish_context()
         {
@@ -24,70 +24,71 @@ namespace OSIM.UnitTests.OSIM.Core.Persistence
 
             _target = new ItemTypeRepository(_dbContext.Object);
         }
-    }
 
-    public class and_saving_a_valid_item_type : when_working_with_the_item_type_repository
-    {
-        private ItemType _testItemType;
-        private ItemType _result;
-
-        protected override void Establish_context()
+        public class and_saving_a_valid_item_type : when_working_with_the_item_type_repository
         {
-            base.Establish_context();
+            private ItemType _testItemType;
+            private ItemType _result;
 
-            var name = new Guid().ToString();
-
-            var randomNumberGenerator = new Random();
-            int itemTypeId = randomNumberGenerator.Next(3000);
-
-            _testItemType = new ItemType { Id = itemTypeId, Name = name };
-
-            _dbSet.Setup(d => d.Add(_testItemType)).Returns(_testItemType);
-        }
-
-        protected override void Because_of()
-        {
-            _result = _target.Add(_testItemType);
-        }
-
-        [Fact]
-        public void then_a_valid_item_type_should_be_returned()
-        {
-            _result.Id.ShouldEqual(_testItemType.Id);
-            _result.Name.ShouldEqual(_testItemType.Name);
-        }
-    }
-
-    public class and_saving_invalid_item_type : when_working_with_the_item_type_repository
-    {
-        private Exception _result;
-        private ItemType _testItemType;
-
-        protected override void Establish_context()
-        {
-            base.Establish_context();
-
-            _dbSet.Setup(d => d.Add(null)).Throws<ArgumentNullException>();
-
-            _testItemType = null;
-        }
-
-        protected override void Because_of()
-        {
-            try
+            protected override void Establish_context()
             {
-                _target.Add(_testItemType);
+                base.Establish_context();
+
+                var name = new Guid().ToString();
+
+                var randomNumberGenerator = new Random();
+                int itemTypeId = randomNumberGenerator.Next(3000);
+
+                _testItemType = new ItemType {Id = itemTypeId, Name = name};
+
+                _dbSet.Setup(d => d.Add(_testItemType)).Returns(_testItemType);
             }
-            catch (Exception exception)
+
+            protected override void Because_of()
             {
-                _result = exception;
+                _result = _target.Add(_testItemType);
+            }
+
+            [Fact]
+            public void then_a_valid_item_type_should_be_returned()
+            {
+                _result.Id.ShouldEqual(_testItemType.Id);
+                _result.Name.ShouldEqual(_testItemType.Name);
             }
         }
 
-        [Fact]
-        public void then_an_argument_null_exception_should_be_raised()
+        public class and_saving_invalid_item_type : when_working_with_the_item_type_repository
         {
-            _result.ShouldBeInstanceOfType(typeof(ArgumentNullException));
+            private Exception _result;
+            private ItemType _testItemType;
+
+            protected override void Establish_context()
+            {
+                base.Establish_context();
+
+                _dbSet.Setup(d => d.Add(null)).Throws<ArgumentNullException>();
+
+                _testItemType = null;
+            }
+
+            protected override void Because_of()
+            {
+                try
+                {
+                    _target.Add(_testItemType);
+                }
+                catch (Exception exception)
+                {
+                    _result = exception;
+                }
+            }
+
+            [Fact]
+            public void then_an_argument_null_exception_should_be_raised()
+            {
+                _result.ShouldBeInstanceOfType(typeof (ArgumentNullException));
+            }
         }
+
     }
 }

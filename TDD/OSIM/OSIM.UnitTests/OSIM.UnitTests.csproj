@@ -56,6 +56,8 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -67,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OSIM.Core.Persistence\ItemRepositoryTests.cs" />
+    <Compile Include="OSIM.WebClient\ItemTypeControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Specification.cs" />
   </ItemGroup>
@@ -74,6 +77,10 @@
     <ProjectReference Include="..\OSIM.Core\OSIM.Core.csproj">
       <Project>{6F44D627-A436-4C0A-95EE-4736D303E63C}</Project>
       <Name>OSIM.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OSIM.WebClient\OSIM.WebClient.csproj">
+      <Project>{9C7E701B-72F0-47E8-88B7-4223D86B405E}</Project>
+      <Name>OSIM.WebClient</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
