@@ -79,7 +79,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IntegrationTestModule.cs" />
     <Compile Include="OSIM.Core.Persistence\ItemTypeRepositoryTests.cs" />
     <Compile Include="OSIM.Core.Persistence\SqlUnitOfWorkTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

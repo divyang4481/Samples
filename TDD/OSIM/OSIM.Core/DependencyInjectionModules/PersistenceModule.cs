@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Ninject.Modules;
+﻿using Ninject.Modules;
 using OSIM.Core.Entities;
 using OSIM.Core.Persistence;
 
-namespace OSIM.IntegrationTests
+namespace OSIM.Core.DependencyInjectionModules
 {
-    public class IntegrationTestModule : NinjectModule
+    public class PersistenceModule : NinjectModule
     {
         public override void Load()
         {

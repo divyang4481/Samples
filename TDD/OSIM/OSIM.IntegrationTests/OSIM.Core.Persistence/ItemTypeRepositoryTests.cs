@@ -1,4 +1,5 @@
 ﻿using System;
+using OSIM.Core.DependencyInjectionModules;
 using OSIM.Core.Entities;
 using NBehave.Spec.Xunit;
 using OSIM.Core.Persistence;
@@ -15,7 +16,7 @@ namespace OSIM.IntegrationTests.OSIM.Core.Persistence
         protected override void Establish_context()
         {
             base.Establish_context();
-            Kernel = new StandardKernel(new IntegrationTestModule());
+            Kernel = new StandardKernel(new PersistenceModule());
             Target = Kernel.Get<ItemTypeRepository>();
         }
 

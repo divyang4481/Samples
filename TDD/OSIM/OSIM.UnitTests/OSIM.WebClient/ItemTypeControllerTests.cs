@@ -57,6 +57,87 @@ namespace OSIM.UnitTests.OSIM.WebClient
                 _itemTypeOne.ShouldEqual(((List<ItemType>)_model)[0]);
             }
         }
-    }
 
+        public class and_trying_to_create_a_new_valid_item_type : when_working_with_the_item_type_controller
+        {
+            private ItemType _newItemType;
+            private ItemTypeController _target;
+            private RedirectToRouteResult _result;
+            private string _expectedRouteName;
+
+            protected override void Establish_context()
+            {
+                base.Establish_context();
+                _expectedRouteName = "index";
+                _newItemType = new ItemType {Id = 99, Name = "New Item"};
+                _target = new ItemTypeController(_sqlUnitOfWork.Object);
+            }
+
+            protected override void Because_of()
+            {
+                _result = _target.Create(_newItemType) as RedirectToRouteResult;
+            }
+
+            [Fact]
+            public void then_a_valid_item_type_should_be_created_and_should_redirect_to_the_correct_view()
+            {
+                _result.ShouldNotBeNull();
+                _result.RouteValues.Values.ShouldContain(_expectedRouteName);
+            }
+        }
+    
+        public class and_trying_to_create_a_new_invalid_item_type : when_working_with_the_item_type_controller
+        {
+            private ItemType _newItemType;
+            private ItemTypeController _target;
+            private ViewResult _result;
+            private string _expectedRouteName;
+
+            protected override void Establish_context()
+            {
+                base.Establish_context();
+                _expectedRouteName = "create";
+                _newItemType = new ItemType {Id = 99, Name = "New item"};
+                _target = new ItemTypeController(_sqlUnitOfWork.Object);
+                _target.ModelState.AddModelError("key", "Model is invalid");
+            }
+
+            protected override void Because_of()
+            {
+                _result = _target.Create(_newItemType) as ViewResult;
+            }
+
+            [Fact]
+            public void then_a_new_item_type_should_not_be_created()
+            {
+                _result.ShouldNotBeNull();
+                _result.ViewName.ShouldEqual(_expectedRouteName);
+            }
+        }
+
+        public class and_trying_to_edit_an_existing_item : when_working_with_the_item_type_controller
+        {
+            private string _expecteRouteName;
+            private ItemTypeController _target;
+            private ViewResult _result;
+
+            protected override void Establish_context()
+            {
+                base.Establish_context();
+                _expecteRouteName = "edit";
+                _target = new ItemTypeController(_sqlUnitOfWork.Object);
+            }
+
+            protected override void Because_of()
+            {
+                _result = _target.Edit(_itemTypeOne.Id) as ViewResult;
+            }
+
+            [Fact]
+            public void then_a_valid_edit_view_should_be_returned()
+            {
+                _result.ViewName.ShouldEqual(_expecteRouteName);
+            }
+        }
+    }
 }
