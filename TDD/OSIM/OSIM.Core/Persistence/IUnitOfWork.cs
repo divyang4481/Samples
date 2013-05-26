@@ -10,7 +10,7 @@ namespace OSIM.Core.Persistence
 {
     public interface IUnitOfWork
     {
-        IRepository<ItemType> ItemTypes { get; }
-        void Commit();
+        void Save();
+        GenericRepository<ItemType> ItemTypes { get; } 
     }
 }

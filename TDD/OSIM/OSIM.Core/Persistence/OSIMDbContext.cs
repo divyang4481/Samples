@@ -1,24 +1,19 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using OSIM.Core.Entities;
 
 namespace OSIM.Core.Persistence
 {
-    public class OsimDbContext : DbContext, IDbContext
+    public class OsimDbContext : DbContext
     {
-        public OsimDbContext() : base("MyConnectionString")
+        public OsimDbContext()
         {}
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<ItemType>()
-                .ToTable("ItemTypes");
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
 
-        public new IDbSet<TEntity> Set<TEntity>() where TEntity : class
-        {
-            return base.Set<TEntity>();
-        }
+        public DbSet<ItemType> ItemTypes { get; set; }
     }
 }

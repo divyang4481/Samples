@@ -68,7 +68,7 @@ namespace OSIM.UnitTests.OSIM.WebClient
             protected override void Establish_context()
             {
                 base.Establish_context();
-                _expectedRouteName = "index";
+                _expectedRouteName = "Index";
                 _newItemType = new ItemType {Id = 99, Name = "New Item"};
                 _target = new ItemTypeController(_sqlUnitOfWork.Object);
             }
@@ -96,7 +96,7 @@ namespace OSIM.UnitTests.OSIM.WebClient
             protected override void Establish_context()
             {
                 base.Establish_context();
-                _expectedRouteName = "create";
+                _expectedRouteName = "Create";
                 _newItemType = new ItemType {Id = 99, Name = "New item"};
                 _target = new ItemTypeController(_sqlUnitOfWork.Object);
                 _target.ModelState.AddModelError("key", "Model is invalid");
@@ -124,7 +124,7 @@ namespace OSIM.UnitTests.OSIM.WebClient
             protected override void Establish_context()
             {
                 base.Establish_context();
-                _expecteRouteName = "edit";
+                _expecteRouteName = "Edit";
                 _target = new ItemTypeController(_sqlUnitOfWork.Object);
             }
 

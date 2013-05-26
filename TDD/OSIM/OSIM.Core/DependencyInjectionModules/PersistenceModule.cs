@@ -8,9 +8,7 @@ namespace OSIM.Core.DependencyInjectionModules
     {
         public override void Load()
         {
-            Bind<IRepository<ItemType>>().To<ItemTypeRepository>();
-            Bind<IDbContext>().To<OsimDbContext>();
-            Bind<IUnitOfWork>().To<SqlUnitOfWork>();
+            Bind<IUnitOfWork>().To<UnitOfWork>();
         }
     }
 }

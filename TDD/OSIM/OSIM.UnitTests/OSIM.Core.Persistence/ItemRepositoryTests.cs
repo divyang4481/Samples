@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Data.Entity;
 using OSIM.Core.Entities;
 using OSIM.Core.Persistence;
@@ -13,16 +15,18 @@ namespace OSIM.UnitTests.OSIM.Core.Persistence
         protected ItemTypeRepository _target;
         protected Mock<IDbContext> _dbContext;
         protected Mock<IDbSet<ItemType>> _dbSet;
-
+        
         protected override void Establish_context()
         {
             base.Establish_context();
 
             _dbContext = new Mock<IDbContext>();
             _dbSet = new Mock<IDbSet<ItemType>>();
+            
             _dbContext.Setup(c => c.Set<ItemType>()).Returns(_dbSet.Object);
-
+            
             _target = new ItemTypeRepository(_dbContext.Object);
+
         }
 
         public class and_saving_a_valid_item_type : when_working_with_the_item_type_repository
@@ -90,5 +94,41 @@ namespace OSIM.UnitTests.OSIM.Core.Persistence
             }
         }
 
+        //public  class and_getting_all_item_types : when_working_with_the_item_type_repository
+        //{
+        //    private List<ItemType> _itemTypesList;
+        //    private IEnumerable<ItemType> _result;
+
+        //    protected override void Establish_context()
+        //    {
+        //        base.Establish_context();
+
+        //        _itemTypesList = new List<ItemType>
+        //            {
+        //                new ItemType {Id = 0, Name = Guid.NewGuid().ToString()},
+        //                new ItemType {Id = 1, Name = Guid.NewGuid().ToString()}
+        //            };
+
+        //        _dbContext.Setup(c => c.Set<ItemType>()).Returns((IDbSet<ItemType>)_itemTypesList);                
+                
+        //    }
+
+        //    protected override void Because_of()
+        //    {
+        //        _result = _target.FindAll();
+        //    }
+
+        //    [Fact]
+        //    public void then_a_list_of_all_item_types_should_be_returned()
+        //    {
+        //        var resultList = _result.ToList();
+
+        //        resultList[0].Id.ShouldEqual(_itemTypesList[0].Id);
+        //        resultList[0].Name.ShouldEqual(_itemTypesList[1].Name);
+
+        //        resultList[1].Id.ShouldEqual(_itemTypesList[1].Id);
+        //        resultList[1].Name.ShouldEqual(_itemTypesList[1].Name);
+        //    }
+        //}
     }
 }

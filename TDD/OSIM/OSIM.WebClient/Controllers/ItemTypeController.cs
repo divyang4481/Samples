@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -19,8 +20,8 @@ namespace OSIM.WebClient.Controllers
 
         public ActionResult Index()
         {
-            ViewData.Model = _unitOfWork.ItemTypes.FindAll();
-            return View();
+            var model = _unitOfWork.ItemTypes.Get();
+            return View(model);
         }
 
         [HttpGet]
@@ -32,26 +33,48 @@ namespace OSIM.WebClient.Controllers
         [HttpPost]
         public ActionResult Create(ItemType itemType)
         {
-            _unitOfWork.ItemTypes.Add(itemType);
-            _unitOfWork.Commit();
-            return RedirectToAction("Index");
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _unitOfWork.ItemTypes.Insert(itemType);
+                    _unitOfWork.Save();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DataException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+            }
+
+            return View("Create", itemType);
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var itemType = _unitOfWork.ItemTypes.FindById(id);
-            return View(itemType);
+            var itemType = _unitOfWork.ItemTypes.GetById(id);
+            return View("Edit", itemType);
         }
 
         [HttpPost]
         public ActionResult Edit(ItemType itemType)
         {
-            var editedItem = _unitOfWork.ItemTypes.FindById(itemType.Id);
-            editedItem.Name = itemType.Name;
-            _unitOfWork.Commit();
-
-            return RedirectToAction("Index");
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _unitOfWork.ItemTypes.Update(itemType);
+                    _unitOfWork.Save();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DataException)
+            {
+                //Log the error (add a variable name after DataException)
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+            }
+            return View("Edit", itemType);
         }
     }
 }
