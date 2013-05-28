@@ -8,8 +8,12 @@ namespace ContosoUniversity.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required]
+        [Display(Name = "Last name")]
         public string LastName { get; set; }
         public string FirstMidName { get; set; }
+        [Required]
+        [Display(Name = "Enrollment date")]
         public DateTime EnrollmentDate { get; set; }
         public virtual ICollection<Enrollment> Enrollments { get; set; }
     }
