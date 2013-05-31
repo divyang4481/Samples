@@ -17,9 +17,32 @@ namespace ContosoUniversity.Controllers
         //
         // GET: /Student/
 
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
-            return View(db.Students.ToList());
+            //return View(db.Students.ToList());
+
+            ViewBag.NameSort = string.IsNullOrEmpty(sortOrder) ? "Name desc" : "";
+            ViewBag.DateSort = sortOrder == "Date" ? "Date desc" : "Date";
+            
+            var students = from s in db.Students
+                           select s;
+            switch (sortOrder)
+            {
+                case "Name desc":
+                    students = students.OrderByDescending(s => s.LastName);
+                    break;
+                case "Date":
+                    students = students.OrderBy(s => s.EnrollmentDate);
+                    break;
+                case "Date desc":
+                    students = students.OrderByDescending(s => s.EnrollmentDate);
+                    break;
+                default:
+                    students = students.OrderBy(s => s.LastName);
+                    break;
+            }
+
+            return View(students.ToList());
         }
 
         //
