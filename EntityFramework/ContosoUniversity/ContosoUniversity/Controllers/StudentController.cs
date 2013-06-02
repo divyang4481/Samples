@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using ContosoUniversity.Models;
 using ContosoUniversity.DAL;
+using PagedList;
 
 namespace ContosoUniversity.Controllers
 {
@@ -17,15 +18,30 @@ namespace ContosoUniversity.Controllers
         //
         // GET: /Student/
 
-        public ActionResult Index(string sortOrder)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            //return View(db.Students.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "Date desc" : "Date";
 
-            ViewBag.NameSort = string.IsNullOrEmpty(sortOrder) ? "Name desc" : "";
-            ViewBag.DateSort = sortOrder == "Date" ? "Date desc" : "Date";
-            
-            var students = from s in db.Students
-                           select s;
+            if (Request.HttpMethod == "GET")
+            {
+                searchString = currentFilter;
+            }
+            else
+            {
+                page = 1;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var students = db.Students.Select(s => s);
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                students = students.Where(s => s.LastName.ToUpper().Contains(searchString.ToUpper())
+                                       || s.FirstMidName.ToUpper().Contains(searchString.ToUpper()));
+            }
             switch (sortOrder)
             {
                 case "Name desc":
@@ -42,7 +58,9 @@ namespace ContosoUniversity.Controllers
                     break;
             }
 
-            return View(students.ToList());
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(students.ToPagedList(pageNumber, pageSize));
         }
 
         //
