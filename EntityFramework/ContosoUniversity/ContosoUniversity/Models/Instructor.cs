@@ -2,30 +2,37 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
 
 namespace ContosoUniversity.Models
 {
-    public class Student
+    public class Instructor
     {
-        [Key]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Last name is required.")]
-        [Display(Name = "Last name")]
+        [Display(Name = "Last Name")]
         [MaxLength(50)]
         public string LastName { get; set; }
 
-        [MaxLength(50, ErrorMessage = "First name cannot be longer than 50 characters.")]
         [Required(ErrorMessage = "First name is required.")]
         [Column("FirstName")]
         [Display(Name = "First Name")]
+        [MaxLength(50)]
         public string FirstMidName { get; set; }
 
-        [Required]
-        [Display(Name = "Enrollment date")]
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        public DateTime EnrollmentDate { get; set; }
+        [Required(ErrorMessage = "Hire date is required.")]
+        [Display(Name = "Hire Date")]
+        public DateTime? HireDate { get; set; }
 
-        public virtual ICollection<Enrollment> Enrollments { get; set; }
+        public string FullName
+        {
+            get { return LastName + ", " + FirstMidName; }
+        }
+
+        public virtual ICollection<Course> Courses { get; set; }
+        public virtual OfficeAssignment OfficeAssignment { get; set; }
     }
 }
