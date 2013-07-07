@@ -26,7 +26,25 @@
     <TypeScriptCompile Include="app.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="Scripts\jquery-2.0.2.intellisense.js" />
+    <Content Include="Scripts\jquery-2.0.2.js" />
+    <Content Include="Scripts\jquery-2.0.2.min.js" />
+    <TypeScriptCompile Include="Scripts\log.ts" />
+    <Content Include="Scripts\log.js">
+      <DependentUpon>log.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Scripts\point.ts" />
+    <TypeScriptCompile Include="Scripts\module.ts" />
+    <Content Include="Scripts\module.js">
+      <DependentUpon>module.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\point.js">
+      <DependentUpon>point.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\typings\jquery\jquery.d.ts" />
     <Content Include="web.config" />
+    <Content Include="Scripts\jquery-2.0.2.min.map" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

@@ -1,40 +1,58 @@
+/// <reference path="Scripts/typings/jquery/jquery.d.ts" />
 
-class Greeter {
-    element: HTMLElement;
-    span: HTMLElement;
-    timerToken: number;
 
-    constructor(element: HTMLElement) {
-        this.element = element;
-        this.element.innerHTML += "The time is: ";
-        this.span = document.createElement('span');
-        this.element.appendChild(this.span);
-        this.span.innerText = new Date().toUTCString();
-    }
-
-    start() {
-        this.timerToken = setInterval(() => this.span.innerHTML = new Date().toUTCString(), 500);
-    }
-
-    stop() {
-        clearTimeout(this.timerToken);
-    }
-
-}
+// Generics
 
 var array: Array<string> = ["a", "b", "c"];
-
 var result = array.map((val, ind, arr) => val.length);
 
-class Cup<T>
+class A { }
+
+class B extends A { }
+
+class Tuple<First, Second extends A>
 {
-    liquid: T;
-
-
+    Item1: First;
+    Item2: Second;
 }
 
-window.onload = () => {
-    var el = document.getElementById('content');
-    var greeter = new Greeter(el);
-    greeter.start();
-};
+// Enums
+
+enum Color { Red, Green, Blue };
+
+// Declaration merging
+function readInput(separator = readInput.defaultSeparator) {
+    // read input
+}
+module readInput {
+    export var defaultSeparator = ":";
+}
+
+$(() => {
+    var color = Color.Blue;
+    var text = Color[color] + " = " + Color.Blue.toString(); // Blue = 2
+    $('#content').text(text); 
+
+    //Overloading on constants
+
+    var paragraph = document.createElement('p');
+    var cell = document.createElement('td');
+
+    alert(cell.nodeName);
+    alert(paragraph.nodeName);
+
+    // Generics
+    var myTuple = new Tuple<string, B>();
+
+    myTuple.Item1 = "First";
+    myTuple.Item2 = new B();
+
+    // External modules
+    //import log = require("log");    
+    //log.message("hello");
+
+    
+
+    readInput.defaultSeparator
+});
+
