@@ -1,5 +1,22 @@
 /// <reference path="Scripts/typings/jquery/jquery.d.ts" />
 
+interface IDog {
+    name: string;
+    secondName?: string;
+}
+
+class Dog implements IDog {
+    name: string;
+}
+
+
+class Point {
+    constructor(public x: number, public y: number) {
+    }
+
+    static Origin = new Point(0, 0);
+}
+
 
 // Generics
 
@@ -38,8 +55,8 @@ $(() => {
     var paragraph = document.createElement('p');
     var cell = document.createElement('td');
 
-    alert(cell.nodeName);
-    alert(paragraph.nodeName);
+    //alert(cell.nodeName);
+    //alert(paragraph.nodeName);
 
     // Generics
     var myTuple = new Tuple<string, B>();
@@ -51,8 +68,10 @@ $(() => {
     //import log = require("log");    
     //log.message("hello");
 
-    
+
 
     readInput.defaultSeparator
+
+    alert(Point.Origin.x.toString());
 });
 

@@ -13,6 +13,15 @@
     <fieldset>
         <legend>Course</legend>
 
+        @* CourseId *@
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Id)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Id)
+            @Html.ValidationMessageFor(model => model.Id)
+        </div>
+
         <div class="editor-label">
             @Html.LabelFor(model => model.Title)
         </div>

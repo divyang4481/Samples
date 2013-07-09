@@ -4,7 +4,21 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-/// <reference path="Scripts/typings/jquery/jquery.d.ts" />
+var Dog = (function () {
+    function Dog() {
+    }
+    return Dog;
+})();
+
+var Point = (function () {
+    function Point(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    Point.Origin = new Point(0, 0);
+    return Point;
+})();
+
 // Generics
 var array = ["a", "b", "c"];
 var result = array.map(function (val, ind, arr) {
@@ -58,9 +72,8 @@ $(function () {
     var paragraph = document.createElement('p');
     var cell = document.createElement('td');
 
-    alert(cell.nodeName);
-    alert(paragraph.nodeName);
-
+    //alert(cell.nodeName);
+    //alert(paragraph.nodeName);
     // Generics
     var myTuple = new Tuple();
 
@@ -71,5 +84,7 @@ $(function () {
     //import log = require("log");
     //log.message("hello");
     readInput.defaultSeparator;
+
+    alert(Point.Origin.x.toString());
 });
 //@ sourceMappingURL=app.js.map
