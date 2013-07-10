@@ -31,7 +31,7 @@ namespace ContosoUniversity.Controllers
 
             if (id != null)
             {
-                ViewBag.InstructorID = id.Value;
+                ViewBag.InstructorId = id.Value;
                 viewModel.Courses = viewModel.Instructors.Single(i => i.Id == id.Value).Courses;
             }
 

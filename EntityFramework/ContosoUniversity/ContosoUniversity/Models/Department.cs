@@ -16,6 +16,7 @@ namespace ContosoUniversity.Models
         [DisplayFormat(DataFormatString = "{0:c}")]
         [Required(ErrorMessage = "Budget is required.")]
         [Column(TypeName = "money")]
+        [Range(0, 10000000, ErrorMessage="Budget must be between 0 and 10 million")]
         public decimal? Budget { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
@@ -27,5 +28,8 @@ namespace ContosoUniversity.Models
 
         public virtual Instructor Administrator { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
+
+        [Timestamp]
+        public Byte[] Timestamp { get; set; }
     }
 }

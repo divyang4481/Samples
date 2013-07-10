@@ -14,17 +14,11 @@ namespace ContosoUniversity.Controllers
     {
         private SchoolContext db = new SchoolContext();
 
-        //
-        // GET: /Course/
-
         public ActionResult Index()
         {
             var courses = db.Courses.Include(c => c.Department);
             return View(courses.ToList());
         }
-
-        //
-        // GET: /Course/Details/5
 
         public ActionResult Details(int id = 0)
         {
@@ -36,66 +30,61 @@ namespace ContosoUniversity.Controllers
             return View(course);
         }
 
-        //
-        // GET: /Course/Create
-
         public ActionResult Create()
         {
-            ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name");
+            PopulateDepartmentsDropDownList();
             return View();
         }
 
-        //
-        // POST: /Course/Create
-
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(Course course)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Courses.Add(course);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Courses.Add(course);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DataException)
+            {
+                //Log the error (add a variable name after DataException)
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
 
-            ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name", course.DepartmentId);
+            PopulateDepartmentsDropDownList(course.DepartmentId);
             return View(course);
         }
 
-        //
-        // GET: /Course/Edit/5
-
-        public ActionResult Edit(int id = 0)
+        public ActionResult Edit(int id)
         {
             Course course = db.Courses.Find(id);
-            if (course == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name", course.DepartmentId);
+            PopulateDepartmentsDropDownList(course.DepartmentId);
             return View(course);
         }
-
-        //
-        // POST: /Course/Edit/5
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit(Course course)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(course).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(course).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
-            ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name", course.DepartmentId);
+            catch (DataException)
+            {
+                //Log the error (add a variable name after DataException)
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+            }
+            PopulateDepartmentsDropDownList(course.DepartmentId);
             return View(course);
         }
-
-        //
-        // GET: /Course/Delete/5
 
         public ActionResult Delete(int id = 0)
         {
@@ -118,6 +107,13 @@ namespace ContosoUniversity.Controllers
             db.Courses.Remove(course);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        private void PopulateDepartmentsDropDownList(object selectedDepartment = null)
+        {
+            var departmentsQuery = db.Departments.OrderBy(d => d.Name);
+
+            ViewBag.DepartmentId = new SelectList(departmentsQuery, "Id", "Name", selectedDepartment);
         }
 
         protected override void Dispose(bool disposing)
