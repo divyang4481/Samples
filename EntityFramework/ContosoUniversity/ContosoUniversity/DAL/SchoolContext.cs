@@ -12,6 +12,7 @@ namespace ContosoUniversity.DAL
             
         }
 
+        public DbSet<Person> People { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
@@ -31,8 +32,8 @@ namespace ContosoUniversity.DAL
             modelBuilder.Entity<Course>()
                 .HasMany(c => c.Instructors).WithMany(i => i.Courses)
                 .Map(t => t.MapLeftKey("CourseId")
-                    .MapRightKey("InstructorId")
-                    .ToTable("CourseInstructor"));
+                .MapRightKey("PersonId")
+                .ToTable("CourseInstructor"));
 
             // zero or one to many relationship
             modelBuilder.Entity<Department>()

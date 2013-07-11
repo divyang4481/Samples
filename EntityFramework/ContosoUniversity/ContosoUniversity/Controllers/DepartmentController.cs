@@ -42,7 +42,7 @@ namespace ContosoUniversity.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.InstructorId = new SelectList(db.Instructors, "Id", "FullName");
+            ViewBag.PersonId = new SelectList(db.Instructors, "Id", "FullName");
             return View();
         }
 
@@ -60,7 +60,7 @@ namespace ContosoUniversity.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.InstructorId = new SelectList(db.Instructors, "Id", "FullName", department.InstructorId);
+            ViewBag.PersonId = new SelectList(db.Instructors, "Id", "FullName", department.PersonId);
             return View(department);
         }
 
@@ -74,7 +74,7 @@ namespace ContosoUniversity.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.InstructorId = new SelectList(db.Instructors, "Id", "FullName", department.InstructorId);
+            ViewBag.PersonId = new SelectList(db.Instructors, "Id", "FullName", department.PersonId);
             return View(department);
         }
 
@@ -115,9 +115,9 @@ namespace ContosoUniversity.Controllers
                     ModelState.AddModelError("StartDate", "Current value: " + string.Format("{0:d}", databaseValues.StartDate));
                 }
 
-                if (databaseValues.InstructorId != clientValues.InstructorId)
+                if (databaseValues.PersonId != clientValues.PersonId)
                 {
-                    ModelState.AddModelError("InstructorId", "Current value: " + db.Instructors.Find(databaseValues.InstructorId).FullName);
+                    ModelState.AddModelError("PersonId", "Current value: " + db.Instructors.Find(databaseValues.PersonId).FullName);
                 }
 
                 ModelState.AddModelError(string.Empty, "The record you attempted to edit "
@@ -133,7 +133,7 @@ namespace ContosoUniversity.Controllers
                 ModelState.AddModelError(string.Empty, "Unable to save changes. Try again, and if the problem persists contact your system administrator.");
             }
 
-            ViewBag.InstructorId = new SelectList(db.Instructors, "Id", "FullName", department.InstructorId);
+            ViewBag.PersonId = new SelectList(db.Instructors, "Id", "FullName", department.PersonId);
             return View(department);
         }
 

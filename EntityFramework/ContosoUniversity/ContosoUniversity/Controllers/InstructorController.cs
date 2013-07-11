@@ -19,7 +19,7 @@ namespace ContosoUniversity.Controllers
         // GET: /Instructor/
 
         
-        public ActionResult Index(Int32? id, Int32? courseID)
+        public ActionResult Index(int? id, int? courseId)
         {
             var viewModel = new InstructorIndexData
                 {
@@ -31,16 +31,16 @@ namespace ContosoUniversity.Controllers
 
             if (id != null)
             {
-                ViewBag.InstructorId = id.Value;
+                ViewBag.PersonId = id.Value;
                 viewModel.Courses = viewModel.Instructors.Single(i => i.Id == id.Value).Courses;
             }
 
 
-            if (courseID != null)
+            if (courseId != null)
             {
-                ViewBag.CourseID = courseID.Value;
+                ViewBag.CourseId = courseId.Value;
 
-                var selectedCourse = viewModel.Courses.Single(x => x.Id == courseID);
+                var selectedCourse = viewModel.Courses.Single(x => x.Id == courseId);
                 db.Entry(selectedCourse).Collection(x => x.Enrollments).Load(); // explicit loading
                 
                 foreach (Enrollment enrollment in selectedCourse.Enrollments)
@@ -72,7 +72,7 @@ namespace ContosoUniversity.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.Id = new SelectList(db.OfficeAssignments, "InstructorId", "Location");
+            ViewBag.Id = new SelectList(db.OfficeAssignments, "PersonId", "Location");
             return View();
         }
 
@@ -90,7 +90,7 @@ namespace ContosoUniversity.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id = new SelectList(db.OfficeAssignments, "InstructorId", "Location", instructor.Id);
+            ViewBag.Id = new SelectList(db.OfficeAssignments, "PersonId", "Location", instructor.Id);
             return View(instructor);
         }
 
@@ -100,7 +100,7 @@ namespace ContosoUniversity.Controllers
         public ActionResult Edit(int id = 0)
         {
             Instructor instructor = db.Instructors
-               .Include(i => i.OfficeAssignment) // Eager loading
+               //.Include(i => i.OfficeAssignment) // Eager loading
                .Include(i => i.Courses)
                .Where(i => i.Id == id)
                .Single();
@@ -117,7 +117,7 @@ namespace ContosoUniversity.Controllers
             {
                 viewModel.Add(new AssignedCourseData
                 {
-                    CourseID = course.Id,
+                    CourseId = course.Id,
                     Title = course.Title,
                     Assigned = instructorCourses.Contains(course.Id)
                 });

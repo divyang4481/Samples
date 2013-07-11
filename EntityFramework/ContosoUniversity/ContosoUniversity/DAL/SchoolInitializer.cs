@@ -36,10 +36,10 @@ namespace ContosoUniversity.DAL
 
             var departments = new List<Department>
             {
-                new Department { Name = "English",     Budget = 350000, StartDate = DateTime.Parse("2007-09-01"), InstructorId = 1 },
-                new Department { Name = "Mathematics", Budget = 100000, StartDate = DateTime.Parse("2007-09-01"), InstructorId = 2 },
-                new Department { Name = "Engineering", Budget = 350000, StartDate = DateTime.Parse("2007-09-01"), InstructorId = 3 },
-                new Department { Name = "Economics",   Budget = 100000, StartDate = DateTime.Parse("2007-09-01"), InstructorId = 4 }
+                new Department { Name = "English",     Budget = 350000, StartDate = DateTime.Parse("2007-09-01"), PersonId = 9 },
+                new Department { Name = "Mathematics", Budget = 100000, StartDate = DateTime.Parse("2007-09-01"), PersonId = 10 },
+                new Department { Name = "Engineering", Budget = 350000, StartDate = DateTime.Parse("2007-09-01"), PersonId = 11 },
+                new Department { Name = "Economics",   Budget = 100000, StartDate = DateTime.Parse("2007-09-01"), PersonId = 12 }
             };
             departments.ForEach(s => context.Departments.Add(s));
             context.SaveChanges();
@@ -87,9 +87,9 @@ namespace ContosoUniversity.DAL
 
             var officeAssignments = new List<OfficeAssignment>
             {
-                new OfficeAssignment { InstructorId = 1, Location = "Smith 17" },
-                new OfficeAssignment { InstructorId = 2, Location = "Gowan 27" },
-                new OfficeAssignment { InstructorId = 3, Location = "Thompson 304" },
+                new OfficeAssignment { PersonId = 9, Location = "Smith 17" },
+                new OfficeAssignment { PersonId = 10, Location = "Gowan 27" },
+                new OfficeAssignment { PersonId = 11, Location = "Thompson 304" },
             };
             officeAssignments.ForEach(s => context.OfficeAssignments.Add(s));
             context.SaveChanges();
