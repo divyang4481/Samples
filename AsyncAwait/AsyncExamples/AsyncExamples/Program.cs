@@ -10,21 +10,25 @@ namespace AsyncExamples
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            //LookupHostName();
-
-            //DumpWebPageAsync("http://www.google.pl");
-
-            //TwoDownloads();
-            
-            SampleClass sampleClass = new SampleClass();
-
-            Thread.Sleep(10000);
+            MainAsync().Wait();
+        }
+        
+        static async Task MainAsync()
+        {
+            try
+            {
+                //LookupHostName();
+                //DumpWebPageAsync("http://www.google.pl");
+                //TwoDownloads();
+                var sampleClass = new SampleClass();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
             Console.WriteLine("End");
-
-
-          
         }
 
         // If exception occures in first call, then it is propagated and second method is never called
