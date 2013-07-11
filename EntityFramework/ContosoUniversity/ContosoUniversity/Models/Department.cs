@@ -13,10 +13,10 @@ namespace ContosoUniversity.Models
         [MaxLength(50)]
         public string Name { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:c}")]
+        [DisplayFormat(DataFormatString = "{0:N0}")]
         [Required(ErrorMessage = "Budget is required.")]
         [Column(TypeName = "money")]
-        [Range(0, 10000000, ErrorMessage="Budget must be between 0 and 10 million")]
+        [Range(0, 10000000, ErrorMessage="Budget must be between 0 and 10 million.")]
         public decimal? Budget { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
