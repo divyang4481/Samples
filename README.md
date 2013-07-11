@@ -7,7 +7,9 @@ AsyncAwait: async & await features of C# 5.0 (in progress)
 
 CodeContracts: CodeContracts samples
 
-EntityFramework: ASP.NET MVC code first walkthrough (with migrations), ASP.NET EF Tutorial (in progress)
+EntityFramework: 
+  - ASP.NET MVC code first walkthrough (with migrations) 
+  - ASP.NET EF Tutorial (in progress)
 
 Moq: Moq + XUnit.NET examples.
 
