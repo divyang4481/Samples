@@ -13,11 +13,13 @@ namespace ContosoUniversity.Controllers
 {
     public class StudentController : Controller
     {
-        private SchoolContext db = new SchoolContext();
+        private IStudentRepository studentRepository;
 
-        //
-        // GET: /Student/
-
+        public StudentController()
+        {
+            this.studentRepository = new StudentRepository(new SchoolContext());
+        }
+        
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -35,7 +37,7 @@ namespace ContosoUniversity.Controllers
 
             ViewBag.CurrentFilter = searchString;
 
-            var students = db.Students.Select(s => s);
+            var students = studentRepository.GetStudents();
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -63,12 +65,9 @@ namespace ContosoUniversity.Controllers
             return View(students.ToPagedList(pageNumber, pageSize));
         }
 
-        //
-        // GET: /Student/Details/5
-
         public ActionResult Details(int id = 0)
         {
-            Student student = db.Students.Find(id);
+            Student student = studentRepository.GetStudentById(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -76,16 +75,10 @@ namespace ContosoUniversity.Controllers
             return View(student);
         }
 
-        //
-        // GET: /Student/Create
-
         public ActionResult Create()
         {
             return View();
         }
-
-        //
-        // POST: /Student/Create
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -93,72 +86,78 @@ namespace ContosoUniversity.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Students.Add(student);
-                db.SaveChanges();
+                studentRepository.InsertStudent(student);
+                studentRepository.Save();
                 return RedirectToAction("Index");
             }
 
             return View(student);
         }
 
-        //
-        // GET: /Student/Edit/5
-
         public ActionResult Edit(int id = 0)
         {
-            Student student = db.Students.Find(id);
+            Student student = studentRepository.GetStudentById(id);
             if (student == null)
             {
                 return HttpNotFound();
             }
             return View(student);
         }
-
-        //
-        // POST: /Student/Edit/5
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Student student)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(student).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    studentRepository.UpdateStudent(student);
+                    studentRepository.Save();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DataException)
+            {
+                //Log the error (add a variable name after DataException)
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
             return View(student);
         }
 
-        //
-        // GET: /Student/Delete/5
-
-        public ActionResult Delete(int id = 0)
+        public ActionResult Delete(int id, bool? saveChangesError)
         {
-            Student student = db.Students.Find(id);
-            if (student == null)
+            if (saveChangesError.GetValueOrDefault())
             {
-                return HttpNotFound();
+                ViewBag.ErrorMessage = "Unable to save changes. Try again, and if the problem persists see your system administrator.";
             }
+            Student student = studentRepository.GetStudentById(id);
             return View(student);
         }
-
-        //
-        // POST: /Student/Delete/5
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Student student = db.Students.Find(id);
-            db.Students.Remove(student);
-            db.SaveChanges();
+            try
+            {
+                Student student = studentRepository.GetStudentById(id);
+                studentRepository.DeleteStudent(id);
+                studentRepository.Save();
+            }
+            catch (DataException)
+            {
+                //Log the error (add a variable name after DataException)
+                return RedirectToAction("Delete", new System.Web.Routing.RouteValueDictionary { 
+                { "id", id }, 
+                { "saveChangesError", true } });
+            }
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            studentRepository.Dispose();
             base.Dispose(disposing);
         }
     }
