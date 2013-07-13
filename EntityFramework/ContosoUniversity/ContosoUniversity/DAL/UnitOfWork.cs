@@ -3,11 +3,12 @@ using ContosoUniversity.Models;
 
 namespace ContosoUniversity.DAL
 {
-    public class UnitOfWork : IDisposable
+    public class UnitOfWork : IUnitOfWork
     {
         private SchoolContext context = new SchoolContext();
         private GenericRepository<Department> departmentRepository;
         private GenericRepository<Course> courseRepository;
+        private GenericRepository<Student> studentRepository;
 
         public GenericRepository<Department> DepartmentRepository
         {
@@ -33,29 +34,42 @@ namespace ContosoUniversity.DAL
             }
         }
 
+        public GenericRepository<Student> StudentRepository
+        {
+            get
+            {
+                if (this.studentRepository == null)
+                {
+                    this.studentRepository = new GenericRepository<Student>(context);
+                }
+
+                return studentRepository;
+            }
+        }
+
         public void Save()
         {
             context.SaveChanges();
         }
 
-        private bool disposed = false;
+        //private bool disposed = false;
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    context.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
+        //protected virtual void Dispose(bool disposing)
+        //{
+        //    if (!this.disposed)
+        //    {
+        //        if (disposing)
+        //        {
+        //            context.Dispose();
+        //        }
+        //    }
+        //    this.disposed = true;
+        //}
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        //public void Dispose()
+        //{
+        //    Dispose(true);
+        //    GC.SuppressFinalize(this);
+        //}
     }
 }

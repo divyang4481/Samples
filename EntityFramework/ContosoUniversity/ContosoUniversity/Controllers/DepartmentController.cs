@@ -15,17 +15,11 @@ namespace ContosoUniversity.Controllers
     {
         private SchoolContext db = new SchoolContext();
 
-        //
-        // GET: /Department/
-
         public ActionResult Index()
         {
             var departments = db.Departments.Include(d => d.Administrator);
             return View(departments.ToList());
         }
-
-        //
-        // GET: /Department/Details/5
 
         public ActionResult Details(int id = 0)
         {
@@ -37,17 +31,11 @@ namespace ContosoUniversity.Controllers
             return View(department);
         }
 
-        //
-        // GET: /Department/Create
-
         public ActionResult Create()
         {
             ViewBag.PersonId = new SelectList(db.Instructors, "Id", "FullName");
             return View();
         }
-
-        //
-        // POST: /Department/Create
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -64,9 +52,6 @@ namespace ContosoUniversity.Controllers
             return View(department);
         }
 
-        //
-        // GET: /Department/Edit/5
-
         public ActionResult Edit(int id = 0)
         {
             Department department = db.Departments.Find(id);
@@ -77,9 +62,6 @@ namespace ContosoUniversity.Controllers
             ViewBag.PersonId = new SelectList(db.Instructors, "Id", "FullName", department.PersonId);
             return View(department);
         }
-
-        //
-        // POST: /Department/Edit/5
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -137,9 +119,6 @@ namespace ContosoUniversity.Controllers
             return View(department);
         }
 
-        //
-        // GET: /Department/Delete/5
-
         public ActionResult Delete(int id, bool? concurrencyError)
         {
             if (concurrencyError.GetValueOrDefault())
@@ -155,9 +134,6 @@ namespace ContosoUniversity.Controllers
             Department department = db.Departments.Find(id);
             return View(department);
         }
-
-        //
-        // POST: /Department/Delete/5
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(Department department)

@@ -15,10 +15,6 @@ namespace ContosoUniversity.Controllers
     {
         private SchoolContext db = new SchoolContext();
 
-        //
-        // GET: /Instructor/
-
-        
         public ActionResult Index(int? id, int? courseId)
         {
             var viewModel = new InstructorIndexData
@@ -54,9 +50,6 @@ namespace ContosoUniversity.Controllers
             return View(viewModel);
         }
 
-        //
-        // GET: /Instructor/Details/5
-
         public ActionResult Details(int id = 0)
         {
             Instructor instructor = db.Instructors.Find(id);
@@ -67,17 +60,11 @@ namespace ContosoUniversity.Controllers
             return View(instructor);
         }
 
-        //
-        // GET: /Instructor/Create
-
         public ActionResult Create()
         {
             ViewBag.Id = new SelectList(db.OfficeAssignments, "PersonId", "Location");
             return View();
         }
-
-        //
-        // POST: /Instructor/Create
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -93,9 +80,6 @@ namespace ContosoUniversity.Controllers
             ViewBag.Id = new SelectList(db.OfficeAssignments, "PersonId", "Location", instructor.Id);
             return View(instructor);
         }
-
-        //
-        // GET: /Instructor/Edit/5
 
         public ActionResult Edit(int id = 0)
         {
@@ -124,9 +108,6 @@ namespace ContosoUniversity.Controllers
             }
             ViewBag.Courses = viewModel;
         }
-
-        //
-        // POST: /Instructor/Edit/5
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -198,10 +179,6 @@ namespace ContosoUniversity.Controllers
             }
         }
 
-
-        //
-        // GET: /Instructor/Delete/5
-
         public ActionResult Delete(int id = 0)
         {
             Instructor instructor = db.Instructors.Find(id);
@@ -211,9 +188,6 @@ namespace ContosoUniversity.Controllers
             }
             return View(instructor);
         }
-
-        //
-        // POST: /Instructor/Delete/5
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
