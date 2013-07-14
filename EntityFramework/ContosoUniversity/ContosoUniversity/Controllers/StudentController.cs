@@ -13,17 +13,17 @@ namespace ContosoUniversity.Controllers
 {
     public class StudentController : Controller
     {
-        private IStudentRepository studentRepository;
+        private IUnitOfWork unitOfWork;
 
         public StudentController()
         {
-            this.studentRepository = new StudentRepository(new SchoolContext());
+            this.unitOfWork = new UnitOfWork();
         }
         
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name desc" : "";
+            ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "Name desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "Date desc" : "Date";
 
             if (Request.HttpMethod == "GET")
@@ -37,9 +37,9 @@ namespace ContosoUniversity.Controllers
 
             ViewBag.CurrentFilter = searchString;
 
-            var students = studentRepository.GetStudents();
+            var students = unitOfWork.StudentRepository.Get();
 
-            if (!String.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
                 students = students.Where(s => s.LastName.ToUpper().Contains(searchString.ToUpper())
                                        || s.FirstMidName.ToUpper().Contains(searchString.ToUpper()));
@@ -67,7 +67,7 @@ namespace ContosoUniversity.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Student student = studentRepository.GetStudentById(id);
+            var student = unitOfWork.StudentRepository.GetById(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -86,8 +86,8 @@ namespace ContosoUniversity.Controllers
         {
             if (ModelState.IsValid)
             {
-                studentRepository.InsertStudent(student);
-                studentRepository.Save();
+                unitOfWork.StudentRepository.Insert(student);
+                unitOfWork.Save();
                 return RedirectToAction("Index");
             }
 
@@ -96,7 +96,7 @@ namespace ContosoUniversity.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Student student = studentRepository.GetStudentById(id);
+            var student = unitOfWork.StudentRepository.GetById(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -112,8 +112,8 @@ namespace ContosoUniversity.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    studentRepository.UpdateStudent(student);
-                    studentRepository.Save();
+                    unitOfWork.StudentRepository.Update(student);
+                    unitOfWork.Save();
                     return RedirectToAction("Index");
                 }
             }
@@ -131,7 +131,7 @@ namespace ContosoUniversity.Controllers
             {
                 ViewBag.ErrorMessage = "Unable to save changes. Try again, and if the problem persists see your system administrator.";
             }
-            Student student = studentRepository.GetStudentById(id);
+            var student = unitOfWork.StudentRepository.GetById(id);
             return View(student);
         }
 
@@ -141,9 +141,9 @@ namespace ContosoUniversity.Controllers
         {
             try
             {
-                Student student = studentRepository.GetStudentById(id);
-                studentRepository.DeleteStudent(id);
-                studentRepository.Save();
+                var student = unitOfWork.StudentRepository.GetById(id);
+                unitOfWork.StudentRepository.Delete(id);
+                unitOfWork.Save();
             }
             catch (DataException)
             {
@@ -155,10 +155,10 @@ namespace ContosoUniversity.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            studentRepository.Dispose();
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    studentRepository.Dispose();
+        //    base.Dispose(disposing);
+        //}
     }
 }
