@@ -10,6 +10,7 @@ namespace ContosoUniversity.DAL
         private GenericRepository<Course> courseRepository;
         private GenericRepository<Student> studentRepository;
         private GenericRepository<Instructor> instructorRepository;
+        private GenericRepository<OfficeAssignment> officeAssignmentRepository;
 
         private GenericRepositoryLazy<T> GetRepository(T repository)
             where T : new()
@@ -41,6 +42,12 @@ namespace ContosoUniversity.DAL
         {
             get { return GetRepositoryLazy(this.instructorRepository); }
         }
+
+        public GenericRepository<OfficeAssignment> OfficeAssignmentRepository
+        {
+            get { return GetRepositoryLazy(this.officeAssignmentRepository); }
+        }
+
 
         public void Save()
         {
