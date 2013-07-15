@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -13,17 +13,22 @@ namespace ContosoUniversity.Controllers
 {
     public class DepartmentController : Controller
     {
-        private SchoolContext db = new SchoolContext();
+        private IUnitOfWork unitOfWork;
+        
+        public DepartmentController()
+        {
+            this.unitOfWork = new UnitOfWork();
+        }
 
         public ActionResult Index()
         {
-            var departments = db.Departments.Include(d => d.Administrator);
+            var departments = unitOfWork.DepartmentRepository..Get(includeProperties : new[] {d => d.Administrator });
             return View(departments.ToList());
         }
 
         public ActionResult Details(int id = 0)
         {
-            Department department = db.Departments.Find(id);
+            var department = unitOfWork.DepartmentRepository.GetById(id);
             if (department == null)
             {
                 return HttpNotFound();
@@ -33,7 +38,7 @@ namespace ContosoUniversity.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.PersonId = new SelectList(db.Instructors, "Id", "FullName");
+            ViewBag.PersonId = new SelectList(unitOfWork.InstructorRepository.Get(), "Id", "FullName");
             return View();
         }
 
@@ -43,23 +48,23 @@ namespace ContosoUniversity.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Departments.Add(department);
-                db.SaveChanges();
+                unitOfWork.DepartmentRepository.Insert(department);
+                unitOfWork.Save();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.PersonId = new SelectList(db.Instructors, "Id", "FullName", department.PersonId);
+            ViewBag.PersonId = new SelectList(unitOfWork.InstructorRepository.Get(), "Id", "FullName", department.PersonId);
             return View(department);
         }
 
         public ActionResult Edit(int id = 0)
         {
-            Department department = db.Departments.Find(id);
+            var department = unitOfWork.DepartmentRepository.GetById(id);
             if (department == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.PersonId = new SelectList(db.Instructors, "Id", "FullName", department.PersonId);
+            ViewBag.PersonId = new SelectList(unitOfWork.InstructorRepository.Get(), "Id", "FullName", department.PersonId);
             return View(department);
         }
 
@@ -71,8 +76,8 @@ namespace ContosoUniversity.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    db.Entry(department).State = EntityState.Modified;
-                    db.SaveChanges();
+                    unitOfWork.DepartmentRepository.Update(department);
+                    unitOfWork.Save();
                     return RedirectToAction("Index");
                 }
             }
@@ -115,7 +120,7 @@ namespace ContosoUniversity.Controllers
                 ModelState.AddModelError(string.Empty, "Unable to save changes. Try again, and if the problem persists contact your system administrator.");
             }
 
-            ViewBag.PersonId = new SelectList(db.Instructors, "Id", "FullName", department.PersonId);
+            ViewBag.PersonId = new SelectList(unitOfWork.InstructorRepository.Get(), "Id", "FullName", department.PersonId);
             return View(department);
         }
 
@@ -131,7 +136,7 @@ namespace ContosoUniversity.Controllers
                     + "click the Back to List hyperlink.";
             }
         
-            Department department = db.Departments.Find(id);
+            var department = unitOfWork.DepartmentRepository.GetById(id);
             return View(department);
         }
 
@@ -140,8 +145,8 @@ namespace ContosoUniversity.Controllers
         {
             try
             {
-                db.Entry(department).State = EntityState.Deleted;
-                db.SaveChanges();
+                unitOfWork.DepartmentRepository.Delete(department);
+                unitOfWork.Save();
                 return RedirectToAction("Index");
             }
             catch (DbUpdateConcurrencyException)
@@ -156,10 +161,10 @@ namespace ContosoUniversity.Controllers
             }
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            db.Dispose();
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    db.Dispose();
+        //    base.Dispose(disposing);
+        //}
     }
 }
