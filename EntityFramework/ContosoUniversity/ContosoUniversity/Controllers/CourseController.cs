@@ -21,7 +21,7 @@ namespace ContosoUniversity.Controllers
 
         public ActionResult Index()
         {
-            var courses = unitOfWork.CourseRepository.Get(includeProperties: "Department");
+            var courses = unitOfWork.CourseRepository.Get(includeProperties: new[] { c => c.Department });
             return View(courses.ToList());
         }
 
