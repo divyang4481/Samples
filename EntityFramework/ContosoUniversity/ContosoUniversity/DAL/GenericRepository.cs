@@ -22,7 +22,7 @@ namespace ContosoUniversity.DAL
         public virtual IQueryable<TEntity> Get(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            string includeProperties = "")
+            Expression<Func<T, object>>[] includeProperties = null)
         {
             IQueryable<TEntity> query = dbSet;
 
@@ -31,9 +31,9 @@ namespace ContosoUniversity.DAL
                 query = query.Where(filter);
             }
 
-            foreach (var includeProperty in includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            if (includeProperties != null)
             {
-                query = query.Include(includeProperty);
+                query = includeProperties.Aggregate(query, (current, include) => current.Include(include));
             }
 
             if (orderBy != null)
