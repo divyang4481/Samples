@@ -9,42 +9,37 @@ namespace ContosoUniversity.DAL
         private GenericRepository<Department> departmentRepository;
         private GenericRepository<Course> courseRepository;
         private GenericRepository<Student> studentRepository;
+        private GenericRepository<Instructor> instructorRepository;
+
+        private GenericRepositoryLazy<T> GetRepository(T repository)
+            where T : new()
+        {
+            if(repository == null)
+            {
+                repository = new T();
+            }
+            
+            return repository;
+        }
 
         public GenericRepository<Department> DepartmentRepository
         {
-            get
-            {
-                if (this.departmentRepository == null)
-                {
-                    this.departmentRepository = new GenericRepository<Department>(context);
-                }
-                return departmentRepository;
-            }
+            get { return GetRepositoryLazy(this.departmentRepository); }
         }
 
         public GenericRepository<Course> CourseRepository
         {
-            get
-            {
-                if (this.courseRepository == null)
-                {
-                    this.courseRepository = new GenericRepository<Course>(context);
-                }
-                return courseRepository;
-            }
+            get { return GetRepositoryLazy(this.courseRepository); }
         }
 
         public GenericRepository<Student> StudentRepository
         {
-            get
-            {
-                if (this.studentRepository == null)
-                {
-                    this.studentRepository = new GenericRepository<Student>(context);
-                }
-
-                return studentRepository;
-            }
+            get { return GetRepositoryLazy(this.studentRepository); }
+        }
+        
+        public GenericRepository<Instructor> InstructorRepository
+        {
+            get { return GetRepositoryLazy(this.instructorRepository); }
         }
 
         public void Save()
