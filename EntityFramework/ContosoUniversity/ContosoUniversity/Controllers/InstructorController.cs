@@ -13,16 +13,24 @@ namespace ContosoUniversity.Controllers
 {
     public class InstructorController : Controller
     {
-        private SchoolContext db = new SchoolContext();
+        private IUnitOfWork unitOfWork;
+        
+        public InstructorController()
+        {
+            this.unitOfWork = new UnitOfWork();
+        }
 
         public ActionResult Index(int? id, int? courseId)
         {
             var viewModel = new InstructorIndexData
                 {
-                    Instructors = db.Instructors
-                                    .Include(i => i.OfficeAssignment)
-                                    .Include(i => i.Courses.Select(c => c.Department))
-                                    .OrderBy(i => i.LastName)
+                    Instructors = unitOfWork.InstructorRepository(
+                        includeProperties: new[] 
+                        {
+                            i => i.OfficeAssignment,
+                            i => i.Courses.Select(c => c.Department)
+                        }, 
+                        orderBy: i => i.LastName)             
                 };
 
             if (id != null)
@@ -31,18 +39,17 @@ namespace ContosoUniversity.Controllers
                 viewModel.Courses = viewModel.Instructors.Single(i => i.Id == id.Value).Courses;
             }
 
-
             if (courseId != null)
             {
                 ViewBag.CourseId = courseId.Value;
 
                 var selectedCourse = viewModel.Courses.Single(x => x.Id == courseId);
-                db.Entry(selectedCourse).Collection(x => x.Enrollments).Load(); // explicit loading
+                //db.Entry(selectedCourse).Collection(x => x.Enrollments).Load(); // explicit loading
                 
-                foreach (Enrollment enrollment in selectedCourse.Enrollments)
-                {
-                    db.Entry(enrollment).Reference(x => x.Student).Load(); // explicit loading
-                }
+                //foreach (Enrollment enrollment in selectedCourse.Enrollments)
+                //{
+                //    db.Entry(enrollment).Reference(x => x.Student).Load(); // explicit loading
+                //}
 
                 viewModel.Enrollments = selectedCourse.Enrollments;
             }
@@ -52,7 +59,7 @@ namespace ContosoUniversity.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Instructor instructor = db.Instructors.Find(id);
+            var instructor = unitOfWork.InstructorRepository.GetById(id);
             if (instructor == null)
             {
                 return HttpNotFound();
@@ -62,7 +69,7 @@ namespace ContosoUniversity.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.Id = new SelectList(db.OfficeAssignments, "PersonId", "Location");
+            ViewBag.Id = new SelectList(unitOfWork.OfficeAssignmentRepository.Get(), "PersonId", "Location");
             return View();
         }
 
@@ -72,29 +79,30 @@ namespace ContosoUniversity.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Instructors.Add(instructor);
-                db.SaveChanges();
+                unitOfWork.InstructorRepository.Insert(instructor);
+                unitOfWork.Save();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id = new SelectList(db.OfficeAssignments, "PersonId", "Location", instructor.Id);
+            ViewBag.Id = new SelectList(unitOfWork.OfficeAssignmentRepository.Get(), "PersonId", "Location", instructor.Id);
             return View(instructor);
         }
 
         public ActionResult Edit(int id = 0)
         {
-            Instructor instructor = db.Instructors
-               //.Include(i => i.OfficeAssignment) // Eager loading
-               .Include(i => i.Courses)
-               .Where(i => i.Id == id)
-               .Single();
+            var instructor = unitOfWork.InstructorRepository.Get(
+                includeProperties: new[] 
+                {
+                    i => i.Courses
+                })
+               .Single(i => i.Id == id);
             PopulateAssignedCourseData(instructor);
             return View(instructor);
         }
 
         private void PopulateAssignedCourseData(Instructor instructor)
         {
-            var allCourses = db.Courses;
+            var allCourses = unitOfWork.CourseRepository.Get();
             var instructorCourses = new HashSet<int>(instructor.Courses.Select(c => c.Id));
             var viewModel = new List<AssignedCourseData>();
             foreach (var course in allCourses)
@@ -113,11 +121,13 @@ namespace ContosoUniversity.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, FormCollection formCollection, string[] selectedCourses)
         {
-            var instructorToUpdate = db.Instructors
-                .Include(i => i.OfficeAssignment)
-                .Include(i => i.Courses)
-                .Where(i => i.Id == id)
-                .Single();
+            var instructorToUpdate = unitOfWork.InstructorRepository.Get(
+                includeProperties: new[] 
+                {
+                    i => i.OfficeAssignment,
+                    i => i.Courses
+                })
+                .Single(i => i.Id == id);
 
             if (TryUpdateModel(instructorToUpdate, "", null, new[] { "Courses" } /* Exclude properties */))
             {
@@ -131,8 +141,8 @@ namespace ContosoUniversity.Controllers
 
                     UpdateInstructorCourses(selectedCourses, instructorToUpdate);
 
-                    db.Entry(instructorToUpdate).State = EntityState.Modified;
-                    db.SaveChanges();
+                    unitOfWork.InstructorRepository.Update(instructorToUpdate);
+                    unitOfWork.Save();
 
                     return RedirectToAction("Index");
                 }
@@ -160,7 +170,7 @@ namespace ContosoUniversity.Controllers
             var selectedCoursesHS = new HashSet<string>(selectedCourses);
             var instructorCourses = new HashSet<int>(instructorToUpdate.Courses.Select(c => c.Id));
 
-            foreach (var course in db.Courses)
+            foreach (var course in unitOfWork.CourseRepository.Get())
             {
                 if (selectedCoursesHS.Contains(course.Id.ToString()))
                 {
@@ -181,7 +191,7 @@ namespace ContosoUniversity.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Instructor instructor = db.Instructors.Find(id);
+            var instructor = unitOfWork.InstructorRepository.GetById(id);
             if (instructor == null)
             {
                 return HttpNotFound();
@@ -193,16 +203,15 @@ namespace ContosoUniversity.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Instructor instructor = db.Instructors.Find(id);
-            db.Instructors.Remove(instructor);
-            db.SaveChanges();
+            unitOfWork.InstructorRepository.Delete(id);
+            unitOfWork.Save();
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            db.Dispose();
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    db.Dispose();
+        //    base.Dispose(disposing);
+        //}
     }
 }
