@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using ContosoUniversity.Models;
 using ContosoUniversity.DAL;
+using System.Linq.Expressions;
 
 namespace ContosoUniversity.Controllers
 {
@@ -21,7 +22,7 @@ namespace ContosoUniversity.Controllers
 
         public ActionResult Index()
         {
-            var courses = unitOfWork.CourseRepository.Get(includeProperties: new[] { c => c.Department });
+            var courses = unitOfWork.CourseRepository.Get().IncludeProperties<Course>(c => c.Department);
             return View(courses.ToList());
         }
 

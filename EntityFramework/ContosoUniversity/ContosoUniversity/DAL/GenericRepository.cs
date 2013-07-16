@@ -10,8 +10,9 @@ namespace ContosoUniversity.DAL
 {
     public class GenericRepository<TEntity> where TEntity : class
     {
-        internal SchoolContext context;
-        internal DbSet<TEntity> dbSet;
+        private SchoolContext context;
+        private DbSet<TEntity> dbSet;
+        private IQueryable<TEntity> query;
 
         public GenericRepository(SchoolContext context)
         {
@@ -21,19 +22,13 @@ namespace ContosoUniversity.DAL
 
         public virtual IQueryable<TEntity> Get(
             Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            Expression<Func<T, object>>[] includeProperties = null)
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
         {
-            IQueryable<TEntity> query = dbSet;
+            query = dbSet;
 
             if (filter != null)
             {
                 query = query.Where(filter);
-            }
-
-            if (includeProperties != null)
-            {
-                query = includeProperties.Aggregate(query, (current, include) => current.Include(include));
             }
 
             if (orderBy != null)
@@ -45,6 +40,18 @@ namespace ContosoUniversity.DAL
                 return query;
             }
         }
+
+        
+        //public IQueryable<TEntity> IncludeProperties(this IQueryable<TEntity> query, params Expression<Func<TEntity, object>>[] includeProperties)
+        //{
+        //    if (includeProperties != null)
+        //    {
+        //        query = includeProperties.Aggregate(query, (current, include) => current.Include(include));
+        //    }
+
+        //    return query;
+        //}
+        
 
         public virtual TEntity GetById(object id)
         {

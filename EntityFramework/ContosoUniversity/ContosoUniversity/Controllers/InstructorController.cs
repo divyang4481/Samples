@@ -24,13 +24,12 @@ namespace ContosoUniversity.Controllers
         {
             var viewModel = new InstructorIndexData
                 {
-                    Instructors = unitOfWork.InstructorRepository(
-                        includeProperties: new[] 
-                        {
-                            i => i.OfficeAssignment,
-                            i => i.Courses.Select(c => c.Department)
-                        }, 
-                        orderBy: i => i.LastName)             
+                    Instructors = unitOfWork.InstructorRepository
+                        .Get(
+                            orderBy: i => i.OrderBy(x => x.LastName))
+                            .IncludeProperties(
+                                i => i.OfficeAssignment,
+                                i => i.Courses.Select(c => c.Department))
                 };
 
             if (id != null)
@@ -90,11 +89,9 @@ namespace ContosoUniversity.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            var instructor = unitOfWork.InstructorRepository.Get(
-                includeProperties: new[] 
-                {
-                    i => i.Courses
-                })
+            var instructor = unitOfWork.InstructorRepository
+                .Get()
+                .Include(i => i.Courses)
                .Single(i => i.Id == id);
             PopulateAssignedCourseData(instructor);
             return View(instructor);
@@ -121,12 +118,11 @@ namespace ContosoUniversity.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, FormCollection formCollection, string[] selectedCourses)
         {
-            var instructorToUpdate = unitOfWork.InstructorRepository.Get(
-                includeProperties: new[] 
-                {
+            var instructorToUpdate = unitOfWork.InstructorRepository
+                .Get()
+                .IncludeProperties(
                     i => i.OfficeAssignment,
-                    i => i.Courses
-                })
+                    i => i.Courses)
                 .Single(i => i.Id == id);
 
             if (TryUpdateModel(instructorToUpdate, "", null, new[] { "Courses" } /* Exclude properties */))

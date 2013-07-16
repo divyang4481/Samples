@@ -22,7 +22,7 @@ namespace ContosoUniversity.Controllers
 
         public ActionResult Index()
         {
-            var departments = unitOfWork.DepartmentRepository..Get(includeProperties : new[] {d => d.Administrator });
+            var departments = unitOfWork.DepartmentRepository.Get().IncludeProperties<Department>(d => d.Administrator);
             return View(departments.ToList());
         }
 
@@ -104,7 +104,7 @@ namespace ContosoUniversity.Controllers
 
                 if (databaseValues.PersonId != clientValues.PersonId)
                 {
-                    ModelState.AddModelError("PersonId", "Current value: " + db.Instructors.Find(databaseValues.PersonId).FullName);
+                    ModelState.AddModelError("PersonId", "Current value: " + unitOfWork.InstructorRepository.GetById(databaseValues.PersonId).FullName);
                 }
 
                 ModelState.AddModelError(string.Empty, "The record you attempted to edit "
