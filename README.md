@@ -8,8 +8,8 @@ AsyncAwait: async & await features of C# 5.0 (in progress)
 CodeContracts: CodeContracts samples
 
 EntityFramework: 
-  - ASP.NET MVC code first walkthrough (with migrations) 
-  - ASP.NET EF Tutorial (in progress)
+  - ASP.NET MVC code first walkthrough, database migrations
+  - ASP.NET Entity Framework tutorial, generic repository, unit of work patterns
 
 Moq: Moq + XUnit.NET examples.
 
@@ -17,7 +17,7 @@ Ninject: Ninject examples: modules, kernel, provider
 
 TDD: Modified examples of TDD from "Professional Test Driven Development with C#" book by James Bender & Jeff McWherter. 
      Used Entity Framework 5.0 instead of nHibernate and xUnit.NET instead of NUnit.
-  - TicTacToe
+  - TicTacToe - simple example of TDD
   - OSIM - in progress, not working
 
 TypeScript
