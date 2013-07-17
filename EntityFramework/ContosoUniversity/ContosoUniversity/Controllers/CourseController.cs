@@ -22,7 +22,7 @@ namespace ContosoUniversity.Controllers
 
         public ActionResult Index()
         {
-            var courses = unitOfWork.CourseRepository.Get().IncludeProperties<Course>(c => c.Department);
+            var courses = unitOfWork.CourseRepository.IncludeProperties(c => c.Department).Get();
             return View(courses.ToList());
         }
 

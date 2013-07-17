@@ -193,7 +193,6 @@
     <Compile Include="Controllers\InstructorController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="DAL\GenericRepository.cs" />
-    <Compile Include="DAL\GenericRepositoryExtensions.cs" />
     <Compile Include="DAL\IStudentRepository.cs" />
     <Compile Include="DAL\IUnitOfWork.cs" />
     <Compile Include="DAL\SchoolContext.cs" />

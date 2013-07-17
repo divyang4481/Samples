@@ -12,7 +12,7 @@ namespace ContosoUniversity.DAL
     {
         private SchoolContext context;
         private DbSet<TEntity> dbSet;
-        private IQueryable<TEntity> query;
+        private Expression<Func<TEntity, object>>[] includeProperties;
 
         public GenericRepository(SchoolContext context)
         {
@@ -24,7 +24,12 @@ namespace ContosoUniversity.DAL
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
         {
-            query = dbSet;
+             IQueryable<TEntity> query = dbSet;
+
+            if (includeProperties != null)
+            {
+                query = includeProperties.Aggregate(query, (current, include) => current.Include(include));
+            }
 
             if (filter != null)
             {
@@ -41,18 +46,12 @@ namespace ContosoUniversity.DAL
             }
         }
 
+        public GenericRepository<TEntity> IncludeProperties(params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            this.includeProperties = includeProperties;
+            return this;
+        }
         
-        //public IQueryable<TEntity> IncludeProperties(this IQueryable<TEntity> query, params Expression<Func<TEntity, object>>[] includeProperties)
-        //{
-        //    if (includeProperties != null)
-        //    {
-        //        query = includeProperties.Aggregate(query, (current, include) => current.Include(include));
-        //    }
-
-        //    return query;
-        //}
-        
-
         public virtual TEntity GetById(object id)
         {
             return dbSet.Find(id);

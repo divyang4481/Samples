@@ -25,11 +25,10 @@ namespace ContosoUniversity.Controllers
             var viewModel = new InstructorIndexData
                 {
                     Instructors = unitOfWork.InstructorRepository
-                        .Get(
-                            orderBy: i => i.OrderBy(x => x.LastName))
-                            .IncludeProperties(
-                                i => i.OfficeAssignment,
-                                i => i.Courses.Select(c => c.Department))
+                        .IncludeProperties(
+                            i => i.OfficeAssignment,
+                            i => i.Courses.Select(c => c.Department))
+                        .Get(orderBy: i => i.OrderBy(x => x.LastName))
                 };
 
             if (id != null)
@@ -119,10 +118,10 @@ namespace ContosoUniversity.Controllers
         public ActionResult Edit(int id, FormCollection formCollection, string[] selectedCourses)
         {
             var instructorToUpdate = unitOfWork.InstructorRepository
-                .Get()
                 .IncludeProperties(
                     i => i.OfficeAssignment,
                     i => i.Courses)
+                .Get()
                 .Single(i => i.Id == id);
 
             if (TryUpdateModel(instructorToUpdate, "", null, new[] { "Courses" } /* Exclude properties */))
