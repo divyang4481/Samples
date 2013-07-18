@@ -29,6 +29,7 @@ namespace ContosoUniversity.DAL
             if (includeProperties != null)
             {
                 query = includeProperties.Aggregate(query, (current, include) => current.Include(include));
+                includeProperties = null;
             }
 
             if (filter != null)
@@ -36,14 +37,7 @@ namespace ContosoUniversity.DAL
                 query = query.Where(filter);
             }
 
-            if (orderBy != null)
-            {
-                return orderBy(query);
-            }
-            else
-            {
-                return query;
-            }
+            return orderBy == null ? query : orderBy(query);
         }
 
         public GenericRepository<TEntity> IncludeProperties(params Expression<Func<TEntity, object>>[] includeProperties)

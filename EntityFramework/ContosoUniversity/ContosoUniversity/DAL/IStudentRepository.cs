@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace ContosoUniversity.DAL
 {
+    [Obsolete("This class is not used")]
     public interface IStudentRepository : IDisposable
     {
         IQueryable<Student> GetStudents();

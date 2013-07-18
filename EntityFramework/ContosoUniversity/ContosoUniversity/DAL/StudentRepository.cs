@@ -6,6 +6,7 @@ using ContosoUniversity.Models;
 
 namespace ContosoUniversity.DAL
 {
+    [Obsolete("This class is not used.")]
     public class StudentRepository : IStudentRepository, IDisposable
     {
         private SchoolContext context;

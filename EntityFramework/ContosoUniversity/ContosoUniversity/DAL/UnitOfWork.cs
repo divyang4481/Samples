@@ -48,7 +48,6 @@ namespace ContosoUniversity.DAL
             get { return GetRepositoryLazy(this.officeAssignmentRepository); }
         }
 
-
         public void Save()
         {
             context.SaveChanges();
