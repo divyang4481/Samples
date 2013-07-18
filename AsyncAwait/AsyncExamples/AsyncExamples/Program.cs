@@ -20,14 +20,18 @@ namespace AsyncExamples
             try
             {
                 //LookupHostName();
-                //DumpWebPageAsync("http://www.google.pl");
+                string page = await DumpWebPageWithTaskAsync("http://www.google.pl");
+                Console.WriteLine(page);
                 //TwoDownloads();
-                var sampleClass = new SampleClass();
+                //var sampleClass = new SampleClass();
+
+                
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
+
             Console.WriteLine("End");
         }
 
@@ -59,6 +63,13 @@ namespace AsyncExamples
             //string page = await myTask;
 
             Console.WriteLine(page);
+        }
+
+        private static async Task<string> DumpWebPageWithTaskAsync(string uri)
+        {
+            var webClient = new WebClient();
+            string page = await webClient.DownloadStringTaskAsync(uri);
+            return page;
         }
 
         // Using Task without async
