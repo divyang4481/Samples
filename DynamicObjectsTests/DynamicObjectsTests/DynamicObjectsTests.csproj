@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="DynamicXmlNode.cs" />
     <Compile Include="DynamicXmlNodeTest.cs" />
+    <Compile Include="ExpressionsTests.cs" />
     <Compile Include="MyDynamicObject.cs" />
     <Compile Include="MyDynamicObjectTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
