@@ -116,5 +116,25 @@ namespace DynamicObjectsTests
                 blockExpression,
                 new[] { parameter }).Compile()(10);
         }
+        
+        [Fact]
+        public void TestExpressionNewAnonymousTypeDynamicInvoke()
+        {
+            Type anonType = new {Name = "A", Age = 10}.GetType();
+            var expression = Expression.New(
+                    anonType.GetConstructor(new[] {typeof(string), typeof(int)}),
+                    Expression.Constant("B"),
+                    Expression.Constant(100)
+                );
+
+            ConstructorInfo constructor = expression.Constructor;
+            Assert.Equal(anonType, constructor.DeclaringType);
+
+            var lambda = LambdaExpression.Lambda(expression);
+            dynamic myObject = lambda.Compile().DynamicInvoke();
+
+            Assert.Equal("B", myObject.Name);
+            Assert.Equal(100, myObject.Age);
+        }
     }
 }
