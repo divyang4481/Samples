@@ -9,23 +9,22 @@ namespace DynamicObjectsTests
 {
     public class MyDynamicObject : DynamicObject
     {
-        private Dictionary<string, object> dictionary = new Dictionary<string, object>();
+        private Dictionary<string, object> _dictionary = new Dictionary<string, object>();
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
-            dictionary[binder.Name] = value;
+            _dictionary[binder.Name] = value;
             return true;
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            result = dictionary[binder.Name];
-            return true;
+            return _dictionary.TryGetValue(binder.Name, out result);
         }
 
         public override IEnumerable<string> GetDynamicMemberNames()
         {
-            return dictionary.Keys;
+            return _dictionary.Keys;
         }
     }
 }
