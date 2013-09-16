@@ -42,6 +42,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddToSubstractExpressionVisitorTest.cs" />
+    <Compile Include="AddToSubstractExpressionVisitor.cs" />
+    <Compile Include="DynamicDictionary.cs" />
     <Compile Include="DynamicXmlNode.cs" />
     <Compile Include="DynamicXmlNodeTest.cs" />
     <Compile Include="ExpressionsTests.cs" />

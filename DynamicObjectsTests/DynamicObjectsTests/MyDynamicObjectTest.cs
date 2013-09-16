@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -21,7 +22,7 @@ namespace DynamicObjectsTests
             Assert.Equal(10, myDynamic.B);
 
             var dynamicMemberNames = (IEnumerable<string>)myDynamic.GetDynamicMemberNames();
-            
+
             Assert.Equal("A", dynamicMemberNames.ElementAt(0));
             Assert.Equal("B", dynamicMemberNames.ElementAt(1));
         }
