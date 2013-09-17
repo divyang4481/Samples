@@ -7,6 +7,8 @@ AsyncAwait: async & await features of C# 5.0 (in progress)
 
 CodeContracts: CodeContracts samples
 
+DynamicObjectsTests: System.Linq.Expressions and dynamic objects tests/examples
+
 EntityFramework: 
   - ASP.NET MVC code first walkthrough, database migrations
   - ASP.NET Entity Framework tutorial, generic repository, unit of work patterns
