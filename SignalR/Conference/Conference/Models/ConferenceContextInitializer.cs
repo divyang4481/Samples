@@ -1,7 +1,9 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 
 namespace Conference.Models
 {
+    [Obsolete]
     public class ConferenceContextInitializer : DropCreateDatabaseIfModelChanges<ConferenceContext>
     {
         protected override void Seed(ConferenceContext context)

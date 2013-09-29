@@ -14,7 +14,7 @@ namespace Conference
     {
         protected void Application_Start()
         {
-            Database.SetInitializer(new ConferenceContextInitializer());
+            //Database.SetInitializer(new ConferenceContextInitializer());
 
             AreaRegistration.RegisterAllAreas();
 
