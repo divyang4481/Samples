@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Conference.Models.Speaker>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<script type="text/javascript">
+    $(function () {
+        $("#speakers").accordion();
+    });
+</script>
+
+@Html.DisplayNameFor(model => model.Name)
+@Html.DisplayNameFor(model => model.EmailAddress)
+        
+<div id="speakers">
+@foreach (var item in Model)
+{
+    <h4>@Html.DisplayFor(modelItem => item.Name)</h4>
+    <div>    
+        
+        @Html.DisplayFor(modelItem => item.EmailAddress)
+
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+        @Html.ActionLink("Details", "Details", new { id = item.Id })
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+
+        @Html.Action("_GetForSpeaker", "Session", new { SpeakerId = item.Id })
+    </div>  
+}
+</div>
