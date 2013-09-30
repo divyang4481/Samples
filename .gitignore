@@ -72,6 +72,10 @@ DocProject/Help/*.hhp
 DocProject/Help/Html2
 DocProject/Help/html
 
+#db
+*.mdf
+*.ldf
+
 # Click-Once directory
 publish
 
