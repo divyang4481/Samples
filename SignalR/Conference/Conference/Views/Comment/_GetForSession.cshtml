@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Conference.Models.Comment>
 
-<div id="comments">
+@*<div id="comments">
     <ul>
         @foreach (var comment in Model)
         {
@@ -8,11 +8,46 @@
         }
     </ul>
 
-    @* @using(Html.BeginForm("_Submit", "Comment", FormMethod.Post)) *@
     @using(Ajax.BeginForm("_Submit", "Comment", new AjaxOptions { UpdateTargetId = "comments" }))
     {
         @Html.AntiForgeryToken()
         @Html.Action("_CommentForm", new { SessionId = ViewBag.SessionId })
     }
 
+</div>*@
+
+<script src="~/Scripts/jquery.signalR-1.1.3.js"></script>
+<script src="~/signalr/hubs"></script>
+
+<script>
+    $(function () {
+        var commentHub = $.connection.commentHub;
+        commentHub.client.addNewComment = function (content) {
+            $("#comments-list").append("<li>" + content + "</li>")
+        };
+
+        var sessionId = '@ViewBag.SessionId';
+
+        $.connection.hub.start().done(function () {
+            commentHub.server.register(sessionId);
+            $("#submit").click(function () {
+                commentHub.server.addComment(sessionId, $("#content").val());
+            });
+        });
+    });
+
+</script>
+
+<div id="comments-list">
+    <ul>
+        @foreach (var comment in Model)
+        {
+            <li>@comment.Content</li>
+        }
+    </ul>
+</div>
+<div>
+    <label for="Content">Content:</label>
+    <input type="text" id="content" value="" />
+    <button type="button" id="submit">Submit Comment</button>
 </div>

@@ -15,8 +15,9 @@ namespace Conference
         protected void Application_Start()
         {
             //Database.SetInitializer(new ConferenceContextInitializer());
-
             AreaRegistration.RegisterAllAreas();
+            
+            RouteTable.Routes.MapHubs();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
