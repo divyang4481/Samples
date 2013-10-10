@@ -15,12 +15,7 @@ namespace ContosoUniversity.DAL
         private GenericRepository<T> GetRepositoryLazy<T>(GenericRepository<T> repository)
             where T : class
         {
-            if(repository == null)
-            {
-                repository = new GenericRepository<T>(context);
-            }
-            
-            return repository;
+             return repository ?? (repository = new GenericRepository<T>(context));
         }
 
         public GenericRepository<Department> DepartmentRepository
