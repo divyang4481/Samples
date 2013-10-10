@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ContosoUniversity.Models
 {
+    // TODO: Create base Entity class for all entities
     public class Course
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
