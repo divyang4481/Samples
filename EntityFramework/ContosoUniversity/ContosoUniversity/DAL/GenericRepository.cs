@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 
 namespace ContosoUniversity.DAL
 {
+    // TODO: Extract interface IGenericRepository
     public class GenericRepository<TEntity> where TEntity : class
     {
         private SchoolContext context;
