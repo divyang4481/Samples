@@ -10,19 +10,26 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfAsync
+namespace WpfAsyncApp
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for DialogWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class DialogWindow : Window
     {
-        public MainWindow()
+        public bool Result { get; private set; }
+
+        public DialogWindow()
         {
             InitializeComponent();
+        }
+
+        private void OkClick(object sender, RoutedEventArgs e)
+        {
+            Result = true;
+            Close();
         }
     }
 }

@@ -1,0 +1,9 @@
+﻿<Window x:Class="WpfAsyncApp.DialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DialogWindow" Height="100" Width="300">
+    <StackPanel>
+        <Button Content="Cancel" IsCancel="True" />
+        <Button Click="OkClick" Content="Ok" IsDefault="true" />
+    </StackPanel>
+</Window>

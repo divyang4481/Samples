@@ -1,0 +1,64 @@
+﻿<Window x:Class="WpfAsyncApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Async await examples" Height="350" Width="725">
+    <Grid>
+        <TabControl>
+            <TabItem Header="HttpClient">
+                <DockPanel>
+                    <Button Name="ButtonGetHtmlAsync" Height="50" Content="Get html async!" DockPanel.Dock="Top" Click="ButtonGetHtmlAsync_OnClick"/>
+                    <Button Name="ButtonCancel" Height="50" Content="Cancel" DockPanel.Dock="Top"></Button>
+                    <TextBox Name="TextBoxResults" DockPanel.Dock="Bottom" Margin="0,20,0,0" TextWrapping="Wrap"
+                        FontFamily="Lucida Console" FontSize="10" AcceptsReturn="True"></TextBox>
+                </DockPanel>
+            </TabItem>
+            
+            <TabItem Header="Compute intensive operation">
+                <DockPanel>
+                    <Button Name="ButtonComputeAsync" Height="50" Content="Compute" DockPanel.Dock="Top" Click="ButtonComputeAsync_OnClick"/>
+                    <TextBox Name="TextBoxComputeResults" DockPanel.Dock="Bottom" Margin="0,20,0,0" TextWrapping="Wrap"
+                        FontFamily="Lucida Console" FontSize="10" AcceptsReturn="True"></TextBox>
+                </DockPanel>
+            </TabItem>
+
+
+            <TabItem Header="Puppet task">
+                <DockPanel>
+                    <Button Name="ButtonCreatePuppetTaskAsync" Height="50" Content="Show dialog" DockPanel.Dock="Top" Click="ButtonCreatePuppetTaskAsync_OnClick"/>
+                    <TextBox Name="TextBoxPuppetTaskResults" DockPanel.Dock="Bottom" Margin="0,20,0,0" TextWrapping="Wrap"
+                        FontFamily="Lucida Console" FontSize="10" AcceptsReturn="True"></TextBox>
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Header="Old async interaction">
+                <DockPanel>
+                    <Button Name="ButtonOldPatternInteractionAsync" Height="50" Content="GetHostEntry" DockPanel.Dock="Top" Click="ButtonOldPatternInteractionAsync_OnClick"/>
+                    <TextBox Name="TextBoxOldPatternInteractionResults" DockPanel.Dock="Bottom" Margin="0,20,0,0" TextWrapping="Wrap"
+                        FontFamily="Lucida Console" FontSize="10" AcceptsReturn="True"></TextBox>
+                </DockPanel>
+            </TabItem>
+            
+            <TabItem Header="Wait for collection of tasks">
+                <DockPanel>
+                    <Button Name="ButtonWaitAllAsync" Height="50" Content="WaitAll" DockPanel.Dock="Top" Click="ButtonWaitAllAsync_OnClick"/>
+                    <TextBox Name="TextBoxWaitAllResults" DockPanel.Dock="Bottom" Margin="0,20,0,0" TextWrapping="Wrap"
+                        FontFamily="Lucida Console" FontSize="10" AcceptsReturn="True"></TextBox>
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Header="Progress">
+                <DockPanel>
+                    <Button Name="ButtonProgressAsync" Height="50" Content="Start progress" DockPanel.Dock="Top" Click="ButtonProgressAsync_OnClick" Margin="1,0,-1,0"/>
+                    <ProgressBar Name="ProgressBar1" DockPanel.Dock="Top" Height="30"></ProgressBar>
+                    <TextBox Name="TextBoxProgressResults" DockPanel.Dock="Bottom" Margin="0,20,0,0" TextWrapping="Wrap"
+                        FontFamily="Lucida Console" FontSize="10" AcceptsReturn="True"></TextBox>
+                </DockPanel>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+    
+    
+    
+    
+</Window>
