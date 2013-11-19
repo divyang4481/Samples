@@ -159,14 +159,11 @@ namespace WpfAsyncApp
 
         private async Task<byte[]> GetData(string url)
         {
-            byte[] result; 
+            var httpClient = new HttpClient() { MaxResponseContentBufferSize = 1000000 };
 
-            using (var webClient = new WebClient())
-            {
-                result = await webClient.DownloadDataTaskAsync(new Uri(url));
-            }
+            byte[] bytes = await httpClient.GetByteArrayAsync(url);
 
-            return result;
+            return bytes;
         }
 
         // Tab6: Progress
