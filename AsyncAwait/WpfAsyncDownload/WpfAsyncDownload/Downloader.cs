@@ -20,7 +20,7 @@ namespace WpfAsyncDownload
             UrlListCreator = new SimpleNumberedUrlCreator();
         }
 
-        public async Task<DownloadResult> DownloadPagesAsync(DownloadSettings settings, CancellationToken cancellationToken)
+        public async Task<DownloadResult> DownloadImagesAsync(DownloadSettings settings, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(settings.Url))
             {

@@ -69,7 +69,7 @@ namespace WpfAsyncDownload
 
             try
             {
-                _downloadResult = await downloader.DownloadPagesAsync(settings, cancellationTokenSource.Token);
+                _downloadResult = await downloader.DownloadImagesAsync(settings, cancellationTokenSource.Token);
                 DisplayResults();
             }
             catch (Exception exception)
