@@ -84,12 +84,14 @@ namespace WpfAsyncDownload
         {
             ButtonSave.IsEnabled = false;
 
-            foreach (UrlResponse responseMessage in downloadResult.Responses)
+            Directory.CreateDirectory("images");
+
+            foreach (UrlResponse responseMessage in downloadResult.Responses.Where(r => r.HttpResponseMessage.IsSuccessStatusCode))
             {
                 string fileName = "images/" + Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + "-" + responseMessage.Url.Substring(responseMessage.Url.LastIndexOf("/") + 1);
 
                 using (Stream contentStream = await responseMessage.HttpResponseMessage.Content.ReadAsStreamAsync(),
-                        stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None, 1000000, true))
+                    stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None, 1000000, useAsync:true))
                 {
                     await contentStream.CopyToAsync(stream);
                 }
