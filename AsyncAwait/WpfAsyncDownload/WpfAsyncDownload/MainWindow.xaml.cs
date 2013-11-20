@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -21,6 +22,7 @@ namespace WpfAsyncDownload
 {
     public partial class MainWindow : Window
     {
+        private const string ImagesDirectory = "images";
         private DownloadResult _downloadResult;
 
         public MainWindow()
@@ -84,11 +86,13 @@ namespace WpfAsyncDownload
         {
             ButtonSave.IsEnabled = false;
 
-            Directory.CreateDirectory("images");
+            Directory.CreateDirectory(ImagesDirectory);
 
             foreach (UrlResponse responseMessage in _downloadResult.Responses.Where(r => r.HttpResponseMessage.IsSuccessStatusCode))
             {
-                string fileName = "images/" + Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + "-" + responseMessage.Url.Substring(responseMessage.Url.LastIndexOf("/", System.StringComparison.Ordinal) + 1);
+                string fileName = ImagesDirectory + "/" 
+                    + Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + "-" 
+                    + responseMessage.Url.Substring(responseMessage.Url.LastIndexOf("/", System.StringComparison.Ordinal) + 1);
 
                 using (Stream contentStream = await responseMessage.HttpResponseMessage.Content.ReadAsStreamAsync(),
                     stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None, 1000000, useAsync:true))
@@ -123,6 +127,11 @@ namespace WpfAsyncDownload
         {
             ComboBoxExtension.ItemsSource = new List<string> {".jpg", ".jpeg", ".png"};
             ComboBoxExtension.SelectedIndex = 0;
+        }
+
+        private void ButtonOpenFileBrowser_OnClick(object sender, RoutedEventArgs e)
+        {
+            Process.Start(ImagesDirectory);
         }
     }
 }
