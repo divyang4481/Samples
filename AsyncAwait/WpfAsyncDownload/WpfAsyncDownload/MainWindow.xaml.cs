@@ -22,7 +22,7 @@ namespace WpfAsyncDownload
 {
     public partial class MainWindow : Window
     {
-        private const string ImagesDirectory = "images";
+        private string _imagesDirectory = "images";
         private DownloadResult _downloadResult;
         private readonly IOutputFileNameCreator _outputFileNameCreator = new OutputFileNameCreator();
 
@@ -102,7 +102,7 @@ namespace WpfAsyncDownload
 
             foreach (UrlResponse responseMessage in _downloadResult.Responses.Where(r => r.HttpResponseMessage.IsSuccessStatusCode))
             {
-                string fileName = ImagesDirectory + "/" + _outputFileNameCreator.Create(responseMessage);
+                string fileName = _imagesDirectory + "/" + _outputFileNameCreator.Create(responseMessage);
 
                 using (Stream contentStream = await responseMessage.HttpResponseMessage.Content.ReadAsStreamAsync(),
                     stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None, 1000000, useAsync:true))
@@ -159,12 +159,23 @@ namespace WpfAsyncDownload
 
         private void ButtonOpenFileBrowser_OnClick(object sender, RoutedEventArgs e)
         {
-            Process.Start(AppDomain.CurrentDomain.BaseDirectory + ImagesDirectory);
+            Process.Start(AppDomain.CurrentDomain.BaseDirectory + _imagesDirectory);
         }
         
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            Directory.CreateDirectory(ImagesDirectory);
+            Directory.CreateDirectory(_imagesDirectory);
+        }
+
+        private void ButtonOutputFolder_OnClick(object sender, RoutedEventArgs e)
+        {
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+
+            if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
+            {
+                _imagesDirectory = dialog.SelectedPath;
+            }
         }
     }
 }

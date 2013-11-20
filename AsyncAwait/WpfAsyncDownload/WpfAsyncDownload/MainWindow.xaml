@@ -44,7 +44,8 @@
             <Button Name="ButtonDownload" Content="Download" Click="ButtonDownload_OnClick" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}"/>
             <Button Name="ButtonCancel" Content="Cancel" Style="{StaticResource ButtonStyle}"/>
             <Button Name="ButtonSave" Click="ButtonSave_OnClick" Content="Save" Style="{StaticResource ButtonStyle}"/>
-            <Button Name="ButtonOpenFileBrowser" Height="30" Content="Open" Click="ButtonOpenFileBrowser_OnClick" Style="{StaticResource ButtonStyle}"/>
+            <Button Name="ButtonOpenFileBrowser" Content="Open" Click="ButtonOpenFileBrowser_OnClick" Style="{StaticResource ButtonStyle}"/>
+            <Button Name="ButtonOutputFolder" Content="Output folder" Click="ButtonOutputFolder_OnClick" Style="{StaticResource ButtonStyle}"/>
             <ComboBox Name="ComboBoxIndexFrom" Loaded="ComboBoxIndexFrom_OnLoaded" Style="{StaticResource ComboBoxStyle}"/>
             <ComboBox Name="ComboBoxIndexTo" Loaded="ComboBoxIndexTo_OnLoaded" Style="{StaticResource ComboBoxStyle}"/>
             <ComboBox Name="ComboBoxNameFormat" Loaded="ComboBoxNameFormat_OnLoaded" Style="{StaticResource ComboBoxStyle}"/>
