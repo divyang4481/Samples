@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,7 +21,7 @@ namespace WpfAsyncDownload
 {
     public partial class MainWindow : Window
     {
-        private DownloadResult downloadResult;
+        private DownloadResult _downloadResult;
 
         public MainWindow()
         {
@@ -38,7 +38,7 @@ namespace WpfAsyncDownload
             var cancellationTokenSource = new CancellationTokenSource();
             ButtonCancel.Click += (snd, ev) => cancellationTokenSource.Cancel();
 
-            downloadResult = new DownloadResult();
+            _downloadResult = new DownloadResult();
 
             var settings = new DownloadSetting
                 {
@@ -53,8 +53,8 @@ namespace WpfAsyncDownload
 
             try
             {
-                downloadResult = await downloader.DownloadPagesAsync(settings, cancellationTokenSource.Token);
-                DisplayResults(downloadResult);
+                _downloadResult = await downloader.DownloadPagesAsync(settings, cancellationTokenSource.Token);
+                DisplayResults();
             }
             catch (Exception exception)
             {
@@ -64,16 +64,16 @@ namespace WpfAsyncDownload
 			{
 				ButtonDownload.IsEnabled = true;
 
-                if (downloadResult.IsError)
+                if (_downloadResult.IsError)
                 {
-                    TextBoxResults.Text += string.Join("\r\n", downloadResult.AggregateException.InnerExceptions.Select(x => x.Message));
+                    TextBoxResults.Text += string.Join("\r\n", _downloadResult.AggregateException.InnerExceptions.Select(x => x.Message));
                 }
 			}
         }
 
-        private void DisplayResults(DownloadResult downloadResult)
+        private void DisplayResults()
         {
-            foreach (var response in downloadResult.Responses)
+            foreach (var response in _downloadResult.Responses)
             {
                 var displayUrl = response.Url.Replace("http://", "");
                 TextBoxResults.Text += string.Format("\n{0,-58} {1,8}", displayUrl, response.HttpResponseMessage.StatusCode);
@@ -86,9 +86,9 @@ namespace WpfAsyncDownload
 
             Directory.CreateDirectory("images");
 
-            foreach (UrlResponse responseMessage in downloadResult.Responses.Where(r => r.HttpResponseMessage.IsSuccessStatusCode))
+            foreach (UrlResponse responseMessage in _downloadResult.Responses.Where(r => r.HttpResponseMessage.IsSuccessStatusCode))
             {
-                string fileName = "images/" + Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + "-" + responseMessage.Url.Substring(responseMessage.Url.LastIndexOf("/") + 1);
+                string fileName = "images/" + Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + "-" + responseMessage.Url.Substring(responseMessage.Url.LastIndexOf("/", System.StringComparison.Ordinal) + 1);
 
                 using (Stream contentStream = await responseMessage.HttpResponseMessage.Content.ReadAsStreamAsync(),
                     stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None, 1000000, useAsync:true))
@@ -97,7 +97,7 @@ namespace WpfAsyncDownload
                 }
             }
 
-            downloadResult = new DownloadResult();
+            _downloadResult = new DownloadResult();
             ButtonSave.IsEnabled = true;
         }
 
