@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace WpfAsyncDownload
 {
-    public class DownloadSetting
+    public class DownloadSettings
     {
         private string _baseUrl;
 
-        public DownloadSetting()
+        public DownloadSettings()
         {
-            BaseUrl = "";
+            Url = "";
             Extension = ".jpg";
         }
 
         public int StartIndex { get; set; }
-        public string BaseUrl
+        public string Url
         {
             get { return _baseUrl.StartsWith("http://") ? _baseUrl : "http://" + _baseUrl; }
             set { _baseUrl = value; }
@@ -28,5 +28,8 @@ namespace WpfAsyncDownload
         public string Prefix { get; set; }
         public string Suffix { get; set; }
         public string Extension { get; set; }
+
+        public int FolderStartIndex { get; set; }
+        public int FolderEndIndex { get; set; }
     }
 }

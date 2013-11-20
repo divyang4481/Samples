@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -24,6 +24,7 @@ namespace WpfAsyncDownload
     {
         private const string ImagesDirectory = "images";
         private DownloadResult _downloadResult;
+        private readonly IOutputFileNameCreator _outputFileNameCreator = new OutputFileNameCreator();
 
         public MainWindow()
         {
@@ -42,16 +43,29 @@ namespace WpfAsyncDownload
 
             _downloadResult = new DownloadResult();
 
-            var settings = new DownloadSetting
+            int folderIndexFrom = 0;
+            int.TryParse(ComboBoxFolderIndexFrom.Text, out folderIndexFrom);
+
+            int folderIndexTo = 0;
+            int.TryParse(ComboBoxFolderIndexTo.Text, out folderIndexTo);
+
+            var settings = new DownloadSettings
                 {
-                    BaseUrl = TextBoxUrl.Text,
+                    Url = TextBoxUrl.Text,
                     StartIndex = (int) ComboBoxIndexFrom.SelectedValue,
                     EndIndex = (int) ComboBoxIndexTo.SelectedValue,
+                    FolderStartIndex =  folderIndexFrom,
+                    FolderEndIndex = folderIndexTo,
                     NameFormat = ComboBoxNameFormat.SelectedValue.ToString(),
                     Prefix = TextBoxPrefix.Text,
                     Suffix = TextBoxSuffix.Text,
                     Extension = ComboBoxExtension.SelectedValue.ToString()
                 };
+
+            if (ComboBoxAlgorithm.SelectedIndex == 1)
+            {
+                downloader.UrlListCreator = new SubfolderNumberedUrlCreator();
+            }
 
             try
             {
@@ -86,13 +100,9 @@ namespace WpfAsyncDownload
         {
             ButtonSave.IsEnabled = false;
 
-            Directory.CreateDirectory(ImagesDirectory);
-
             foreach (UrlResponse responseMessage in _downloadResult.Responses.Where(r => r.HttpResponseMessage.IsSuccessStatusCode))
             {
-                string fileName = ImagesDirectory + "/" 
-                    + Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + "-" 
-                    + responseMessage.Url.Substring(responseMessage.Url.LastIndexOf("/", System.StringComparison.Ordinal) + 1);
+                string fileName = ImagesDirectory + "/" + _outputFileNameCreator.Create(responseMessage);
 
                 using (Stream contentStream = await responseMessage.HttpResponseMessage.Content.ReadAsStreamAsync(),
                     stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None, 1000000, useAsync:true))
@@ -107,7 +117,7 @@ namespace WpfAsyncDownload
 
         private void ComboBoxIndexFrom_OnLoaded(object sender, RoutedEventArgs e)
         {
-            ComboBoxIndexFrom.ItemsSource = Enumerable.Range(0, 20);
+            ComboBoxIndexFrom.ItemsSource = Enumerable.Range(0, 21);
             ComboBoxIndexFrom.SelectedIndex = 0;
         }
 
@@ -129,9 +139,32 @@ namespace WpfAsyncDownload
             ComboBoxExtension.SelectedIndex = 0;
         }
 
+        private void ComboBoxAlgorithm_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            ComboBoxAlgorithm.ItemsSource = new List<string> {"simple numbered", "subfolder numbered"};
+            ComboBoxAlgorithm.SelectedIndex = 0;
+        }
+
+        private void ComboBoxFolderIndexFrom_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            ComboBoxFolderIndexFrom.ItemsSource = Enumerable.Range(0, 41).Select(i => i * 20);
+            ComboBoxFolderIndexFrom.SelectedIndex = 0;
+        }
+
+        private void ComboBoxFolderIndexTo_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            ComboBoxFolderIndexTo.ItemsSource = Enumerable.Range(0, 41).Select(i => i * 20);
+            ComboBoxFolderIndexTo.SelectedIndex = 3;
+        }
+
         private void ButtonOpenFileBrowser_OnClick(object sender, RoutedEventArgs e)
         {
-            Process.Start(ImagesDirectory);
+            Process.Start(AppDomain.CurrentDomain.BaseDirectory + ImagesDirectory);
+        }
+        
+        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            Directory.CreateDirectory(ImagesDirectory);
         }
     }
 }

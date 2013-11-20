@@ -13,14 +13,21 @@ namespace WpfAsyncDownload
 {
     public class Downloader
     {
-        public async Task<DownloadResult> DownloadPagesAsync(DownloadSetting settings, CancellationToken cancellationToken)
+        public IUrlListCreator UrlListCreator { get; set; }
+
+        public Downloader()
         {
-            if (string.IsNullOrWhiteSpace(settings.BaseUrl))
+            UrlListCreator = new SimpleNumberedUrlCreator();
+        }
+
+        public async Task<DownloadResult> DownloadPagesAsync(DownloadSettings settings, CancellationToken cancellationToken)
+        {
+            if (string.IsNullOrWhiteSpace(settings.Url))
             {
                 throw new ArgumentException("BaseUrl cannot be empty");
             }
 
-            List<string> urlList = SetUpUrlList(settings);
+            List<string> urlList = UrlListCreator.Create(settings);
 
             IEnumerable<Task<UrlResponse>> downloadTaskQuery = urlList.Select(url => ProcessUrlAsync(url, cancellationToken));
 
@@ -50,35 +57,6 @@ namespace WpfAsyncDownload
             HttpResponseMessage responseMessage = await httpClient.GetAsync(url, cancellationToken);
 
             return new UrlResponse {Url = url, HttpResponseMessage = responseMessage};
-        }
-
-        private List<string> SetUpUrlList(DownloadSetting settings)
-        {
-            var urls = new List<string>();
-
-            string fileName = settings.BaseUrl.Substring(settings.BaseUrl.LastIndexOf("/"));
-
-            if (!Regex.IsMatch(fileName, @"\d+"))
-            {
-                urls.Add(settings.BaseUrl);
-            }
-            else
-            {
-                for (int i = settings.StartIndex; i < settings.EndIndex; i++)
-                {
-                    var url = new StringBuilder(settings.BaseUrl.Substring(0, settings.BaseUrl.LastIndexOf("/") + 1));
-
-                    url.Append(settings.Prefix);
-                    url.Append(i.ToString(settings.NameFormat));
-                    url.Append(settings.Suffix);
-                    url.Append(settings.Extension);
-
-                    urls.Add(url.ToString());
-                }
-    
-            }
-            
-            return urls;
         }
     }
 }
