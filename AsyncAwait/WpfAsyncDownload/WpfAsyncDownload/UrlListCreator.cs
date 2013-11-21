@@ -19,7 +19,7 @@ namespace WpfAsyncDownload
         {
             var urls = new List<string>();
 
-            string fileName = UrlCreatorHelper.GetFileName(settings.Url);
+            string fileName = UrlHelper.GetFileName(settings.Url);
 
             if (!Regex.IsMatch(fileName, @"\d+"))
             {
@@ -29,9 +29,9 @@ namespace WpfAsyncDownload
             {
                 for (int i = settings.StartIndex; i < settings.EndIndex; i++)
                 {
-                    var url = new StringBuilder(UrlCreatorHelper.GetBaseUrl(settings.Url))
+                    var url = new StringBuilder(UrlHelper.GetBaseUrl(settings.Url))
                         .Append("/")
-                        .Append(UrlCreatorHelper.CreateSingleFileName(settings, i));
+                        .Append(UrlHelper.CreateSingleFileName(settings, i));
 
                     urls.Add(url.ToString());
                 }
@@ -49,7 +49,7 @@ namespace WpfAsyncDownload
 
             for (int j = settings.FolderStartIndex; j < settings.FolderEndIndex; j++)
             {
-                var baseUrl = new StringBuilder(UrlCreatorHelper.GetBaseUrl(UrlCreatorHelper.GetBaseUrl(settings.Url)))
+                var baseUrl = new StringBuilder(UrlHelper.GetBaseUrl(UrlHelper.GetBaseUrl(settings.Url)))
                     .Append("/")
                     .Append(j.ToString(settings.FolderNameFormat))
                     .Append("/");
@@ -57,7 +57,7 @@ namespace WpfAsyncDownload
                 for (int i = settings.StartIndex; i < settings.EndIndex; i++)
                 {
                     var url = new StringBuilder(baseUrl.ToString())
-                        .AppendFormat(UrlCreatorHelper.CreateSingleFileName(settings, i));
+                        .AppendFormat(UrlHelper.CreateSingleFileName(settings, i));
 
                     urls.Add(url.ToString());
                 }
@@ -67,7 +67,7 @@ namespace WpfAsyncDownload
         }
     }
 
-    public static class UrlCreatorHelper
+    public static class UrlHelper
     {
         public static string CreateSingleFileName(DownloadSettings settings, int index)
         {

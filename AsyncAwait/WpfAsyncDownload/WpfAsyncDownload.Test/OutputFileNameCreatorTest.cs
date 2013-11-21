@@ -16,10 +16,10 @@ namespace WpfAsyncDownload.Test
             {
                 // Arrange
                 var target = new OutputFileNameCreator();
-                var response = new UrlResponse {Url = "http://google.pl/x.png"};
+                var url = "http://google.pl/x.png";
 
                 //Act
-                var result = target.Create(response);
+                var result = target.Create(url);
 
                 // Assert
                 Assert.Equal("google_pl_x.png", result);

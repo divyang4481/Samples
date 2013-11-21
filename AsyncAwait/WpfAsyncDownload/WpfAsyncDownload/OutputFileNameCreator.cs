@@ -10,15 +10,15 @@ namespace WpfAsyncDownload
 {
     public interface IOutputFileNameCreator
     {
-        string Create(UrlResponse urlResponse);
+        string Create(string url);
     }
 
     public class OutputFileNameCreator : IOutputFileNameCreator
     {
-        public string Create(UrlResponse urlResponse)
+        public string Create(string url)
         {
-            string fileName = Path.GetFileName(urlResponse.Url);
-            string rootPath = UrlCreatorHelper.GetBaseUrl(urlResponse.Url);
+            string fileName = Path.GetFileName(url);
+            string rootPath = UrlHelper.GetBaseUrl(url);
 
             return string.Concat(
                 rootPath

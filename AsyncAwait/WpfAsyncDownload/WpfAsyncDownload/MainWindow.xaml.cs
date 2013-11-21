@@ -113,7 +113,7 @@ namespace WpfAsyncDownload
 
             foreach (UrlResponse responseMessage in _downloadResult.Responses.Where(r => r.HttpResponseMessage.IsSuccessStatusCode))
             {
-                string fileName = _imagesDirectory + "/" + _outputFileNameCreator.Create(responseMessage);
+                string fileName = _imagesDirectory + "/" + _outputFileNameCreator.Create(responseMessage.Url);
 
                 using (Stream contentStream = await responseMessage.HttpResponseMessage.Content.ReadAsStreamAsync(),
                     stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None, 1000000, useAsync:true))
