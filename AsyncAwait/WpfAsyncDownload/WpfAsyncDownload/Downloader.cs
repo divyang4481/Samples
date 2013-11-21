@@ -17,7 +17,7 @@ namespace WpfAsyncDownload
 
         public Downloader()
         {
-            UrlListCreator = new SimpleNumberedUrlCreator();
+            UrlListCreator = new SimpleNumberedUrlListCreator();
         }
 
         public async Task<DownloadResult> DownloadImagesAsync(DownloadSettings settings, CancellationToken cancellationToken)
@@ -50,11 +50,13 @@ namespace WpfAsyncDownload
             return result;
         }
 
+
+
         private async Task<UrlResponse> ProcessUrlAsync(string url, CancellationToken cancellationToken)
         {
             var httpClient = new HttpClient { MaxResponseContentBufferSize = 1000000 };
 
-            HttpResponseMessage responseMessage = await httpClient.GetAsync(url, cancellationToken);
+            HttpResponseMessage responseMessage = await httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
 
             return new UrlResponse {Url = url, HttpResponseMessage = responseMessage};
         }

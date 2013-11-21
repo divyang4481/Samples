@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("WpfAsyncDownload")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("WpfAsyncDownload")]
 [assembly: AssemblyCopyright("Copyright © Piotr Ludwiczuk 2013")]
 [assembly: AssemblyTrademark("")]

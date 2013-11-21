@@ -31,7 +31,7 @@
 
     <Grid Margin="0,0,0,0" >
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -46,8 +46,8 @@
             <Button Name="ButtonSave" Click="ButtonSave_OnClick" Content="Save" Style="{StaticResource ButtonStyle}"/>
             <Button Name="ButtonOpenFileBrowser" Content="Open" Click="ButtonOpenFileBrowser_OnClick" Style="{StaticResource ButtonStyle}"/>
             <Button Name="ButtonOutputFolder" Content="Output folder" Click="ButtonOutputFolder_OnClick" Style="{StaticResource ButtonStyle}"/>
-            <ComboBox Name="ComboBoxIndexFrom" Loaded="ComboBoxIndexFrom_OnLoaded" Style="{StaticResource ComboBoxStyle}"/>
-            <ComboBox Name="ComboBoxIndexTo" Loaded="ComboBoxIndexTo_OnLoaded" Style="{StaticResource ComboBoxStyle}"/>
+            <TextBox Name="TextBoxIndexFrom" Text="0" Style="{StaticResource TextBoxStyle}"/>
+            <TextBox Name="TextBoxIndexTo" Text="20" Style="{StaticResource TextBoxStyle}"/>
             <ComboBox Name="ComboBoxNameFormat" Loaded="ComboBoxNameFormat_OnLoaded" Style="{StaticResource ComboBoxStyle}"/>
             <ComboBox Name="ComboBoxExtension" Loaded="ComboBoxExtension_OnLoaded" Style="{StaticResource ComboBoxStyle}"/>
             <Label Content="Prefix:" Style="{StaticResource LabelStyle}"/>
@@ -57,18 +57,19 @@
             <Label Content="Algorithm:" Style="{StaticResource LabelStyle}"/>
             <ComboBox Name="ComboBoxAlgorithm" Loaded="ComboBoxAlgorithm_OnLoaded" Style="{StaticResource ComboBoxStyle}"/>
             <Label Content="Folder:" Style="{StaticResource LabelStyle}"/>
-            <ComboBox Name="ComboBoxFolderIndexFrom" Loaded="ComboBoxFolderIndexFrom_OnLoaded" Style="{StaticResource ComboBoxStyle}" IsEditable="True"/>
-            <ComboBox Name="ComboBoxFolderIndexTo" Loaded="ComboBoxFolderIndexTo_OnLoaded" Style="{StaticResource ComboBoxStyle}" IsEditable="True"/>
+            <TextBox Name="TextBoxFolderIndexFrom" Text="0" Style="{StaticResource TextBoxStyle}"/>
+            <TextBox Name="TextBoxFolderIndexTo" Text="10"  Style="{StaticResource TextBoxStyle}"/>
             <ComboBox Name="ComboBoxFolderNameFormat" Loaded="ComboBoxNameFormat_OnLoaded" Style="{StaticResource ComboBoxStyle}"/>
         </StackPanel>
      
         <GridSplitter Grid.Column="1" Grid.Row="0"
             HorizontalAlignment="Center" ShowsPreview="True" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" Width="5" Background="DimGray"/>
      
-        <StackPanel Grid.Row="0" Grid.Column="2" Margin="2,2,2,2">
-            <TextBox Name="TextBoxUrl" Height="20" Style="{StaticResource TextBoxStyle}"></TextBox>
-            <TextBox Name="TextBoxResults" Grid.Column="2" Grid.Row="0" Style="{StaticResource TextBoxStyle}" BorderThickness="0"/>
-        </StackPanel>
+        <DockPanel Grid.Row="0" Grid.Column="2" Margin="2,2,2,2">
+            <TextBox Name="TextBoxUrl" Height="20" Style="{StaticResource TextBoxStyle}" DockPanel.Dock="Top"/>
+            <TextBox Name="TextBoxResults" Grid.Column="2" Grid.Row="0" Style="{StaticResource TextBoxStyle}" BorderThickness="0" 
+                     VerticalScrollBarVisibility="Auto"/>
+        </DockPanel>
  
     </Grid>
 </Window>

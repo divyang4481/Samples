@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace WpfAsyncDownload
@@ -16,10 +17,16 @@ namespace WpfAsyncDownload
     {
         public string Create(UrlResponse urlResponse)
         {
-            //string fileName = urlResponse.Url.Substring(urlResponse.Url.LastIndexOf("/", System.StringComparison.Ordinal) + 1);
-            //return Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + "-" + fileName;
+            string fileName = Path.GetFileName(urlResponse.Url);
+            string rootPath = UrlCreatorHelper.GetBaseUrl(urlResponse.Url);
 
-            return urlResponse.Url.Replace("/", "_").Replace(".", "_").Replace("http:", "").Replace("_jpg", ".jpg");
+            return string.Concat(
+                rootPath
+                    .Replace("http://", "")
+                    .Replace("/", "_")
+                    .Replace(".", "_"),
+                "_",
+                fileName);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace WpfAsyncDownload
         List<string> Create(DownloadSettings settings);
     }
 
-    public class SimpleNumberedUrlCreator : IUrlListCreator
+    public class SimpleNumberedUrlListCreator : IUrlListCreator
     {
         public List<string> Create(DownloadSettings settings)
         {
@@ -30,7 +30,8 @@ namespace WpfAsyncDownload
                 for (int i = settings.StartIndex; i < settings.EndIndex; i++)
                 {
                     var url = new StringBuilder(UrlCreatorHelper.GetBaseUrl(settings.Url))
-                        .AppendFormat(UrlCreatorHelper.CreateSingleFileName(settings, i));
+                        .Append("/")
+                        .Append(UrlCreatorHelper.CreateSingleFileName(settings, i));
 
                     urls.Add(url.ToString());
                 }
@@ -40,7 +41,7 @@ namespace WpfAsyncDownload
         }
     }
 
-    public class SubfolderNumberedUrlCreator : IUrlListCreator
+    public class FolderNumberedUrlListCreator : IUrlListCreator
     {
         public List<string> Create(DownloadSettings settings)
         {

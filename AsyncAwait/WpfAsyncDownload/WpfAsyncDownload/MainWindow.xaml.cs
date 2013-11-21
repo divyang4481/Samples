@@ -39,21 +39,31 @@ namespace WpfAsyncDownload
             var downloader = new Downloader();
             
             var cancellationTokenSource = new CancellationTokenSource();
-            ButtonCancel.Click += (snd, ev) => cancellationTokenSource.Cancel();
+            ButtonCancel.Click += (snd, ev) => 
+            { 
+                cancellationTokenSource.Cancel();
+                TextBoxResults.Text = "Cancelled";
+            };
 
             _downloadResult = new DownloadResult();
 
-            int folderIndexFrom = 0;
-            int.TryParse(ComboBoxFolderIndexFrom.Text, out folderIndexFrom);
+            int folderIndexFrom;
+            int.TryParse(TextBoxFolderIndexFrom.Text, out folderIndexFrom);
 
-            int folderIndexTo = 0;
-            int.TryParse(ComboBoxFolderIndexTo.Text, out folderIndexTo);
+            int folderIndexTo;
+            int.TryParse(TextBoxFolderIndexTo.Text, out folderIndexTo);
+
+            int indexFrom;
+            int.TryParse(TextBoxIndexFrom.Text, out indexFrom);
+
+            int indexTo;
+            int.TryParse(TextBoxIndexTo.Text, out indexTo);
 
             var settings = new DownloadSettings
                 {
                     Url = TextBoxUrl.Text,
-                    StartIndex = (int) ComboBoxIndexFrom.SelectedValue,
-                    EndIndex = (int) ComboBoxIndexTo.SelectedValue,
+                    StartIndex = indexFrom,
+                    EndIndex = indexTo,
                     FolderStartIndex =  folderIndexFrom,
                     FolderEndIndex = folderIndexTo,
                     FolderNameFormat = ComboBoxFolderNameFormat.SelectedValue.ToString(),
@@ -65,7 +75,7 @@ namespace WpfAsyncDownload
 
             if (ComboBoxAlgorithm.SelectedIndex == 1)
             {
-                downloader.UrlListCreator = new SubfolderNumberedUrlCreator();
+                downloader.UrlListCreator = new FolderNumberedUrlListCreator();
             }
 
             try
@@ -81,7 +91,7 @@ namespace WpfAsyncDownload
 			{
 				ButtonDownload.IsEnabled = true;
 
-                if (_downloadResult.IsError)
+                if (_downloadResult.IsError && _downloadResult.AggregateException != null)
                 {
                     TextBoxResults.Text += string.Join("\r\n", _downloadResult.AggregateException.InnerExceptions.Select(x => x.Message));
                 }
@@ -113,19 +123,25 @@ namespace WpfAsyncDownload
             }
 
             _downloadResult = new DownloadResult();
+            TextBoxResults.Text = "Saved";
             ButtonSave.IsEnabled = true;
         }
 
-        private void ComboBoxIndexFrom_OnLoaded(object sender, RoutedEventArgs e)
+        private void ButtonOpenFileBrowser_OnClick(object sender, RoutedEventArgs e)
         {
-            ComboBoxIndexFrom.ItemsSource = Enumerable.Range(0, 21);
-            ComboBoxIndexFrom.SelectedIndex = 0;
+            Process.Start(AppDomain.CurrentDomain.BaseDirectory + _imagesDirectory);
         }
 
-        private void ComboBoxIndexTo_OnLoaded(object sender, RoutedEventArgs e)
+        private void ButtonOutputFolder_OnClick(object sender, RoutedEventArgs e)
         {
-            ComboBoxIndexTo.ItemsSource = Enumerable.Range(0, 21);
-            ComboBoxIndexTo.SelectedIndex = 20;
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+
+            if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
+            {
+                _imagesDirectory = dialog.SelectedPath;
+                TextBoxResults.Text = string.Format("{0} selected", _imagesDirectory);
+            }
         }
 
         private void ComboBoxNameFormat_OnLoaded(object sender, RoutedEventArgs e)
@@ -148,37 +164,9 @@ namespace WpfAsyncDownload
             ComboBoxAlgorithm.SelectedIndex = 0;
         }
 
-        private void ComboBoxFolderIndexFrom_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            ComboBoxFolderIndexFrom.ItemsSource = Enumerable.Range(0, 41).Select(i => i * 20);
-            ComboBoxFolderIndexFrom.SelectedIndex = 0;
-        }
-
-        private void ComboBoxFolderIndexTo_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            ComboBoxFolderIndexTo.ItemsSource = Enumerable.Range(0, 41).Select(i => i * 20);
-            ComboBoxFolderIndexTo.SelectedIndex = 3;
-        }
-
-        private void ButtonOpenFileBrowser_OnClick(object sender, RoutedEventArgs e)
-        {
-            Process.Start(AppDomain.CurrentDomain.BaseDirectory + _imagesDirectory);
-        }
-        
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             Directory.CreateDirectory(_imagesDirectory);
-        }
-
-        private void ButtonOutputFolder_OnClick(object sender, RoutedEventArgs e)
-        {
-            var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-
-            if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
-            {
-                _imagesDirectory = dialog.SelectedPath;
-            }
         }
     }
 }
