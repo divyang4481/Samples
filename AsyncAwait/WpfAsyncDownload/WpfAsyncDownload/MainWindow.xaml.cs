@@ -31,24 +31,102 @@ namespace WpfAsyncDownload
             InitializeComponent();
         }
 
-        private async void ButtonDownload_OnClick(object sender, RoutedEventArgs e)
+        private async void ButtonDownloadWhenAny_OnClick(object sender, RoutedEventArgs e)
         {
-            ButtonDownload.IsEnabled = false;
+            ButtonDownloadWhenAny.IsEnabled = false;
+            TextBoxResults.Text = "...";
 
-            TextBoxResults.Clear();
+            var cancellationTokenSource = GetCancellationTokenSource();
+            _downloadResult = new DownloadResult();
+
+            var progress = new Progress<string>(
+                value => TextBoxResults.Text += "\r\n" + value);
+
             var downloader = new Downloader();
+
+            try
+            {
+                _downloadResult = await downloader.DownloadImagesWhenAnyAsync(GetSettings(), cancellationTokenSource.Token, progress);
+            }
+            catch (OperationCanceledException)
+            {
+                TextBoxResults.Text = "Operation cancelled";
+            }
+            catch (Exception exception)
+            {
+                TextBoxResults.Text = exception.Message;
+            }
+            finally
+            {
+                ButtonDownloadWhenAny.IsEnabled = true;
+                TextBoxResults.Text += "\r\n\r\nFinished";
+                cancellationTokenSource = null;
+
+                if (_downloadResult.IsError && _downloadResult.AggregateException != null)
+                {
+                    TextBoxResults.Text += string.Join("\r\n", _downloadResult.AggregateException.InnerExceptions.Select(x => x.Message));
+
+                }
+            }
+        }
+
+        private async void ButtonDownloadWhenAll_OnClick(object sender, RoutedEventArgs e)
+        {
+            ButtonDownloadWhenAll.IsEnabled = false;
+            TextBoxResults.Text = "...";
             
+            CancellationTokenSource cancellationTokenSource = GetCancellationTokenSource();
+            _downloadResult = new DownloadResult();
+            var downloader = new Downloader();
+
+            try
+            {
+                _downloadResult = await downloader.DownloadImagesWhenAllAsync(GetSettings(), cancellationTokenSource.Token);
+
+                TextBoxResults.Text = string.Join("\r\n",
+                                                  _downloadResult.Responses.Select(
+                                                      r => string.Format("{0,-58} {1,8}", r.Url, r.HttpResponseMessage.StatusCode)));
+            }
+            catch (OperationCanceledException)
+            {
+                TextBoxResults.Text += "\r\n\r\nOperation cancelled";
+            }
+            catch (Exception exception)
+            {
+                TextBoxResults.Text = exception.Message;
+            }
+            finally
+			{
+				ButtonDownloadWhenAll.IsEnabled = true;
+			    TextBoxResults.Text += "\r\n\r\nFinished";
+			    cancellationTokenSource = null;
+
+                if (_downloadResult.IsError && _downloadResult.AggregateException != null)
+                {
+                    TextBoxResults.Text += string.Join("\r\n", _downloadResult.AggregateException.InnerExceptions.Select(x => x.Message));
+                }
+			}
+        }
+
+        private CancellationTokenSource GetCancellationTokenSource()
+        {
             var cancellationTokenSource = new CancellationTokenSource();
             cancellationTokenSource.CancelAfter(15000);
-            
-            ButtonCancel.Click += (snd, ev) => 
-            { 
-                cancellationTokenSource.Cancel();
+
+            ButtonCancel.Click += (snd, ev) =>
+            {
+                if (cancellationTokenSource != null)
+                {
+                    cancellationTokenSource.Cancel();
+                }
                 TextBoxResults.Text = "Cancelled";
             };
 
-            _downloadResult = new DownloadResult();
+            return cancellationTokenSource;
+        }
 
+        private DownloadSettings GetSettings()
+        {
             int folderIndexFrom;
             int.TryParse(TextBoxFolderIndexFrom.Text, out folderIndexFrom);
 
@@ -62,47 +140,30 @@ namespace WpfAsyncDownload
             int.TryParse(TextBoxIndexTo.Text, out indexTo);
 
             var settings = new DownloadSettings
-                {
-                    Url = TextBoxUrl.Text,
-                    StartIndex = indexFrom,
-                    EndIndex = indexTo,
-                    FolderStartIndex =  folderIndexFrom,
-                    FolderEndIndex = folderIndexTo,
-                    FolderNameFormat = ComboBoxFolderNameFormat.SelectedValue.ToString(),
-                    NameFormat = ComboBoxNameFormat.SelectedValue.ToString(),
-                    Prefix = TextBoxPrefix.Text,
-                    Suffix = TextBoxSuffix.Text,
-                    Extension = ComboBoxExtension.SelectedValue.ToString()
-                };
+            {
+                Url = TextBoxUrl.Text,
+                StartIndex = indexFrom,
+                EndIndex = indexTo,
+                FolderStartIndex = folderIndexFrom,
+                FolderEndIndex = folderIndexTo,
+                FolderNameFormat = ComboBoxFolderNameFormat.SelectedValue.ToString(),
+                NameFormat = ComboBoxNameFormat.SelectedValue.ToString(),
+                Prefix = TextBoxPrefix.Text,
+                Suffix = TextBoxSuffix.Text,
+                Extension = ComboBoxExtension.SelectedValue.ToString()
+            };
 
+            // TODO: This can be done better
             if (ComboBoxAlgorithm.SelectedIndex == 1)
             {
-                downloader.UrlListCreator = new FolderNumberedUrlListCreator();
+                settings.UrlListCreator = new FolderNumberedUrlListCreator();
+            }
+            else
+            {
+                settings.UrlListCreator = new SimpleNumberedUrlListCreator();
             }
 
-            try
-            {
-                _downloadResult = await downloader.DownloadImagesAsync(settings, cancellationTokenSource.Token);
-                
-                TextBoxResults.Text = string.Join("\r\n",
-                    _downloadResult.Responses.Select(
-                        r => string.Format("{0,-58} {1,8}", r.Url, r.HttpResponseMessage.StatusCode)));
-            }
-            catch (Exception exception)
-            {
-                TextBoxResults.Text = exception.Message;
-            }
-            finally
-			{
-				ButtonDownload.IsEnabled = true;
-			    TextBoxResults.Text = "Finished";
-
-                if (_downloadResult.IsError && _downloadResult.AggregateException != null)
-                {
-                    TextBoxResults.Text += string.Join("\r\n", _downloadResult.AggregateException.InnerExceptions.Select(x => x.Message));
-                    
-                }
-			}
+            return settings;
         }
 
         private async void ButtonSave_OnClick(object sender, RoutedEventArgs e)
@@ -166,5 +227,6 @@ namespace WpfAsyncDownload
         {
             Directory.CreateDirectory(_imagesDirectory);
         }
+
     }
 }

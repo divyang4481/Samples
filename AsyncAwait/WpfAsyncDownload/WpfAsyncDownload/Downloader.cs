@@ -13,27 +13,29 @@ namespace WpfAsyncDownload
 {
     public class Downloader
     {
-        public IUrlListCreator UrlListCreator { get; set; }
+        private HttpClient _httpClient;
 
         public Downloader()
         {
-            UrlListCreator = new SimpleNumberedUrlListCreator();
+            _httpClient = new HttpClient
+            {
+                MaxResponseContentBufferSize = 1000000 /* bytes */
+            };
         }
 
-        public async Task<DownloadResult> DownloadImagesAsync(DownloadSettings settings, CancellationToken cancellationToken)
+        public async Task<DownloadResult> DownloadImagesWhenAllAsync(DownloadSettings settings, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(settings.Url))
             {
                 throw new ArgumentException("BaseUrl cannot be empty");
             }
 
-            List<string> urlList = UrlListCreator.Create(settings);
-
+            List<string> urlList = settings.UrlListCreator.Create(settings);
             IEnumerable<Task<UrlResponse>> downloadTaskQuery = urlList.Select(url => ProcessUrlAsync(url, cancellationToken));
-
             List<Task<UrlResponse>> downloadTasks = downloadTaskQuery.ToList();
 
             Task<UrlResponse[]> allTask = Task.WhenAll(downloadTasks);
+
 			var result = new DownloadResult();
 			
 			try
@@ -50,14 +52,37 @@ namespace WpfAsyncDownload
             return result;
         }
 
+        public async Task<DownloadResult> DownloadImagesWhenAnyAsync(DownloadSettings settings, CancellationToken cancellationToken, IProgress<string> progress)
+        {
+            if (string.IsNullOrWhiteSpace(settings.Url))
+            {
+                throw new ArgumentException("BaseUrl cannot be empty");
+            }
+
+            List<string> urlList = settings.UrlListCreator.Create(settings);
+            IEnumerable<Task<UrlResponse>> downloadTaskQuery = urlList.Select(url => ProcessUrlAsync(url, cancellationToken));
+            List<Task<UrlResponse>> downloadTasks = downloadTaskQuery.ToList();
+
+            var result = new DownloadResult();
+
+            while (downloadTasks.Count > 0)
+            {
+                Task<UrlResponse> finishedTask = await Task.WhenAny(downloadTasks);
+
+                downloadTasks.Remove(finishedTask);
+
+                UrlResponse response = await finishedTask;
+                result.Responses.Add(response);
+
+                progress.Report(string.Format("{0,-58} {1,8}", response.Url, response.HttpResponseMessage.StatusCode));
+            }
+
+            return result;
+        }
+
         private async Task<UrlResponse> ProcessUrlAsync(string url, CancellationToken cancellationToken)
         {
-            var httpClient = new HttpClient 
-            { 
-                MaxResponseContentBufferSize = 1000000 /* bytes */
-            };
-
-            HttpResponseMessage responseMessage = await httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+            HttpResponseMessage responseMessage = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
 
             return new UrlResponse {Url = url, HttpResponseMessage = responseMessage};
         }

@@ -32,5 +32,7 @@ namespace WpfAsyncDownload
         public int FolderStartIndex { get; set; }
         public int FolderEndIndex { get; set; }
         public string FolderNameFormat { get; set; }
+
+        public IUrlListCreator UrlListCreator { get; set; }
     }
 }
