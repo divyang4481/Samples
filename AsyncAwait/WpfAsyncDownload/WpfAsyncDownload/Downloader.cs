@@ -50,11 +50,12 @@ namespace WpfAsyncDownload
             return result;
         }
 
-
-
         private async Task<UrlResponse> ProcessUrlAsync(string url, CancellationToken cancellationToken)
         {
-            var httpClient = new HttpClient { MaxResponseContentBufferSize = 1000000 };
+            var httpClient = new HttpClient 
+            { 
+                MaxResponseContentBufferSize = 1000000 /* bytes */
+            };
 
             HttpResponseMessage responseMessage = await httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
 

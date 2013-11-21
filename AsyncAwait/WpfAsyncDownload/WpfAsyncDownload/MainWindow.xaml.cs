@@ -39,6 +39,8 @@ namespace WpfAsyncDownload
             var downloader = new Downloader();
             
             var cancellationTokenSource = new CancellationTokenSource();
+            cancellationTokenSource.CancelAfter(15000);
+            
             ButtonCancel.Click += (snd, ev) => 
             { 
                 cancellationTokenSource.Cancel();
@@ -81,7 +83,10 @@ namespace WpfAsyncDownload
             try
             {
                 _downloadResult = await downloader.DownloadImagesAsync(settings, cancellationTokenSource.Token);
-                DisplayResults();
+                
+                TextBoxResults.Text = string.Join("\r\n",
+                    _downloadResult.Responses.Select(
+                        r => string.Format("{0,-58} {1,8}", r.Url, r.HttpResponseMessage.StatusCode)));
             }
             catch (Exception exception)
             {
@@ -90,21 +95,14 @@ namespace WpfAsyncDownload
             finally
 			{
 				ButtonDownload.IsEnabled = true;
+			    TextBoxResults.Text = "Finished";
 
                 if (_downloadResult.IsError && _downloadResult.AggregateException != null)
                 {
                     TextBoxResults.Text += string.Join("\r\n", _downloadResult.AggregateException.InnerExceptions.Select(x => x.Message));
+                    
                 }
 			}
-        }
-
-        private void DisplayResults()
-        {
-            foreach (var response in _downloadResult.Responses)
-            {
-                var displayUrl = response.Url.Replace("http://", "");
-                TextBoxResults.Text += string.Format("\n{0,-58} {1,8}", displayUrl, response.HttpResponseMessage.StatusCode);
-            }
         }
 
         private async void ButtonSave_OnClick(object sender, RoutedEventArgs e)
