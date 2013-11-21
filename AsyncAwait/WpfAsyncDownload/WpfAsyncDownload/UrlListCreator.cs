@@ -48,8 +48,9 @@ namespace WpfAsyncDownload
 
             for (int j = settings.FolderStartIndex; j < settings.FolderEndIndex; j++)
             {
-                var baseUrl = new StringBuilder(UrlCreatorHelper.GetBaseUrl(settings.Url))
-                    .Append(j)
+                var baseUrl = new StringBuilder(UrlCreatorHelper.GetBaseUrl(UrlCreatorHelper.GetBaseUrl(settings.Url)))
+                    .Append("/")
+                    .Append(j.ToString(settings.FolderNameFormat))
                     .Append("/");
 
                 for (int i = settings.StartIndex; i < settings.EndIndex; i++)
@@ -79,7 +80,7 @@ namespace WpfAsyncDownload
 
         public static string GetBaseUrl(string url)
         {
-            return url.Substring(0, url.LastIndexOf("/") + 1);
+            return url.Substring(0, url.LastIndexOf("/"));
         }
     }
 }

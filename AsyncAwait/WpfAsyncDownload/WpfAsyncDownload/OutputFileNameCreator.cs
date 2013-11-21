@@ -19,7 +19,7 @@ namespace WpfAsyncDownload
             //string fileName = urlResponse.Url.Substring(urlResponse.Url.LastIndexOf("/", System.StringComparison.Ordinal) + 1);
             //return Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + "-" + fileName;
 
-            return urlResponse.Url.Replace("/", "_");
+            return urlResponse.Url.Replace("/", "_").Replace(".", "_").Replace("http:", "").Replace("_jpg", ".jpg");
         }
     }
 }

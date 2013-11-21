@@ -1,7 +1,7 @@
 ﻿<Window x:Class="WpfAsyncDownload.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="WpfAsyncDownloader" Height="520" Width="725" Background="Black" Loaded="MainWindow_OnLoaded">
+        Title="WpfAsyncDownloader" Height="570" Width="795" Background="Black" Loaded="MainWindow_OnLoaded">
     <Window.Resources>
         <Style x:Key="LabelStyle" TargetType="Label">
             <Setter Property="Foreground" Value="Orange"/>
@@ -35,7 +35,7 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="70" MinWidth="70"/>
+            <ColumnDefinition Width="120" MinWidth="70"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
@@ -59,7 +59,7 @@
             <Label Content="Folder:" Style="{StaticResource LabelStyle}"/>
             <ComboBox Name="ComboBoxFolderIndexFrom" Loaded="ComboBoxFolderIndexFrom_OnLoaded" Style="{StaticResource ComboBoxStyle}" IsEditable="True"/>
             <ComboBox Name="ComboBoxFolderIndexTo" Loaded="ComboBoxFolderIndexTo_OnLoaded" Style="{StaticResource ComboBoxStyle}" IsEditable="True"/>
-            
+            <ComboBox Name="ComboBoxFolderNameFormat" Loaded="ComboBoxNameFormat_OnLoaded" Style="{StaticResource ComboBoxStyle}"/>
         </StackPanel>
      
         <GridSplitter Grid.Column="1" Grid.Row="0"

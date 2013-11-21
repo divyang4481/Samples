@@ -56,6 +56,7 @@ namespace WpfAsyncDownload
                     EndIndex = (int) ComboBoxIndexTo.SelectedValue,
                     FolderStartIndex =  folderIndexFrom,
                     FolderEndIndex = folderIndexTo,
+                    FolderNameFormat = ComboBoxFolderNameFormat.SelectedValue.ToString(),
                     NameFormat = ComboBoxNameFormat.SelectedValue.ToString(),
                     Prefix = TextBoxPrefix.Text,
                     Suffix = TextBoxSuffix.Text,
@@ -129,8 +130,10 @@ namespace WpfAsyncDownload
 
         private void ComboBoxNameFormat_OnLoaded(object sender, RoutedEventArgs e)
         {
-            ComboBoxNameFormat.ItemsSource = new List<string> { "0", "00", "000", "0000" };
-            ComboBoxNameFormat.SelectedIndex = 0;
+            var comboBox = (ComboBox)sender;
+
+            comboBox.ItemsSource = new List<string> { "0", "00", "000", "0000", "00000" };
+            comboBox.SelectedIndex = 0;
         }
 
         private void ComboBoxExtension_OnLoaded(object sender, RoutedEventArgs e)
