@@ -57,7 +57,6 @@ namespace WpfAsyncDownload
             }
             catch (OperationCanceledException)
             {
-                ViewModel.ClearMessages();
                 ViewModel.Messages.Add("Operation cancelled");
             }
             catch (Exception exception)

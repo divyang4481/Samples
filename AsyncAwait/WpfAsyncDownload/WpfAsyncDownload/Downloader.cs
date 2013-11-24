@@ -82,7 +82,7 @@ namespace WpfAsyncDownload
 
         private async Task<UrlResponse> ProcessUrlAsync(string url, CancellationToken cancellationToken)
         {
-            HttpResponseMessage responseMessage = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+            HttpResponseMessage responseMessage = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseContentRead, cancellationToken);
 
             return new UrlResponse {Url = url, HttpResponseMessage = responseMessage};
         }
