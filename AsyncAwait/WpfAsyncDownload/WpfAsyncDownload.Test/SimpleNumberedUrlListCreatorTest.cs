@@ -15,7 +15,7 @@ namespace WpfAsyncDownload.Test
             public void should_create_list_of_urls()
             {
                 // Arrange
-                var target = new SimpleNumberedUrlListCreator();
+                var target = new SimpleUrlListCreator();
                 var downloadSettings = new DownloadSettings
                     {
                         Url = "google.pl/1.jpg",
@@ -40,7 +40,7 @@ namespace WpfAsyncDownload.Test
             public void should_create_one_url_for_no_number()
             {
                 // Arrange
-                var target = new SimpleNumberedUrlListCreator();
+                var target = new SimpleUrlListCreator();
                 var downloadSettings = new DownloadSettings
                 {
                     Url = "google.pl/x.png"

@@ -15,7 +15,7 @@ namespace WpfAsyncDownload.Test
             public void should_create_list_of_urls()
             {
                 // Arrange
-                var target = new FolderNumberedUrlListCreator();
+                var target = new FolderUrlListCreator();
                 var downloadSettings = new DownloadSettings
                 {
                     Url = "google.pl/122/1.jpg",

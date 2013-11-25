@@ -41,13 +41,13 @@ namespace WpfAsyncDownload
         {
             ButtonDownloadWhenAny.IsEnabled = false;
             ViewModel.ClearMessages();
-            ViewModel.Messages.Add("...");
+            ViewModel.AddMessage("...");
 
             var cancellationTokenSource = GetCancellationTokenSource();
             _downloadResult = new DownloadResult();
 
             var progress = new Progress<string>(
-                value => ViewModel.Messages.Add(value));
+                value => ViewModel.AddMessage(value));
 
             var downloader = new Downloader();
 
@@ -57,16 +57,16 @@ namespace WpfAsyncDownload
             }
             catch (OperationCanceledException)
             {
-                ViewModel.Messages.Add("Operation cancelled");
+                ViewModel.AddMessage("Operation cancelled");
             }
             catch (Exception exception)
             {
-                ViewModel.Messages.Add(exception.Message);
+                ViewModel.AddMessage(exception.Message);
             }
             finally
             {
                 ButtonDownloadWhenAny.IsEnabled = true;
-                ViewModel.Messages.Add("Finished");
+                ViewModel.AddMessage("Finished");
                 cancellationTokenSource = null;
             }
         }
@@ -75,7 +75,7 @@ namespace WpfAsyncDownload
         {
             ButtonDownloadWhenAll.IsEnabled = false;
             ViewModel.ClearMessages();
-            ViewModel.Messages.Add("...");
+            ViewModel.AddMessage("...");
             
             CancellationTokenSource cancellationTokenSource = GetCancellationTokenSource();
             _downloadResult = new DownloadResult();
@@ -86,25 +86,25 @@ namespace WpfAsyncDownload
                 _downloadResult = await downloader.DownloadImagesWhenAllAsync(GetSettings(), cancellationTokenSource.Token);
 
                 ViewModel.ClearMessages();
-                _downloadResult.Responses.ForEach(x => ViewModel.Messages.Add(string.Format("{0,-58} {1,8}", x.Url, x.HttpResponseMessage.StatusCode)));
+                _downloadResult.Responses.ForEach(x => ViewModel.AddMessage(string.Format("{0,-58} {1,8}", x.Url, x.HttpResponseMessage.StatusCode)));
             }
             catch (OperationCanceledException)
             {
-                ViewModel.Messages.Add("Operation cancelled");
+                ViewModel.AddMessage("Operation cancelled");
             }
             catch (Exception exception)
             {
-                ViewModel.Messages.Add(exception.Message);
+                ViewModel.AddMessage(exception.Message);
             }
             finally
 			{
 				ButtonDownloadWhenAll.IsEnabled = true;
-                ViewModel.Messages.Add("Finished");
+                ViewModel.AddMessage("Finished");
 			    cancellationTokenSource = null;
 
                 if (_downloadResult.IsError && _downloadResult.AggregateException != null)
                 {
-                    _downloadResult.AggregateException.InnerExceptions.ToList().ForEach(x => ViewModel.Messages.Add(x.Message));
+                    _downloadResult.AggregateException.InnerExceptions.ToList().ForEach(x => ViewModel.AddMessage(x.Message));
                 }
 			}
         }
@@ -112,15 +112,14 @@ namespace WpfAsyncDownload
         private CancellationTokenSource GetCancellationTokenSource()
         {
             var cancellationTokenSource = new CancellationTokenSource();
-            //cancellationTokenSource.CancelAfter(15000);
-
+            
             ButtonCancel.Click += (snd, ev) =>
             {
                 if (cancellationTokenSource != null)
                 {
                     cancellationTokenSource.Cancel();
                 }
-                ViewModel.Messages.Add("Cancelled");
+                ViewModel.AddMessage("Cancelled");
             };
 
             return cancellationTokenSource;
@@ -153,11 +152,9 @@ namespace WpfAsyncDownload
                     Suffix = TextBoxSuffix.Text,
                     Extension = ComboBoxExtension.SelectedValue.ToString(),
                     UrlListCreator = ComboBoxAlgorithm.SelectedIndex == 1 // TODO: This can be done better
-                                         ? (IUrlListCreator) new FolderNumberedUrlListCreator()
-                                         : new SimpleNumberedUrlListCreator()
+                                         ? (IUrlListCreator) new FolderUrlListCreator()
+                                         : new SimpleUrlListCreator()
                 };
-
-            
 
             return settings;
         }
@@ -165,11 +162,10 @@ namespace WpfAsyncDownload
         private async void ButtonSave_OnClick(object sender, RoutedEventArgs e)
         {
             ButtonSave.IsEnabled = false;
-            string fileName = "";
 
             foreach (UrlResponse responseMessage in _downloadResult.Responses.Where(r => r.HttpResponseMessage.IsSuccessStatusCode))
             {
-                fileName = _imagesDirectory + "/" + _outputFileNameCreator.Create(responseMessage.Url);
+                string fileName = _imagesDirectory + "/" + _outputFileNameCreator.Create(responseMessage.Url);
 
                 using (Stream contentStream = await responseMessage.HttpResponseMessage.Content.ReadAsStreamAsync(),
                     stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None, 1000000, useAsync:true))
@@ -179,7 +175,7 @@ namespace WpfAsyncDownload
             }
 
             _downloadResult = new DownloadResult();
-            ViewModel.Messages.Add("Saved");
+            ViewModel.AddMessage("Saved");
             ButtonSave.IsEnabled = true;
         }
 
@@ -196,7 +192,7 @@ namespace WpfAsyncDownload
             if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
             {
                 _imagesDirectory = dialog.SelectedPath;
-                ViewModel.Messages.Add(string.Format("{0} selected", _imagesDirectory));
+                ViewModel.AddMessage(string.Format("{0} selected", _imagesDirectory));
             }
         }
 
@@ -213,17 +209,21 @@ namespace WpfAsyncDownload
             _messages.Clear();
         }
 
+        public void AddMessage(string message)
+        {
+            _messages.Insert(0, message);
+        }
+
         private ObservableCollection<string> _messages = new ObservableCollection<string>();
 
         public ObservableCollection<string> Messages
         {
             get { return _messages; }
-            
         }
 
         public List<string> NameFormats { get { return new List<string> {"0", "00", "000", "0000", "00000"}; } }
         public List<string> Extensions { get { return new List<string> {".jpg", ".jpeg", ".png"}; } }
-        public List<string> Algorithms { get { return new List<string> {"simple numbered", "subfolder numbered"}; } }
+        public List<string> Algorithms { get { return new List<string> {"simple", "folder"}; } }
 
         //public event PropertyChangedEventHandler PropertyChanged;
 

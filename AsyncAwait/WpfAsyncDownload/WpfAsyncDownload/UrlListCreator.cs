@@ -13,7 +13,7 @@ namespace WpfAsyncDownload
         List<string> Create(DownloadSettings settings);
     }
 
-    public class SimpleNumberedUrlListCreator : IUrlListCreator
+    public class SimpleUrlListCreator : IUrlListCreator
     {
         public List<string> Create(DownloadSettings settings)
         {
@@ -41,7 +41,7 @@ namespace WpfAsyncDownload
         }
     }
 
-    public class FolderNumberedUrlListCreator : IUrlListCreator
+    public class FolderUrlListCreator : IUrlListCreator
     {
         public List<string> Create(DownloadSettings settings)
         {
