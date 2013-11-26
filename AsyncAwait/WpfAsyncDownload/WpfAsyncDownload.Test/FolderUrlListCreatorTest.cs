@@ -7,7 +7,7 @@ using Xunit;
 
 namespace WpfAsyncDownload.Test
 {
-    public class SubfolderNumberedUrlListCreatorTest
+    public class FolderUrlListCreatorTest
     {
         public class CreateMethod
         {

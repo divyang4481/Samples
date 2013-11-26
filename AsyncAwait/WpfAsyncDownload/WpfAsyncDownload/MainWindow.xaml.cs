@@ -67,7 +67,6 @@ namespace WpfAsyncDownload
             {
                 ButtonDownloadWhenAny.IsEnabled = true;
                 ViewModel.AddMessage("Finished");
-                cancellationTokenSource = null;
             }
         }
 
@@ -100,7 +99,6 @@ namespace WpfAsyncDownload
 			{
 				ButtonDownloadWhenAll.IsEnabled = true;
                 ViewModel.AddMessage("Finished");
-			    cancellationTokenSource = null;
 
                 if (_downloadResult.IsError && _downloadResult.AggregateException != null)
                 {
@@ -115,10 +113,7 @@ namespace WpfAsyncDownload
             
             ButtonCancel.Click += (snd, ev) =>
             {
-                if (cancellationTokenSource != null)
-                {
-                    cancellationTokenSource.Cancel();
-                }
+                cancellationTokenSource.Cancel();
                 ViewModel.AddMessage("Cancelled");
             };
 

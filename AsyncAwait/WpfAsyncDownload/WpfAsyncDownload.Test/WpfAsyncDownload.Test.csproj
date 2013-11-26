@@ -44,8 +44,8 @@
   <ItemGroup>
     <Compile Include="OutputFileNameCreatorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimpleNumberedUrlListCreatorTest.cs" />
-    <Compile Include="SubfolderNumberedUrlListCreatorTest.cs" />
+    <Compile Include="SimpleUrlListCreatorTest.cs" />
+    <Compile Include="FolderUrlListCreatorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

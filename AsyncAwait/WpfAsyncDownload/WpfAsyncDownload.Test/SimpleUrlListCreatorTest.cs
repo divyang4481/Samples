@@ -7,7 +7,7 @@ using Xunit;
 
 namespace WpfAsyncDownload.Test
 {
-    public class SimpleNumberedUrlListCreatorTest
+    public class SimpleUrlListCreatorTest
     {
         public class CreateMethod
         {

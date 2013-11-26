@@ -13,7 +13,7 @@ namespace WpfAsyncDownload
 {
     public class Downloader
     {
-        private HttpClient _httpClient;
+        private readonly HttpClient _httpClient;
 
         public Downloader()
         {
