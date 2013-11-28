@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
+﻿using Xunit;
 
 namespace WpfAsyncDownload.Test
 {
@@ -42,7 +37,6 @@ namespace WpfAsyncDownload.Test
                 Assert.Equal("http://google.pl/001/a01b.jpg", result[4]);
                 Assert.Equal("http://google.pl/001/a02b.jpg", result[5]);
             }
-
         }
     }
 }

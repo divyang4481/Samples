@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
+﻿using Xunit;
 
 namespace WpfAsyncDownload.Test
 {
@@ -16,7 +11,7 @@ namespace WpfAsyncDownload.Test
             {
                 // Arrange
                 var target = new OutputFileNameCreator();
-                var url = "http://google.pl/x.png";
+                const string url = "http://google.pl/x.png";
 
                 //Act
                 var result = target.Create(url);
