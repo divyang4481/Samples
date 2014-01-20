@@ -27,4 +27,5 @@ Sample applications
   - AngularjsTypeScript: Angularjs + TypeScript (based on Angularjs tutorial) (ASP.NET MVC 4).
   - TypeScript09Features: TypeScript 0.9 new features playground (in progress)
 
-**ASP.NET MVC**
+**Katana**
+  - KatanaBugTracker: http://msdn.microsoft.com/en-us/magazine/dn451439.aspx (modified)
