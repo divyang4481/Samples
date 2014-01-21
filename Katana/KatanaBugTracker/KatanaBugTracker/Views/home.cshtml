@@ -19,49 +19,61 @@
 
 </head>
 <body>
-    <header>
-        <h1>@Model.Title</h1>
-    </header>
-    <section>
-        <h2>Backlog</h2>
+    <div class="container">
+        <header>
+            <h1>@Model.Title</h1>
+        </header>
+        <section>
+            <h2>Backlog</h2>
 
-        <p data-bind="visible: Backlog().length == 0">There are no bugs in backlog</p>
+            <div class="alert alert-warning" data-bind="visible: Backlog().length == 0">
+                <p>There are no bugs in backlog</p>
+            </div> 
 
-        <ul class="bugs" id="backlog" data-bind="foreach:Backlog">
-            <li>
-                [<span data-bind="text: Id"></span>] <span data-bind="text: Title"></span>: <span data-bind="text: Description"></span>
-                <ul>
-                    <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Working)">To working</a></li>
-                    <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Done)">To done</a></li>
-                </ul>
-            </li>
-        </ul>
-    </section>
-    <section>
-        <h2>Working</h2>
-
-        <p data-bind="visible: Working().length == 0">There are no bugs in working state</p>
-
-        <ul class="bugs" id="working" data-bind="foreach:Working">
-            [<span data-bind="text: Id"></span>] <span data-bind="text: Title"></span>:<span data-bind="text: Description"></span>
-            <ul>
-                <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Backlog)">To backlog</a></li>
-                <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Done)">To done</a></li>
+            <ul class="list-group" id="backlog" data-bind="foreach:Backlog">
+                <li class="list-group-item">
+                    [<span data-bind="text: Id"></span>] <span data-bind="text: Title"></span>: <span data-bind="text: Description"></span>
+                    <ul>
+                        <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Working)">To working</a></li>
+                        <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Done)">To done</a></li>
+                    </ul>
+                </li>
             </ul>
-        </ul>
-    </section>
-    <section>
-        <h2>Done</h2>
+        </section>
+        <section>
+            <h2>Working</h2>
 
-        <p data-bind="visible: Done().length == 0">There are no bugs in done state</p>
+            <div class="alert alert-warning" data-bind="visible: Working().length == 0">
+                <p>There are no bugs in working state</p>
+            </div>
 
-        <ul class="bugs" id="done" data-bind="foreach:Done">
-            [<span data-bind="text: Id"></span>] <span data-bind="text: Title"></span>:<span data-bind="text: Description"></span>
-            <ul>
-                <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Backlog)">To backlog</a></li>
-                <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Working)">To working</a></li>
+            <ul class="list-group" id="working" data-bind="foreach:Working">
+                <li class="list-group-item">
+                    [<span data-bind="text: Id"></span>] <span data-bind="text: Title"></span>:<span data-bind="text: Description"></span>
+                    <ul>
+                        <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Backlog)">To backlog</a></li>
+                        <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Done)">To done</a></li>
+                    </ul>
+                </li>
             </ul>
-        </ul>
-    </section>
+        </section>
+        <section>
+            <h2>Done</h2>
+
+            <div class="alert alert-warning" data-bind="visible: Done().length == 0">
+                <p>There are no bugs in done state</p>
+            </div> 
+
+            <ul class="list-group" id="done" data-bind="foreach:Done">
+                <li class="list-group-item">
+                    [<span data-bind="text: Id"></span>] <span data-bind="text: Title"></span>:<span data-bind="text: Description"></span>
+                    <ul>
+                        <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Backlog)">To backlog</a></li>
+                        <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Working)">To working</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </div>
 </body>
 </html>

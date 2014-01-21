@@ -27,7 +27,7 @@ namespace KatanaBugTracker.Api
         [Route("backlog")]
         public Bug MoveToBacklog([FromBody] int id)
         {
-            return MoveBug(id, BugState.Working);
+            return MoveBug(id, BugState.Backlog);
         }
 
         [Route("working")]
