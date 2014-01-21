@@ -39,6 +39,8 @@ namespace KatanaBugTracker
             base.ConfigureConventions(nancyConventions);
 
             Conventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("scripts", "Scripts"));
+            Conventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("content", "Content"));
+            Conventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("fonts", "fonts"));
         }
     }
 }
