@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using KatanaBugTracker.Models;
 using System.Web.Http;
+using KatanaBugTracker.Hubs;
+using Microsoft.AspNet.SignalR;
 
 namespace KatanaBugTracker.Api
 {
@@ -10,6 +12,12 @@ namespace KatanaBugTracker.Api
     public class BugsController : ApiController
     {
         IBugsRepository _bugsRepository = new BugsRepository();
+        IHubContext _hub;
+
+        public BugsController()
+        {
+            _hub = GlobalHost.ConnectionManager.GetHubContext<BugHub>();
+        }
 
         public IEnumerable<Bug> Get()
         {
@@ -19,24 +27,26 @@ namespace KatanaBugTracker.Api
         [Route("backlog")]
         public Bug MoveToBacklog([FromBody] int id)
         {
-            var bug = _bugsRepository.GetBugById(id);
-            bug.State = BugState.Backlog;
-            return bug;
+            return MoveBug(id, BugState.Working);
         }
 
         [Route("working")]
         public Bug MoveToWorking([FromBody] int id)
         {
-            var bug = _bugsRepository.GetBugById(id);
-            bug.State = BugState.Working;
-            return bug;
+            return MoveBug(id, BugState.Working);
         }
 
         [Route("done")]
         public Bug MoveToDone([FromBody] int id)
         {
+            return MoveBug(id, BugState.Done);
+        }
+
+        private Bug MoveBug(int id, BugState bugState)
+        {
             var bug = _bugsRepository.GetBugById(id);
-            bug.State = BugState.Done;
+            bug.State = bugState;
+            _hub.Clients.All.moved(bug);
             return bug;
         }
     }

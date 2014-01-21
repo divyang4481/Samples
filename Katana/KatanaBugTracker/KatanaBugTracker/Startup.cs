@@ -15,6 +15,9 @@ namespace KatanaBugTracker
         {
             // Order is significant!
 
+            // SignalR
+            app.MapSignalR();
+
             // Web API
             var config = new HttpConfiguration();
             config.MapHttpAttributeRoutes();

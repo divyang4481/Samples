@@ -11,9 +11,24 @@ var apiUrl = '/api/bugs/';
 
 $(function () {
     var viewModel;
+
+    // SignalR {
+    $.connection.hub.logging = true;
+    var bugsHub = $.connection.bugs;
+
+    bugsHub.client.moved = function (item) {
+        viewModel.moveBug(item);
+    };
+
+    $.connection.hub.start().done(function () {
+        console.log('hub connection opened');
+    });
+
+    // }
+
     $.getJSON(apiUrl, function (data) {
         var model = data;
-        var viewModel = {
+        viewModel = {
             Backlog: ko.observableArray(
                 model.filter(function (element) { return element.State === BugStatus.Backlog })),
             Working: ko.observableArray(
