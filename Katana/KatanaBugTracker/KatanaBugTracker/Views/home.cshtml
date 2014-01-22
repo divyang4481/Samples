@@ -23,6 +23,7 @@
         <header>
             <h1>@Model.Title</h1>
         </header>
+
         <section>
             <h2>Backlog</h2>
 
@@ -30,15 +31,20 @@
                 <p>There are no bugs in backlog</p>
             </div> 
 
-            <ul class="list-group" id="backlog" data-bind="foreach:Backlog">
-                <li class="list-group-item">
-                    [<span data-bind="text: Id"></span>] <span data-bind="text: Title"></span>: <span data-bind="text: Description"></span>
+            <div class="list-group" id="backlog" data-bind="foreach:Backlog">
+                <div class="list-group-item">
+                    <p>
+                        <span class="badge" data-bind="text: Id"></span>
+                        <strong><span data-bind="text: Title"></span></strong>
+                    </p>
+
+                    <span data-bind="text: Description"></span>
                     <ul>
                         <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Working)">To working</a></li>
                         <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Done)">To done</a></li>
                     </ul>
-                </li>
-            </ul>
+                </div>
+            </div>
         </section>
         <section>
             <h2>Working</h2>
@@ -47,32 +53,43 @@
                 <p>There are no bugs in working state</p>
             </div>
 
-            <ul class="list-group" id="working" data-bind="foreach:Working">
-                <li class="list-group-item">
-                    [<span data-bind="text: Id"></span>] <span data-bind="text: Title"></span>:<span data-bind="text: Description"></span>
+            <div class="list-group" id="working" data-bind="foreach:Working">
+                <div class="list-group-item">
+                    <p>
+                        <span class="badge" data-bind="text: Id"></span>
+                        <strong><span data-bind="text: Title"> </span></strong>
+                    </p>
+
+                    <span data-bind="text: Description"></span>
                     <ul>
                         <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Backlog)">To backlog</a></li>
                         <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Done)">To done</a></li>
                     </ul>
-                </li>
-            </ul>
+                </div>
+            </div>
         </section>
         <section>
             <h2>Done</h2>
 
             <div class="alert alert-warning" data-bind="visible: Done().length == 0">
                 <p>There are no bugs in done state</p>
-            </div> 
+            </div>
 
-            <ul class="list-group" id="done" data-bind="foreach:Done">
-                <li class="list-group-item">
-                    [<span data-bind="text: Id"></span>] <span data-bind="text: Title"></span>:<span data-bind="text: Description"></span>
+            <div class="list-group" id="done" data-bind="foreach:Done">
+                <div class="list-group-item">
+                    <p>
+                        <span class="badge" data-bind="text: Id"></span>
+                        <strong><span data-bind="text: Title"></span></strong>
+                    </p>
+
+                    <span data-bind="text: Description"></span>
+
                     <ul>
                         <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Backlog)">To backlog</a></li>
                         <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Working)">To working</a></li>
                     </ul>
-                </li>
-            </ul>
+                </div>
+            </div>
         </section>
     </div>
 </body>
