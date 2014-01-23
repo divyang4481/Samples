@@ -25,10 +25,13 @@ class ViewModel {
     draggingBug: KnockoutObservable<Bug>; // bug that is being dragged currently 
     dragOverBug: KnockoutObservable<Bug>; // target bug on which we drop 
 
-    constructor(model: any) {
-        this.Backlog = model.filter(bug => { return bug.State === BugState.Backlog });
-        this.Working = model.filter(bug => { return bug.State === BugState.Working });
-        this.Done = model.filter(bug => { return bug.State === BugState.Done });
+    constructor(model: Bug[]) {
+        this.Backlog = ko.observableArray(model.filter(bug => { return bug.State === BugState.Backlog }));
+        this.Working = ko.observableArray(model.filter(bug => { return bug.State === BugState.Working }));
+        this.Done = ko.observableArray(model.filter(bug => { return bug.State === BugState.Done }));
+
+        this.draggingBug = ko.observable<Bug>();
+        this.dragOverBug = ko.observable<Bug>();
     }
 
     changeState(bug: Bug, newState: BugState) {
@@ -90,8 +93,6 @@ class DragAndDropUtility
             viewModel.changeState(viewModel.draggingBug(), bug.State);
         }
 
-        
-
         return false;
     }
 
@@ -128,38 +129,7 @@ $(() => {
     setUpSignalR();
 
     $.getJSON(apiUrl, function (data) {
-        var model = data;
-
-        viewModel = {
-            Backlog: ko.observableArray(
-                model.filter(function (element) { return element.State === BugState.Backlog })),
-            Working: ko.observableArray(
-                model.filter(function (element) { return element.State === BugState.Working })),
-            Done: ko.observableArray(
-                model.filter(function (element) { return element.State === BugState.Done })),
-            changeState: function (bug, newState) {
-                var self = this;
-                $.post(apiUrl + BugState[newState], { '': bug.Id }, function (data) {
-                    self.moveBug(data);
-                });
-            },
-            moveBug: function (bug) {
-
-                [this.Backlog, this.Working, this.Done].forEach(function (list) {
-                    list().forEach(function (item) {
-                        if (item.Id == bug.Id) {
-                            console.log('removing item ' + item.Id);
-                            list.remove(item);
-                        }
-                    });
-                });
-
-                this[BugState[bug.State]].push(bug);
-            },
-            draggingBug: ko.observable(),
-            dragOverBug: ko.observable(),
-        };
-
+        viewModel = new ViewModel(data);
         ko.applyBindings(viewModel);
     });
 });

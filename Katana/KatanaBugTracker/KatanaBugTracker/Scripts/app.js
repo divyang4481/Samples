@@ -17,15 +17,18 @@ var Bug = (function () {
 
 var ViewModel = (function () {
     function ViewModel(model) {
-        this.Backlog = model.filter(function (bug) {
+        this.Backlog = ko.observableArray(model.filter(function (bug) {
             return bug.State === 1 /* Backlog */;
-        });
-        this.Working = model.filter(function (bug) {
+        }));
+        this.Working = ko.observableArray(model.filter(function (bug) {
             return bug.State === 2 /* Working */;
-        });
-        this.Done = model.filter(function (bug) {
+        }));
+        this.Done = ko.observableArray(model.filter(function (bug) {
             return bug.State === 3 /* Done */;
-        });
+        }));
+
+        this.draggingBug = ko.observable();
+        this.dragOverBug = ko.observable();
     }
     ViewModel.prototype.changeState = function (bug, newState) {
         var self = this;
@@ -125,40 +128,7 @@ $(function () {
     setUpSignalR();
 
     $.getJSON(apiUrl, function (data) {
-        var model = data;
-
-        viewModel = {
-            Backlog: ko.observableArray(model.filter(function (element) {
-                return element.State === 1 /* Backlog */;
-            })),
-            Working: ko.observableArray(model.filter(function (element) {
-                return element.State === 2 /* Working */;
-            })),
-            Done: ko.observableArray(model.filter(function (element) {
-                return element.State === 3 /* Done */;
-            })),
-            changeState: function (bug, newState) {
-                var self = this;
-                $.post(apiUrl + BugState[newState], { '': bug.Id }, function (data) {
-                    self.moveBug(data);
-                });
-            },
-            moveBug: function (bug) {
-                [this.Backlog, this.Working, this.Done].forEach(function (list) {
-                    list().forEach(function (item) {
-                        if (item.Id == bug.Id) {
-                            console.log('removing item ' + item.Id);
-                            list.remove(item);
-                        }
-                    });
-                });
-
-                this[BugState[bug.State]].push(bug);
-            },
-            draggingBug: ko.observable(),
-            dragOverBug: ko.observable()
-        };
-
+        viewModel = new ViewModel(data);
         ko.applyBindings(viewModel);
     });
 });
