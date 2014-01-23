@@ -13,7 +13,7 @@ namespace KatanaBugTracker
         {
             Get["/"] = x =>
             {
-                var model = new HomeViewModel { Title = "We've got issues" };
+                var model = new HomeViewModel { Title = "Bugs" };
                 return View["home", model];
             };
         }

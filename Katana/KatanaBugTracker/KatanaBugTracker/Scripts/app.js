@@ -1,53 +1,116 @@
-﻿// BugStatus enum
-var BugStatus;
-(function (BugStatus) {
-    BugStatus[BugStatus["Undefined"] = 0] = "Undefined";
-    BugStatus[BugStatus["Backlog"] = 1] = "Backlog";
-    BugStatus[BugStatus["Working"] = 2] = "Working";
-    BugStatus[BugStatus["Done"] = 3] = "Done";
-})(BugStatus || (BugStatus = {}));
+﻿/// <reference path="typings/signalr/signalr.d.ts" />
+/// <reference path="typings/knockout/knockout.d.ts" />
+/// <reference path="typings/jquery/jquery.d.ts" />
+var BugState;
+(function (BugState) {
+    BugState[BugState["Undefined"] = 0] = "Undefined";
+    BugState[BugState["Backlog"] = 1] = "Backlog";
+    BugState[BugState["Working"] = 2] = "Working";
+    BugState[BugState["Done"] = 3] = "Done";
+})(BugState || (BugState = {}));
+
+var Bug = (function () {
+    function Bug() {
+    }
+    return Bug;
+})();
+
+var ViewModel = (function () {
+    function ViewModel(model) {
+        this.Backlog = model.filter(function (bug) {
+            return bug.State === 1 /* Backlog */;
+        });
+        this.Working = model.filter(function (bug) {
+            return bug.State === 2 /* Working */;
+        });
+        this.Done = model.filter(function (bug) {
+            return bug.State === 3 /* Done */;
+        });
+    }
+    ViewModel.prototype.changeState = function (bug, newState) {
+        var self = this;
+        $.post(apiUrl + BugState[newState], { '': bug.Id }, function (data) {
+            self.moveBug(data);
+        });
+    };
+
+    ViewModel.prototype.moveBug = function (bug) {
+        [this.Backlog, this.Working, this.Done].forEach(function (list) {
+            list().forEach(function (item) {
+                if (item.Id == bug.Id) {
+                    console.log('removing item ' + item.Id);
+                    list.remove(item);
+                }
+            });
+        });
+
+        this[BugState[bug.State]].push(bug);
+    };
+    return ViewModel;
+})();
 
 var apiUrl = '/api/bugs/';
 
-function handleDragStart(bug, event) {
-    viewModel.draggingBug(bug);
-
-    // Knockout makes all events preventDefault / return false => I have to return true
-    // see: http://stackoverflow.com/questions/7218171/knockout-html5-drag-and-drop
-
-    return true;
-}
-
-function handleDragOver(bug, event) {
-    if (event.preventDefault) { event.preventDefault(); } // Necessary. Allows to drop.
-}
-
-function handleDragEnter(bug, event) {
-    if (event.preventDefault) { event.preventDefault(); }
-
-    // this / e.target is the current hover target.
-    viewModel.dragOverBug(bug);
-}
-
-function handleDrop(bug, event) {
-    if (event.stopPropagation) { event.stopPropagation(); }
-
-    if (bug.Id != viewModel.draggingBug().Id) {
-        viewModel.changeState(viewModel.draggingBug(), bug.State);
+var DragAndDropUtility = (function () {
+    function DragAndDropUtility() {
     }
+    DragAndDropUtility.handleDragStart = function (bug, event) {
+        viewModel.draggingBug(bug);
 
-    viewModel.dragOverBug(null);
+        // Knockout makes all events preventDefault / return false => I have to return true
+        // see: http://stackoverflow.com/questions/7218171/knockout-html5-drag-and-drop
+        return true;
+    };
 
-    return false;
-}
+    DragAndDropUtility.handleDragOver = function (bug, event) {
+        if (event.preventDefault) {
+            event.preventDefault();
+        }
+    };
+
+    DragAndDropUtility.handleDragEnter = function (bug, event) {
+        if (event.preventDefault) {
+            event.preventDefault();
+        }
+
+        // this / e.target is the current hover target.
+        if (viewModel.draggingBug().Id != bug.Id) {
+            viewModel.dragOverBug(bug);
+        }
+    };
+
+    DragAndDropUtility.handleDrop = function (bug, event) {
+        if (event.stopPropagation) {
+            event.stopPropagation();
+        }
+
+        if (bug.Id != viewModel.draggingBug().Id) {
+            viewModel.changeState(viewModel.draggingBug(), bug.State);
+        }
+
+        return false;
+    };
+
+    DragAndDropUtility.handleDragEnd = function (bug, event) {
+        if (event.preventDefault) {
+            event.preventDefault();
+        }
+
+        viewModel.dragOverBug(null);
+        viewModel.draggingBug(null);
+    };
+    return DragAndDropUtility;
+})();
 
 var viewModel;
 
-$(function () {
-
-    // SignalR {
+function setUpSignalR() {
+    // Use this for debugging purposes
     $.connection.hub.logging = false;
-    var bugsHub = $.connection.bugs;
+
+    // Used [] notation to avoid TypeScript error
+    // I could also add custom definition file (.d.ts)
+    var bugsHub = $.connection["bugs"];
 
     bugsHub.client.moved = function (item) {
         viewModel.moveBug(item);
@@ -56,26 +119,31 @@ $(function () {
     $.connection.hub.start().done(function () {
         console.log('hub connection opened');
     });
+}
 
-    // }
+$(function () {
+    setUpSignalR();
 
     $.getJSON(apiUrl, function (data) {
         var model = data;
+
         viewModel = {
-            Backlog: ko.observableArray(
-                model.filter(function (element) { return element.State === BugStatus.Backlog })),
-            Working: ko.observableArray(
-                model.filter(function (element) { return element.State === BugStatus.Working })),
-            Done: ko.observableArray(
-                model.filter(function (element) { return element.State === BugStatus.Done })),
+            Backlog: ko.observableArray(model.filter(function (element) {
+                return element.State === 1 /* Backlog */;
+            })),
+            Working: ko.observableArray(model.filter(function (element) {
+                return element.State === 2 /* Working */;
+            })),
+            Done: ko.observableArray(model.filter(function (element) {
+                return element.State === 3 /* Done */;
+            })),
             changeState: function (bug, newState) {
                 var self = this;
-                $.post(apiUrl + BugStatus[newState], { '': bug.Id }, function (data) {
+                $.post(apiUrl + BugState[newState], { '': bug.Id }, function (data) {
                     self.moveBug(data);
                 });
             },
             moveBug: function (bug) {
-
                 [this.Backlog, this.Working, this.Done].forEach(function (list) {
                     list().forEach(function (item) {
                         if (item.Id == bug.Id) {
@@ -85,12 +153,13 @@ $(function () {
                     });
                 });
 
-                this[BugStatus[bug.State]].push(bug);
+                this[BugState[bug.State]].push(bug);
             },
             draggingBug: ko.observable(),
-            dragOverBug: ko.observable(),
+            dragOverBug: ko.observable()
         };
 
         ko.applyBindings(viewModel);
     });
 });
+//# sourceMappingURL=app.js.map
