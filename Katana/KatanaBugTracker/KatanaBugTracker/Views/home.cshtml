@@ -17,6 +17,20 @@
     <script src="~/Scripts/jquery.signalR-2.0.1.js"></script>
     <script src="~/signalr/hubs"></script>
 
+    <style type="text/css">
+        /* Prevent the text contents of draggable elements from being selectable. */
+        [draggable] {
+            -moz-user-select: none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            /* Required to make elements draggable in old WebKit */
+            -khtml-user-drag: element;
+            -webkit-user-drag: element;
+        }
+    </style>
+
 </head>
 <body>
     <div class="container">
@@ -25,69 +39,63 @@
         </header>
 
         <section>
-            <h2>Backlog</h2>
+            <h3>Backlog</h3>
 
             <div class="alert alert-warning" data-bind="visible: Backlog().length == 0">
                 <p>There are no bugs in backlog</p>
             </div> 
 
             <div class="list-group" id="backlog" data-bind="foreach:Backlog">
-                <div class="list-group-item">
+                <div draggable="true" class="list-group-item alert" 
+                     data-bind="event: { drop: handleDrop, dragstart: handleDragStart, dragenter: handleDragEnter, dragover: handleDragOver}, 
+                                css: {'alert-success': $root.draggingBug() == $data, 'alert-warning': $root.dragOverBug() == $data}">
                     <p>
                         <span class="badge" data-bind="text: Id"></span>
                         <strong><span data-bind="text: Title"></span></strong>
+                        <br />
+                        <span data-bind="text: Description"></span>
                     </p>
-
-                    <span data-bind="text: Description"></span>
-                    <ul>
-                        <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Working)">To working</a></li>
-                        <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Done)">To done</a></li>
-                    </ul>
                 </div>
             </div>
         </section>
         <section>
-            <h2>Working</h2>
+            <h3>Working</h3>
 
             <div class="alert alert-warning" data-bind="visible: Working().length == 0">
                 <p>There are no bugs in working state</p>
             </div>
 
             <div class="list-group" id="working" data-bind="foreach:Working">
-                <div class="list-group-item">
+                <div draggable="true" class="list-group-item alert" 
+                     data-bind="event: { drop: handleDrop, dragstart: handleDragStart, dragenter: handleDragEnter, dragover: handleDragOver},
+                                css: {'alert-success': $root.draggingBug() == $data, 'alert-warning': $root.dragOverBug() == $data}">
                     <p>
-                        <span class="badge" data-bind="text: Id"></span>
-                        <strong><span data-bind="text: Title"> </span></strong>
+                        <span class=" badge" data-bind="text: Id">
+                        </span>
+                        <strong><span data-bind="text: Title"></span></strong>
+                        <br />
+                        <span data-bind="text: Description"></span>
                     </p>
-
-                    <span data-bind="text: Description"></span>
-                    <ul>
-                        <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Backlog)">To backlog</a></li>
-                        <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Done)">To done</a></li>
-                    </ul>
                 </div>
             </div>
         </section>
         <section>
-            <h2>Done</h2>
+            <h3>Done</h3>
 
             <div class="alert alert-warning" data-bind="visible: Done().length == 0">
                 <p>There are no bugs in done state</p>
             </div>
 
             <div class="list-group" id="done" data-bind="foreach:Done">
-                <div class="list-group-item">
+                <div draggable="true" class="list-group-item alert" 
+                     data-bind="event: { drop: handleDrop, dragstart: handleDragStart, dragenter: handleDragEnter, dragover: handleDragOver},
+                                css: {'alert-success': $root.draggingBug() == $data, 'alert-warning': $root.dragOverBug() == $data}">
                     <p>
                         <span class="badge" data-bind="text: Id"></span>
                         <strong><span data-bind="text: Title"></span></strong>
+                        <br />
+                        <span data-bind="text: Description"></span>
                     </p>
-
-                    <span data-bind="text: Description"></span>
-
-                    <ul>
-                        <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Backlog)">To backlog</a></li>
-                        <li><a href="#" data-bind="click: $root.changeState.bind($root, $data, BugStatus.Working)">To working</a></li>
-                    </ul>
                 </div>
             </div>
         </section>

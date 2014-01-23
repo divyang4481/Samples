@@ -9,11 +9,44 @@ var BugStatus;
 
 var apiUrl = '/api/bugs/';
 
+function handleDragStart(bug, event) {
+    viewModel.draggingBug(bug);
+
+    // Knockout makes all events preventDefault / return false => I have to return true
+    // see: http://stackoverflow.com/questions/7218171/knockout-html5-drag-and-drop
+
+    return true;
+}
+
+function handleDragOver(bug, event) {
+    if (event.preventDefault) { event.preventDefault(); } // Necessary. Allows to drop.
+}
+
+function handleDragEnter(bug, event) {
+    if (event.preventDefault) { event.preventDefault(); }
+
+    // this / e.target is the current hover target.
+    viewModel.dragOverBug(bug);
+}
+
+function handleDrop(bug, event) {
+    if (event.stopPropagation) { event.stopPropagation(); }
+
+    if (bug.Id != viewModel.draggingBug().Id) {
+        viewModel.changeState(viewModel.draggingBug(), bug.State);
+    }
+
+    viewModel.dragOverBug(null);
+
+    return false;
+}
+
+var viewModel;
+
 $(function () {
-    var viewModel;
 
     // SignalR {
-    $.connection.hub.logging = true;
+    $.connection.hub.logging = false;
     var bugsHub = $.connection.bugs;
 
     bugsHub.client.moved = function (item) {
@@ -53,9 +86,11 @@ $(function () {
                 });
 
                 this[BugStatus[bug.State]].push(bug);
-            }
+            },
+            draggingBug: ko.observable(),
+            dragOverBug: ko.observable(),
         };
 
         ko.applyBindings(viewModel);
-    })
+    });
 });
