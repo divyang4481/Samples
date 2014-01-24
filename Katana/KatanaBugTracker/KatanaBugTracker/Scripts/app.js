@@ -95,7 +95,6 @@ var DragAndDropUtility = (function () {
 
         if (viewModel.draggingBug().State != zone.State) {
             viewModel.dragOverState(zone.State);
-            //console.log(viewModel.dragOverState());
         }
     };
 
@@ -103,7 +102,6 @@ var DragAndDropUtility = (function () {
         if (event.preventDefault) {
             event.preventDefault();
         }
-        // this / e.target is the current hover target.
     };
 
     DragAndDropUtility.handleDrop = function (zone, event) {

@@ -37,6 +37,10 @@
         .draggable {
             cursor: move;
         }
+
+        .badge-info {
+            background-color: #3a87ad;
+        }
     </style>
 
 </head>
@@ -59,7 +63,7 @@
                          data-bind="event: { dragstart: DragAndDropUtility.handleDragStart, dragend: DragAndDropUtility.handleDragEnd},
                                 css: {'alert-success': $root.draggingBug() == $data}">
                         <p>
-                            <span class="badge" data-bind="text: Id"></span>
+                            <span class="badge badge-info" data-bind="text: Id"></span>
                             <strong><span data-bind="text: Title"></span></strong>
                             <br />
                             <span data-bind="text: Description"></span>
