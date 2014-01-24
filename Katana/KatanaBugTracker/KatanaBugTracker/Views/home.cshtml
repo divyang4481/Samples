@@ -29,6 +29,10 @@
             -khtml-user-drag: element;
             -webkit-user-drag: element;
         }
+
+        .dragover-border {
+            border: 2px dashed orange;
+        }
     </style>
 
 </head>
@@ -39,14 +43,14 @@
         </header>
 
         <section data-bind="foreach:Zones">
-            <div data-bind="css: {'alert-warning': $root.dragOverState == State}, event: { dragover: DragAndDropUtility.handleDragOver, drop: DragAndDropUtility.handleDrop,dragenter: DragAndDropUtility.handleDragEnter }">
-                <h4 data-bind="text: Name"></h4>
+            <h4 data-bind="text: Name"></h4>
 
-                <div class="alert alert-danger" data-bind="visible: Bugs().length == 0">
+            <div data-bind="event: { dragover: DragAndDropUtility.handleDragOver, drop: DragAndDropUtility.handleDrop,dragenter: DragAndDropUtility.handleDragEnter }">
+                <div class="alert alert-danger" data-bind="visible: Bugs().length == 0, css: {'dragover-border': $root.dragOverState() == State}">
                     <p>There are no bugs in this zone</p>
                 </div>
 
-                <div class="list-group" id="backlog" data-bind="foreach:Bugs">
+                <div class="list-group" id="backlog" data-bind="foreach:Bugs, css: {'dragover-border': $root.dragOverState() == State && Bugs().length > 0}">
                     <div draggable="true" class="list-group-item alert"
                          data-bind="event: { dragstart: DragAndDropUtility.handleDragStart, dragend: DragAndDropUtility.handleDragEnd},
                                 css: {'alert-success': $root.draggingBug() == $data}">

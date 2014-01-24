@@ -90,16 +90,17 @@ class DragAndDropUtility
 
     static handleDragOver(zone: BugZone, event) {
         if (event.preventDefault) { event.preventDefault(); } // Necessary. Allows to drop.
+
+        if (viewModel.draggingBug().State != zone.State) {
+            viewModel.dragOverState(zone.State);
+            //console.log(viewModel.dragOverState());
+        }
     }
 
     static handleDragEnter(zone: BugZone, event) {
         if (event.preventDefault) { event.preventDefault(); }
 
         // this / e.target is the current hover target.
-
-        if (viewModel.draggingBug().State != zone.State) {
-            viewModel.dragOverState(zone.State);
-        }
     }
 
     static handleDrop(zone: BugZone, event) {

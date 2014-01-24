@@ -92,17 +92,18 @@ var DragAndDropUtility = (function () {
         if (event.preventDefault) {
             event.preventDefault();
         }
+
+        if (viewModel.draggingBug().State != zone.State) {
+            viewModel.dragOverState(zone.State);
+            //console.log(viewModel.dragOverState());
+        }
     };
 
     DragAndDropUtility.handleDragEnter = function (zone, event) {
         if (event.preventDefault) {
             event.preventDefault();
         }
-
         // this / e.target is the current hover target.
-        if (viewModel.draggingBug().State != zone.State) {
-            viewModel.dragOverState(zone.State);
-        }
     };
 
     DragAndDropUtility.handleDrop = function (zone, event) {
