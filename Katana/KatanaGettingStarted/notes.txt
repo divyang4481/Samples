@@ -1,0 +1,6 @@
+AppFunc
+
+Func<IDictionary<string, object>, Task>;
+
+dictionary = environment
+all async
