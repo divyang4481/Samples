@@ -33,6 +33,10 @@
         .dragover-border {
             border: 2px dashed orange;
         }
+
+        .draggable {
+            cursor: move;
+        }
     </style>
 
 </head>
@@ -51,7 +55,7 @@
                 </div>
 
                 <div class="list-group" id="backlog" data-bind="foreach:Bugs, css: {'dragover-border': $root.dragOverState() == State && Bugs().length > 0}">
-                    <div draggable="true" class="list-group-item alert"
+                    <div draggable="true" class="list-group-item alert draggable"
                          data-bind="event: { dragstart: DragAndDropUtility.handleDragStart, dragend: DragAndDropUtility.handleDragEnd},
                                 css: {'alert-success': $root.draggingBug() == $data}">
                         <p>
@@ -62,7 +66,6 @@
                         </p>
                     </div>
                 </div>
-
             </div>
         </section>
     </div>
