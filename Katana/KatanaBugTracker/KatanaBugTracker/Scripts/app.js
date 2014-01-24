@@ -53,6 +53,8 @@ var ViewModel = (function () {
 
     ViewModel.prototype.changeState = function (bug, newState) {
         var self = this;
+
+        // why {'': bud.Id} ? => http://encosia.com/using-jquery-to-post-frombody-parameters-to-web-api/
         $.post(apiUrl + BugState[newState], { '': bug.Id }, function (data) {
             self.moveBug(data);
         });
