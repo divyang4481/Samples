@@ -18,20 +18,37 @@ class Bug
     State: BugState;
 }
 
+class BugZone
+{
+    constructor(public Name: string, public State: BugState) { }
+    Bugs: KnockoutObservableArray<Bug>;
+}
+
 class ViewModel {
-    Backlog: KnockoutObservableArray<Bug>;
-    Working: KnockoutObservableArray<Bug>;
-    Done: KnockoutObservableArray<Bug>;
+
+    Zones: BugZone[];
     draggingBug: KnockoutObservable<Bug>; // bug that is being dragged currently 
-    dragOverBug: KnockoutObservable<Bug>; // target bug on which we drop 
+    dragOverState: KnockoutObservable<BugState>; 
 
     constructor(model: Bug[]) {
-        this.Backlog = ko.observableArray(model.filter(bug => { return bug.State === BugState.Backlog }));
-        this.Working = ko.observableArray(model.filter(bug => { return bug.State === BugState.Working }));
-        this.Done = ko.observableArray(model.filter(bug => { return bug.State === BugState.Done }));
+
+        var backlog = new BugZone("Backlog", BugState.Backlog);
+        backlog.Bugs = ko.observableArray(model.filter(bug => { return bug.State === BugState.Backlog }));
+        
+        var working = new BugZone("Working", BugState.Working);
+        working.Bugs = ko.observableArray(model.filter(bug => { return bug.State === BugState.Working }));
+        
+        var done = new BugZone("Done", BugState.Done);
+        done.Bugs = ko.observableArray(model.filter(bug => { return bug.State === BugState.Done }));
+        
+        this.Zones = [backlog, working, done];
 
         this.draggingBug = ko.observable<Bug>();
-        this.dragOverBug = ko.observable<Bug>();
+        this.dragOverState = ko.observable<BugState>();
+    }
+
+    getAllBugs() : KnockoutObservableArray<Bug>[] {
+        return this.Zones.map(z => { return z.Bugs });
     }
 
     changeState(bug: Bug, newState: BugState) {
@@ -42,7 +59,7 @@ class ViewModel {
     }
 
     moveBug(bug: Bug) {
-        [this.Backlog, this.Working, this.Done].forEach(list => {
+        this.getAllBugs().forEach(list => {
             list().forEach(item => {
                 if (item.Id == bug.Id) {
                     console.log('removing item ' + item.Id);
@@ -51,9 +68,8 @@ class ViewModel {
             });
         });
 
-        this[BugState[bug.State]].push(bug);
+        this.Zones.filter(z => z.State == bug.State)[0].Bugs.push(bug);
     }
-
 }
 
 var apiUrl = '/api/bugs/';
@@ -72,25 +88,25 @@ class DragAndDropUtility
         return true;
     }
 
-    static handleDragOver(bug: Bug, event) {
+    static handleDragOver(zone: BugZone, event) {
         if (event.preventDefault) { event.preventDefault(); } // Necessary. Allows to drop.
     }
 
-    static handleDragEnter(bug: Bug, event) {
+    static handleDragEnter(zone: BugZone, event) {
         if (event.preventDefault) { event.preventDefault(); }
 
         // this / e.target is the current hover target.
 
-        if (viewModel.draggingBug().Id != bug.Id) {
-            viewModel.dragOverBug(bug);
+        if (viewModel.draggingBug().State != zone.State) {
+            viewModel.dragOverState(zone.State);
         }
     }
 
-    static handleDrop(bug: Bug, event) {
+    static handleDrop(zone: BugZone, event) {
         if (event.stopPropagation) { event.stopPropagation(); }
 
-        if (bug.Id != viewModel.draggingBug().Id) {
-            viewModel.changeState(viewModel.draggingBug(), bug.State);
+        if (zone.State != viewModel.draggingBug().State) {
+            viewModel.changeState(viewModel.draggingBug(), zone.State);
         }
 
         return false;
@@ -100,12 +116,12 @@ class DragAndDropUtility
     {
         if (event.preventDefault) { event.preventDefault(); }
 
-        viewModel.dragOverBug(null);
+        viewModel.dragOverState(null);
         viewModel.draggingBug(null);
     }
 }
 
-var viewModel;
+var viewModel : ViewModel;
 
 function setUpSignalR()
 {

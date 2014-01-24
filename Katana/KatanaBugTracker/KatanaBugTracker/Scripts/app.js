@@ -15,21 +15,42 @@ var Bug = (function () {
     return Bug;
 })();
 
+var BugZone = (function () {
+    function BugZone(Name, State) {
+        this.Name = Name;
+        this.State = State;
+    }
+    return BugZone;
+})();
+
 var ViewModel = (function () {
     function ViewModel(model) {
-        this.Backlog = ko.observableArray(model.filter(function (bug) {
+        var backlog = new BugZone("Backlog", 1 /* Backlog */);
+        backlog.Bugs = ko.observableArray(model.filter(function (bug) {
             return bug.State === 1 /* Backlog */;
         }));
-        this.Working = ko.observableArray(model.filter(function (bug) {
+
+        var working = new BugZone("Working", 2 /* Working */);
+        working.Bugs = ko.observableArray(model.filter(function (bug) {
             return bug.State === 2 /* Working */;
         }));
-        this.Done = ko.observableArray(model.filter(function (bug) {
+
+        var done = new BugZone("Done", 3 /* Done */);
+        done.Bugs = ko.observableArray(model.filter(function (bug) {
             return bug.State === 3 /* Done */;
         }));
 
+        this.Zones = [backlog, working, done];
+
         this.draggingBug = ko.observable();
-        this.dragOverBug = ko.observable();
+        this.dragOverState = ko.observable();
     }
+    ViewModel.prototype.getAllBugs = function () {
+        return this.Zones.map(function (z) {
+            return z.Bugs;
+        });
+    };
+
     ViewModel.prototype.changeState = function (bug, newState) {
         var self = this;
         $.post(apiUrl + BugState[newState], { '': bug.Id }, function (data) {
@@ -38,7 +59,7 @@ var ViewModel = (function () {
     };
 
     ViewModel.prototype.moveBug = function (bug) {
-        [this.Backlog, this.Working, this.Done].forEach(function (list) {
+        this.getAllBugs().forEach(function (list) {
             list().forEach(function (item) {
                 if (item.Id == bug.Id) {
                     console.log('removing item ' + item.Id);
@@ -47,7 +68,9 @@ var ViewModel = (function () {
             });
         });
 
-        this[BugState[bug.State]].push(bug);
+        this.Zones.filter(function (z) {
+            return z.State == bug.State;
+        })[0].Bugs.push(bug);
     };
     return ViewModel;
 })();
@@ -65,30 +88,30 @@ var DragAndDropUtility = (function () {
         return true;
     };
 
-    DragAndDropUtility.handleDragOver = function (bug, event) {
+    DragAndDropUtility.handleDragOver = function (zone, event) {
         if (event.preventDefault) {
             event.preventDefault();
         }
     };
 
-    DragAndDropUtility.handleDragEnter = function (bug, event) {
+    DragAndDropUtility.handleDragEnter = function (zone, event) {
         if (event.preventDefault) {
             event.preventDefault();
         }
 
         // this / e.target is the current hover target.
-        if (viewModel.draggingBug().Id != bug.Id) {
-            viewModel.dragOverBug(bug);
+        if (viewModel.draggingBug().State != zone.State) {
+            viewModel.dragOverState(zone.State);
         }
     };
 
-    DragAndDropUtility.handleDrop = function (bug, event) {
+    DragAndDropUtility.handleDrop = function (zone, event) {
         if (event.stopPropagation) {
             event.stopPropagation();
         }
 
-        if (bug.Id != viewModel.draggingBug().Id) {
-            viewModel.changeState(viewModel.draggingBug(), bug.State);
+        if (zone.State != viewModel.draggingBug().State) {
+            viewModel.changeState(viewModel.draggingBug(), zone.State);
         }
 
         return false;
@@ -99,7 +122,7 @@ var DragAndDropUtility = (function () {
             event.preventDefault();
         }
 
-        viewModel.dragOverBug(null);
+        viewModel.dragOverState(null);
         viewModel.draggingBug(null);
     };
     return DragAndDropUtility;

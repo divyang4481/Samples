@@ -38,65 +38,27 @@
             <h1>@Model.Title</h1>
         </header>
 
-        <section>
-            <h4>Backlog</h4>
+        <section data-bind="foreach:Zones">
+            <div data-bind="css: {'alert-warning': $root.dragOverState == State}, event: { dragover: DragAndDropUtility.handleDragOver, drop: DragAndDropUtility.handleDrop,dragenter: DragAndDropUtility.handleDragEnter }">
+                <h4 data-bind="text: Name"></h4>
 
-            <div draggable="true" class="alert alert-danger" data-bind="visible: Backlog().length == 0">
-                <p>There are no bugs in backlog</p>
-            </div> 
-
-            <div class="list-group" id="backlog" data-bind="foreach:Backlog">
-                <div draggable="true" class="list-group-item alert"
-                     data-bind="event: { drop: DragAndDropUtility.handleDrop, dragstart: DragAndDropUtility.handleDragStart, dragenter: DragAndDropUtility.handleDragEnter, dragover: DragAndDropUtility.handleDragOver, dragend: DragAndDropUtility.handleDragEnd},
-                                css: {'alert-success': $root.draggingBug() == $data, 'alert-warning': $root.dragOverBug() == $data}">
-                    <p>
-                        <span class="badge" data-bind="text: Id"></span>
-                        <strong><span data-bind="text: Title"></span></strong>
-                        <br />
-                        <span data-bind="text: Description"></span>
-                    </p>
+                <div class="alert alert-danger" data-bind="visible: Bugs().length == 0">
+                    <p>There are no bugs in this zone</p>
                 </div>
-            </div>
-        </section>
-        <section>
-            <h4>Working</h4>
 
-            <div draggable="true" class="alert alert-danger" data-bind="visible: Working().length == 0">
-                <p>There are no bugs in working state</p>
-            </div>
-
-            <div class="list-group" id="working" data-bind="foreach:Working">
-                <div draggable="true" class="list-group-item alert"
-                     data-bind="event: { drop: DragAndDropUtility.handleDrop, dragstart: DragAndDropUtility.handleDragStart, dragenter: DragAndDropUtility.handleDragEnter, dragover: DragAndDropUtility.handleDragOver, dragend: DragAndDropUtility.handleDragEnd},
-                                css: {'alert-success': $root.draggingBug() == $data, 'alert-warning': $root.dragOverBug() == $data}">
-                    <p>
-                        <span class=" badge" data-bind="text: Id">
-                        </span>
-                        <strong><span data-bind="text: Title"></span></strong>
-                        <br />
-                        <span data-bind="text: Description"></span>
-                    </p>
+                <div class="list-group" id="backlog" data-bind="foreach:Bugs">
+                    <div draggable="true" class="list-group-item alert"
+                         data-bind="event: { dragstart: DragAndDropUtility.handleDragStart, dragend: DragAndDropUtility.handleDragEnd},
+                                css: {'alert-success': $root.draggingBug() == $data}">
+                        <p>
+                            <span class="badge" data-bind="text: Id"></span>
+                            <strong><span data-bind="text: Title"></span></strong>
+                            <br />
+                            <span data-bind="text: Description"></span>
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </section>
-        <section>
-            <h4>Done</h4>
 
-            <div draggable="true" class="alert alert-danger" data-bind="visible: Done().length == 0">
-                <p>There are no bugs in done state</p>
-            </div>
-
-            <div class="list-group" id="done" data-bind="foreach:Done">
-                <div draggable="true" class="list-group-item alert"
-                     data-bind="event: { drop: DragAndDropUtility.handleDrop, dragstart: DragAndDropUtility.handleDragStart, dragenter: DragAndDropUtility.handleDragEnter, dragover: DragAndDropUtility.handleDragOver, dragend: DragAndDropUtility.handleDragEnd},
-                                css: {'alert-success': $root.draggingBug() == $data, 'alert-warning': $root.dragOverBug() == $data}">
-                    <p>
-                        <span class="badge" data-bind="text: Id"></span>
-                        <strong><span data-bind="text: Title"></span></strong>
-                        <br />
-                        <span data-bind="text: Description"></span>
-                    </p>
-                </div>
             </div>
         </section>
     </div>
