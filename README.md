@@ -28,4 +28,4 @@ Sample applications
   - TypeScript09Features: TypeScript 0.9 new features playground (in progress)
 
 **Katana**
-  - KatanaBugTracker: http://msdn.microsoft.com/en-us/magazine/dn451439.aspx (modified)
+  - KatanaBugTracker: moved to: [https://github.com/piotrosz/dropbugs](https://github.com/piotrosz/dropbugs)
