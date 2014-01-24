@@ -6,7 +6,9 @@ using System.Web;
 
 namespace KatanaGettingStarted
 {
-    using AppFunc = Func<IDictionary<string, object>, Task>;
+    using Owin;
+using System.IO;
+using AppFunc = Func<IDictionary<string, object>, Task>;
 
     public class HelloWorldComponent
     {
@@ -19,9 +21,23 @@ namespace KatanaGettingStarted
 
         }
 
-        public async Task Invoke(IDictionary<string, object> environment)
+        public /*async*/ Task Invoke(IDictionary<string, object> environment)
         {
-            await _next(environment);
+            var response = environment["owin.ResponseBody"] as Stream;
+            using (var writer = new StreamWriter(response))
+            {
+                return writer.WriteAsync("Hello!!");
+            }
+
+            //await _next(environment);
+        }
+    }
+
+    public static class AppBuilderExtensions
+    {
+        public static void UseHelloWorld(this IAppBuilder app)
+        {
+            app.Use<HelloWorldComponent>();
         }
     }
 }
