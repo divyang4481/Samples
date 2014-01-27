@@ -29,3 +29,4 @@ Sample applications
 
 **Katana**
   - KatanaBugTracker: moved to: [https://github.com/piotrosz/dropbugs](https://github.com/piotrosz/dropbugs)
+  - KatanaGettingStarted: self-hosting, IIS hosting, pipeline, middleware, environment, AppFunc, etc.
