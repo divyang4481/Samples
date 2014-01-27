@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
+using System.Web.Http;
 
 [assembly: OwinStartup(typeof(KatanaGettingStarted.Startup))]
 
@@ -11,15 +12,15 @@ namespace KatanaGettingStarted
     {
         public void Configuration(IAppBuilder app)
         {
-            app.Use(async (environment, next) =>
-            {
-                foreach (var pair in environment.Environment)
-                {
-                    Console.WriteLine("{0}: {1}", pair.Key, pair.Value);
-                }
+            //app.Use(async (environment, next) =>
+            //{
+            //    foreach (var pair in environment.Environment)
+            //    {
+            //        Console.WriteLine("{0}: {1}", pair.Key, pair.Value);
+            //    }
 
-                await next();
-            });
+            //    await next();
+            //});
 
             app.Use(async (environment, next) =>
             {
@@ -27,6 +28,8 @@ namespace KatanaGettingStarted
                 await next();
                 Console.WriteLine("Response: {0}", environment.Response.StatusCode);
             });
+
+            ConfigureWebApi(app);
 
             app.UseHelloWorld();
 
@@ -41,6 +44,13 @@ namespace KatanaGettingStarted
             //{
             //    return environment.Response.WriteAsync("Hello!!!");
             //});
+        }
+
+        private void ConfigureWebApi(IAppBuilder app)
+        {
+            var config = new HttpConfiguration();
+            config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
+            app.UseWebApi(config);
         }
     }
 }
