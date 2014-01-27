@@ -2,5 +2,13 @@ AppFunc
 
 Func<IDictionary<string, object>, Task>;
 
-dictionary = environment
+Function that takes dict and returns a task (interaction with a server).
+
+dictionary = environment, request, response, similar to HttpContext
 all async
+
+OWIN is a pipeline of components
+Component in the middle has to call next component
+
+Components = Middleware
+
