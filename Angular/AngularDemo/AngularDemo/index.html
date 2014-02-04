@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+
+    <div data-ng-app="demoApp">
+        <div data-ng-controller="SimpleController">
+            <input type="text" data-ng-model="name" />
+            <br />
+            <ul>
+                <li data-ng-repeat="cust in Customers | filter:name | orderBy: city">
+                    {{cust.name}} - {{cust.city}}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="Scripts/angular.js"></script>
+
+    <script type="text/javascript">
+        var demoApp = angular.module('demoApp', []);
+
+        var controllers = {};
+        controllers.SimpleController = function ($scope) {
+            $scope.Customers =
+            [
+                { name: 'John Doe', city: 'Radom' },
+                { name: 'Jane Doe', city: 'Warszawa' },
+                { name: 'John Smith', city: 'Manchester' },
+                { name: 'Patti Smith', city: 'New York' }
+            ];
+        };
+
+        demoApp.controller(controllers);
+    </script>
+
+</body>
+</html>
