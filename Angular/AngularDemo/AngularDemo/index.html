@@ -18,32 +18,50 @@
         var demoApp = angular.module('demoApp', ['ngRoute']);
 
         // Add a new route
-        demoApp.config(function ($routeProvider) {
-            $routeProvider
-                .when('/View1',
-                    {
-                        controller: 'SimpleController',
-                        templateUrl: 'Partials/View1.html' 
-                    })
-                .when('/View2',
-                    {
-                        controller: 'SimpleController',
-                        templateUrl: 'Partials/View2.html'
-                    })
-                .otherwise({ redirectTo: '/View1' });
-        });
+        demoApp
+            .config(function ($routeProvider) {
+                $routeProvider
+                    .when('/View1',
+                        {
+                            controller: 'SimpleController',
+                            templateUrl: 'Partials/View1.html' 
+                        })
+                    .when('/View2',
+                        {
+                            controller: 'SimpleController',
+                            templateUrl: 'Partials/View2.html'
+                        })
+                    .otherwise({ redirectTo: '/View1' });
+            })
+            .factory('simpleFactory', function () {
+                var factory = {};
+                var customers =
+                    [
+                        { name: 'John Doe', city: 'Radom' },
+                        { name: 'Jane Doe', city: 'Warszawa' },
+                        { name: 'John Smith', city: 'Manchester' },
+                        { name: 'Patti Smith', city: 'New York' }
+                    ];
+                factory.getCustomers = function () {
+                    return customers;
+                };
+
+                return factory;
+            });
 
         var controllers = {};
-        controllers.SimpleController = function ($scope) {
-            $scope.Customers =
-            [
-                { name: 'John Doe', city: 'Radom' },
-                { name: 'Jane Doe', city: 'Warszawa' },
-                { name: 'John Smith', city: 'Manchester' },
-                { name: 'Patti Smith', city: 'New York' }
-            ];
+        controllers.SimpleController = function ($scope, simpleFactory) {
+            
+            $scope.Customers = [];
+
+            init();
+
+            function init() {
+                $scope.Customers = simpleFactory.getCustomers();
+            }
 
             $scope.addCustomer = function () {
+
                 $scope.Customers.push(
                     {
                         name: $scope.newCustomer.name,
