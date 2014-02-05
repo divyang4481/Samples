@@ -15,7 +15,7 @@
 
         <div data-ng-controller="FirstController">
             <input type="text" data-ng-model="data.message" />
-            <h2>{{reversedMessage()}}</h2>
+            <h2>{{data.message | reverse}}</h2>
         </div>
 
 
@@ -35,15 +35,16 @@
             return { message: "I am data from a service" };
         });
 
+        myApp.filter("reverse", function () {
+            return function (text) {
+                return text.split("").reverse().join("");
+            }
+        });
+
         function FirstController($scope, Data)
         {
             $scope.data = Data;
-
-            $scope.reversedMessage = function () {
-                return $scope.data.message.split("").reverse().join("");
-            };
         }
-
 
         function SecondController($scope, Data)
         {
