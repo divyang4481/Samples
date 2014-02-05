@@ -15,7 +15,7 @@
 
         <div data-ng-controller="FirstController">
             <input type="text" data-ng-model="data.message" />
-            <h2>{{data.message}}</h2>
+            <h2>{{reversedMessage()}}</h2>
         </div>
 
 
@@ -38,6 +38,10 @@
         function FirstController($scope, Data)
         {
             $scope.data = Data;
+
+            $scope.reversedMessage = function () {
+                return $scope.data.message.split("").reverse().join("");
+            };
         }
 
 
