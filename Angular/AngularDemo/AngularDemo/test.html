@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+    <script src="Scripts/angular.js"></script>
+</head>
+<body>
+
+    <div data-ng-app="myApp">
+        <!--<input type="text" data-ng-model="data.message" />
+        <h2>{{data.message}}</h2>-->
+
+
+
+        <div data-ng-controller="FirstController">
+            <input type="text" data-ng-model="data.message" />
+            <h2>{{data.message}}</h2>
+        </div>
+
+
+
+        <div data-ng-controller="SecondController">
+            <input type="text" data-ng-model="data.message" />
+            <h2>{{data.message}}</h2>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+
+        var myApp = angular.module("myApp", []);
+
+        myApp.factory("Data", function () {
+            return { message: "I am data from a service" };
+        });
+
+        function FirstController($scope, Data)
+        {
+            $scope.data = Data;
+        }
+
+
+        function SecondController($scope, Data)
+        {
+            $scope.data = Data;
+        }
+    </script>
+</body>
+</html>
