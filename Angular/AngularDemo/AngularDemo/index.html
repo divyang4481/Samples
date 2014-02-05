@@ -1,26 +1,37 @@
 ﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" data-ng-app="demoApp">
 <head>
     <title></title>
 </head>
 <body>
 
-    <div data-ng-app="demoApp">
-        <div data-ng-controller="SimpleController">
-            <input type="text" data-ng-model="name" />
-            <br />
-            <ul>
-                <li data-ng-repeat="cust in Customers | filter:name | orderBy: city">
-                    {{cust.name}} - {{cust.city}}
-                </li>
-            </ul>
+    <div>
+        <!-- placeholder for the views -->
+        <div data-ng-view="">
         </div>
     </div>
 
     <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-route.js"></script>
 
     <script type="text/javascript">
-        var demoApp = angular.module('demoApp', []);
+        var demoApp = angular.module('demoApp', ['ngRoute']);
+
+        // Add a new route
+        demoApp.config(function ($routeProvider) {
+            $routeProvider
+                .when('/View1',
+                    {
+                        controller: 'SimpleController',
+                        templateUrl: 'Partials/View1.html' 
+                    })
+                .when('/View2',
+                    {
+                        controller: 'SimpleController',
+                        templateUrl: 'Partials/View2.html'
+                    })
+                .otherwise({ redirectTo: '/View1' });
+        });
 
         var controllers = {};
         controllers.SimpleController = function ($scope) {
@@ -31,6 +42,14 @@
                 { name: 'John Smith', city: 'Manchester' },
                 { name: 'Patti Smith', city: 'New York' }
             ];
+
+            $scope.addCustomer = function () {
+                $scope.Customers.push(
+                    {
+                        name: $scope.newCustomer.name,
+                        city: $scope.newCustomer.city
+                    });
+            };
         };
 
         demoApp.controller(controllers);

@@ -1,9 +1,29 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-</head>
-<body>
+﻿<div class="container">
+    <h2>View 1</h2>
+    Name:
+    <br />
+    <input type="text" data-ng-model="filter.name" />
+    <br />
+    <ul>
+        <li data-ng-repeat="cust in Customers | filter: filter.name | orderBy: city">
+            {{cust.name}} - {{cust.city}}
 
-</body>
-</html>
+        </li>
+    </ul>
+
+    <br />
+
+    Customer name:<br />
+    <input type="text" data-ng-model="newCustomer.name" />
+
+    <br />
+
+    Customer city:<br />
+    <input type="text" data-ng-model="newCustomer.city" />
+
+    <br />
+    <button data-ng-click="addCustomer()">Add customer</button>
+
+    <br />
+    <a href="#/View2">View 2</a>
+</div>
