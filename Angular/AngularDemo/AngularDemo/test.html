@@ -25,6 +25,9 @@
             <h2>{{data.message}}</h2>
         </div>
 
+        <supermanelement></supermanelement>
+
+        <div supermanattribute=""></div>
     </div>
 
     <script type="text/javascript">
@@ -39,6 +42,26 @@
             return function (text) {
                 return text.split("").reverse().join("");
             }
+        });
+
+        myApp.directive("supermanelement", function () {
+
+            var obj = {
+                restrict: 'E',
+                template: '<div>Here I am to save the day</div>'
+            };
+
+            return obj;
+            
+        });
+
+        myApp.directive("supermanattribute", function () {
+            return {
+                restrict: 'A',
+                link: function () {
+                    console.log("And I am working");
+                }
+            };
         });
 
         function FirstController($scope, Data)
