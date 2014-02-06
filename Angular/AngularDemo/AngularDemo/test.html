@@ -27,7 +27,7 @@
 
         <supermanelement></supermanelement>
 
-        <div supermanattribute=""></div>
+        <div supermanattribute="" class="supermanclass"></div>
     </div>
 
     <script type="text/javascript">
@@ -59,7 +59,16 @@
             return {
                 restrict: 'A',
                 link: function () {
-                    console.log("And I am working");
+                    console.log("I am working as attribute");
+                }
+            };
+        });
+
+        myApp.directive("supermanclass", function () {
+            return {
+                restrict: 'C',
+                link: function () {
+                    console.log("I am working in class");
                 }
             };
         });
