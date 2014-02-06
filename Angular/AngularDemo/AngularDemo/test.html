@@ -25,6 +25,8 @@
             <h2>{{data.message}}</h2>
         </div>
 
+        <!-- directive:supermancomment -->
+
         <supermanelement></supermanelement>
 
         <div supermanattribute="" class="supermanclass"></div>
@@ -71,6 +73,15 @@
                     console.log("I am working in class");
                 }
             };
+        });
+
+        myApp.directive("supermancomment", function () {
+            return {
+                restrict: 'M',
+                link: function () {
+                    console.log("I am working as a comment");
+                }
+            }
         });
 
         function FirstController($scope, Data)
