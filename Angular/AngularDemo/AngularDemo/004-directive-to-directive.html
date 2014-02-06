@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/angular.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap-theme.css" rel="stylesheet" />
+</head>
+<body>
+    <div data-ng-app="testApp">
+
+        <superhero strength speed flight>Superman</superhero>
+        <superhero speed>Second</superhero>
+        
+    </div>
+
+    <script type="text/javascript">
+        var app = angular.module("testApp", []);
+
+        app.directive("superhero", function () {
+            return {
+                restrict: "E",
+                scope: {},
+                controller: function ($scope) {
+
+                    $scope.abilities = [];
+
+                    this.addStrength = function () {
+                        $scope.abilities.push('strength');
+                    };
+
+                    this.addSpeed = function () {
+                        $scope.abilities.push('speed');
+                    };
+
+                    this.addFlight = function () {
+                        $scope.abilities.push('flight');
+                    };
+                },
+                link: function (scope, element) {
+                    element.addClass("btn btn-danger");
+                    element.bind("mouseenter", function () {
+                        console.log(scope.abilities);
+                    });
+                }
+            }
+        });
+
+        app.directive("strength", function () {
+            return {
+                require: "superhero",
+                link: function (scope, element, attrs, controller) {
+                    controller.addStrength();
+                }
+            };
+        });
+
+        app.directive("speed", function () {
+            return {
+                require: "superhero",
+                link: function (scope, element, attrs, controller) {
+                    controller.addSpeed();
+                }
+            };
+        });
+
+        app.directive("flight", function () {
+            return {
+                require: "superhero",
+                link: function (scope, element, attrs, controller) {
+                    controller.addFlight();
+                }
+            };
+        });
+    </script>
+</body>
+</html>
