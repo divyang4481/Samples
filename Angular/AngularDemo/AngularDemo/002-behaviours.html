@@ -3,10 +3,12 @@
 <head>
     <title></title>
     <script src="Scripts/angular.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap-theme.css" rel="stylesheet" />
 </head>
 <body>
-    <div data-ng-app="behaviourApp">
-        <div enter leave>I'm content</div>
+    <div class="container" data-ng-app="behaviourApp">
+        <span enter="label label-default" leave>I'm content</span>
     </div>
 </body>
 </html>
@@ -24,17 +26,17 @@
     //});
 
     app.directive("enter", function () {
-        return function ($scope, element) {
+        return function ($scope, element, attrs) {
             element.bind("mouseenter", function () {
-                console.log("I am inside of you!");
+                element.addClass(attrs.enter);
             });
         }
     });
 
     app.directive("leave", function () {
-        return function ($scope, element) {
+        return function ($scope, element, attrs) {
             element.bind("mouseleave", function () {
-                console.log("I am leaving");
+                element.removeClass(attrs.enter);
             });
         };
     });
