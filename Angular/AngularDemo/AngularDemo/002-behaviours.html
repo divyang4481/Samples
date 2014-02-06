@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/angular.js"></script>
+</head>
+<body>
+    <div data-ng-app="behaviourApp">
+        <div enter leave>I'm content</div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    var app = angular.module("behaviourApp", []);
+
+    // In directive default restriction is A
+    // You don't have to write 'link'
+
+    //app.directive("enter", function () {
+    //    restrict: 'A'
+    //    link: function () {
+    //    }
+    //});
+
+    app.directive("enter", function () {
+        return function ($scope, element) {
+            element.bind("mouseenter", function () {
+                console.log("I am inside of you!");
+            });
+        }
+    });
+
+    app.directive("leave", function () {
+        return function ($scope, element) {
+            element.bind("mouseleave", function () {
+                console.log("I am leaving");
+            });
+        };
+    });
+</script>
