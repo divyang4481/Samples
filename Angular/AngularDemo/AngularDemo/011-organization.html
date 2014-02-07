@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/angular.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap-theme.css" rel="stylesheet" />
+</head>
+<body>
+    <div data-ng-app="phoneApp">
+        <div data-ng-controller="PhoneController">
+            <panel></panel>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var app = angular.module("phoneApp", []);
+
+        var phoneAppStuff = {};
+
+        phoneAppStuff.controllers = {};
+        phoneAppStuff.controllers.PhoneController = function ($scope) {
+            this.sayHi = function () { console.log("Hi"); }
+
+            return $scope.PhoneController = this;
+        };
+
+        phoneAppStuff.directives = {};
+        phoneAppStuff.directives.panel = function () {
+            return {
+                restrict: "E",
+                transclude: true,
+                template: "<div class='panel panel-success'>I am panel directive</div>" +
+                    "<div ng-transclude></div>"
+            }
+        };
+
+        app.controller(phoneAppStuff.controllers);
+        app.directive(phoneAppStuff.directives);
+    </script>
+</body>
+
+
+
+</html>
