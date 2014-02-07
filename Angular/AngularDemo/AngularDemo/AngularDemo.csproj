@@ -60,6 +60,7 @@
     <Content Include="002-behaviours.html" />
     <Content Include="005-isolated-scope1.html" />
     <Content Include="006-isolated-scope%40.html" />
+    <Content Include="008-isolated-scope-amp.html" />
     <Content Include="007-isolated-scope=.html" />
     <Content Include="004-directive-to-directive.html" />
     <Content Include="003-directives-controllers.html" />
