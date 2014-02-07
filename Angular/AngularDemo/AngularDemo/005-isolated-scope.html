@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/angular.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap-theme.css" rel="stylesheet" />
+</head>
+<body>
+    <div data-ng-app="choreApp">
+
+        <div data-ng-controller="ChoreController">
+            <kid done="logChore(chore)"></kid>
+        </div>
+
+        <!--<kid></kid>
+        <kid></kid>
+        <kid></kid>
+        <kid></kid>
+        <kid></kid>-->
+    </div>
+
+    <script type="text/javascript">
+        var app = angular.module("choreApp", []);
+
+        app.controller("ChoreController", function ($scope) {
+            $scope.logChore = function (chore) {
+                console.log(chore + " is done!");
+            }
+        });
+
+        app.directive("kid", function () {
+            return {
+                scope: {
+                    done: "&"
+
+                }, /* pass scope - this limits the scope */
+                restrict: "E",
+                template: "<div><input type='text' ng-model='chore'/> {{chore}}</div>" +
+                    "<div class='btn btn-danger' data-ng-click='done({chore:chore})'>I\'m done!</div>"
+            }
+        });
+
+
+    </script>
+</body>
+
+</html>

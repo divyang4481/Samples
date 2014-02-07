@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="002-behaviours.html" />
+    <Content Include="005-isolated-scope.html" />
     <Content Include="004-directive-to-directive.html" />
     <Content Include="003-directives-controllers.html" />
     <Content Include="Content\bootstrap-theme.css" />
