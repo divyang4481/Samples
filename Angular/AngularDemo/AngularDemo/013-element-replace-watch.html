@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/angular.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap-theme.css" rel="stylesheet" />
+</head>
+<body>
+    <div ng-app="app">
+        <div>
+           <dumb-password>
+               <div>
+                   <input type="text" ng-model="model.input" class="ng-valid ng-dirty" />
+               </div>
+               <div class="ng-binding">type something</div>
+           </dumb-password>
+        </div>
+    </div>
+
+    
+
+    <script type="text/javascript">
+        var app = angular.module("app", []);
+
+        app.directive("dumbPassword", function () {
+
+            var validElement = angular.element("<div>{{model.input}}</div>");
+
+            var link = function (scope, element) {
+                scope.$watch("model.input", function (value) {
+                    if (value === "password") {
+                        console.log("Change it");
+                        validElement.toggleClass("alert alert-danger");
+                    }
+                })
+            };
+
+            return {
+                restrict: "E",
+                replace: true,
+                template: "<div>" +
+                            "<input type='text' ng-model='model.input' />" +
+                          "</div>",
+                compile: function (templateElement) {
+                    templateElement.append(validElement);
+
+                    return link;
+                }
+              
+            }
+        });
+    </script>
+</body>
+</html>
+
