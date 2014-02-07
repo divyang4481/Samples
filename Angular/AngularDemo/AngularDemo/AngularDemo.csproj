@@ -60,6 +60,8 @@
     <Content Include="002-behaviours.html" />
     <Content Include="005-isolated-scope1.html" />
     <Content Include="006-isolated-scope%40.html" />
+    <Content Include="019-promise.html" />
+    <Content Include="018-route-params.html" />
     <Content Include="017-ng-view.html" />
     <Content Include="016-zippy-template-cache.html" />
     <Content Include="015-zippy-template-url.html" />

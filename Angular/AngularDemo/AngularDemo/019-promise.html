@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-route.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap-theme.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div ng-app="app">
+        <ng-view></ng-view>
+     
+        <script type="text/ng-template" id="app.html">
+            <h1>{{model.message}}</h1>
+        </script>
+
+    </div>
+
+    <script type="text/javascript">
+        var app = angular.module("app", ['ngRoute']);
+
+        app.config(function ($routeProvider) {
+            $routeProvider
+                .when('/',
+                {
+                    templateUrl: 'app.html',
+                    controller: 'AppController'
+                })
+                .otherwise({ redirectTo: "/" })
+        });
+
+        app.controller("AppController", function ($scope, $q) {
+            
+            var defer = $q.defer();
+
+            defer.promise
+                .then(function (weapon) {
+                    alert("I promised I would show up. " + weapon);
+
+                    return "bow";
+                })
+                .then(function (weapon) {
+                    alert("me too " + weapon);
+                })
+                .then(function () {
+                    alert("and me too");
+                });
+
+            defer.resolve("sword");
+
+            $scope.model = { message: "This is my app!!!" };
+
+        })
+    </script>
+</body>
+</html>
