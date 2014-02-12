@@ -8,7 +8,7 @@
     <link href="Content/bootstrap-theme.css" rel="stylesheet" />
 </head>
 <body>
-    <div ng-app="app">
+    <div ng-app="app" ng-controller="AppController">
         <ng-view></ng-view>
 
         <script type="text/ng-template" id="app.html">
@@ -24,40 +24,35 @@
             $routeProvider.when('/',
                 {
                     templateUrl: 'app.html',
-                    controller: 'AppController',
+                    controller: 'ViewController',
                     resolve: {
-                        loadData: appController.loadData,
-                        prepData: appController.prepData
+                        loadData: viewController.loadData
                     }
                 });
         });
 
-        var appController = app.controller("AppController", function ($scope, $route) {
+        app.controller("AppController", function ($rootScope) {
+            $rootScope.$on("$routeChangeError", function (event, current, previous, rejection) {
+                console.log("Failed to change routes: " + rejection);
+            })
+        });
+
+        var viewController = app.controller("ViewController", function ($scope, $route) {
 
             console.log($route);
 
             $scope.model = { message: "This is truly amazing app" };
         });
 
-        appController.loadData = function ($q, $timeout) {
+        viewController.loadData = function ($q, $timeout) {
             var defer = $q.defer();
 
             $timeout(function () {
-                defer.resolve("loadData");
-            }, 2000);
+                defer.reject("you are not lucky");
+            }, 1000);
 
             return defer.promise;
         };
-
-        appController.prepData = function ($q, $timeout) {
-            var defer = $q.defer();
-
-            $timeout(function () {
-                defer.resolve("prepData");
-            }, 2000);
-
-            return defer.promise;
-        }
     </script>
 </body>
 </html>
