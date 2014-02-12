@@ -37,15 +37,17 @@
 
             defer.promise
                 .then(function (weapon) {
-                    alert("I promised I would show up. " + weapon);
+                    alert("I promised I would show up. I've got " + weapon + ".");
 
                     return "bow";
                 })
                 .then(function (weapon) {
-                    alert("me too " + weapon);
+                    alert("me too. And I've got " + weapon + ".");
+
+                    return "mortar";
                 })
-                .then(function () {
-                    alert("and me too");
+                .then(function (weapon) {
+                    alert("and me too. I fight with " + weapon + ".");
                 });
 
             defer.resolve("sword");

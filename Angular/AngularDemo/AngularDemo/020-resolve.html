@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-route.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap-theme.css" rel="stylesheet" />
+</head>
+<body>
+    <div ng-app="app">
+        <ng-view></ng-view>
+
+        <script type="text/ng-template" id="app.html">
+            <h1>{{model.message}}</h1>
+        </script>
+
+    </div>
+
+    <script type="text/javascript">
+        var app = angular.module("app", ['ngRoute']);
+
+        app.config(function ($routeProvider) {
+            $routeProvider.when('/',
+                {
+                    templateUrl: 'app.html',
+                    controller: 'AppController',
+                    resolve: {
+                        app: function ($q, $timeout) {
+                            var defer = $q.defer();
+
+                            $timeout(function () {
+                                defer.resolve();
+                            }, 2000);
+
+                            return defer.promise;
+                        }
+                    }
+                })
+        });
+
+        app.controller("AppController", function ($scope) {
+            $scope.model = { message: "This is truly amazing app" };
+        })
+    </script>
+</body>
+</html>
