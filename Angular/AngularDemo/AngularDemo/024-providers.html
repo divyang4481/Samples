@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-route.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap-theme.css" rel="stylesheet" />
+</head>
+<body>
+    <div ng-app="app" ng-controller="AppController">
+        <h3>{{title}}</h3>
+    </div>
+
+    <script type="text/javascript">
+        var app = angular.module("app", []);
+
+        app.config(function ($provide) {
+            $provide.factory("game", function () {
+                return { title: "chess" };
+            });
+        });
+
+        //app.factory("game", function () {
+        //    return { title: "chess" };
+        //})
+
+        app.controller("AppController", function ($scope, game) {
+            $scope.title = game.title;
+        });
+    </script>
+</body>
+</html>

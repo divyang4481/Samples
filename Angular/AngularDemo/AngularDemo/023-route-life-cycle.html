@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-route.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap-theme.css" rel="stylesheet" />
+</head>
+<body>
+    <div ng-app="app" ng-controller="AppController">
+        <error></error>
+        <ng-view></ng-view>
+
+        <script type="text/ng-template" id="app.html">
+            <h1>{{model.message}}</h1>
+        </script>
+
+        <script type="text/ng-template" id="new.html">
+            <h3><a ng-click="changeRoute()">Change route</a></h3>
+        </script>
+
+    </div>
+
+    <script type="text/javascript">
+        var app = angular.module("app", ['ngRoute']);
+
+        app.config(function ($routeProvider) {
+            $routeProvider
+                .when('/',
+                {
+                    templateUrl: 'app.html',
+                    controller: 'ViewController'
+                })
+                .when('/new',
+                {
+                    templateUrl: 'new.html',
+                    controller: 'NewController',
+                    resolve: {
+                        loadData: viewController.loadData
+                    }
+                });
+        });
+
+        app.directive("error", function ($rootScope) {
+            return {
+                restrict: "E",
+                template: "<div class='alert alert-danger' ng-show='isError'>Error!!!<div>",
+                link: function (scope) {
+                    $rootScope.$on("$routeChangeError", function (event, current, previous, rejection) {
+                        scope.isError = true;
+                    });
+                }
+            };
+        });
+
+        app.controller("AppController", function ($scope, $rootScope, $route, $location) {
+            $rootScope.$on("$routeChangeStart", function (event, current, previous, rejection) {
+                console.log($scope, $rootScope, $route, $location);
+            });
+
+            $rootScope.$on("$routeChangeSuccess", function (event, current, previous, rejection) {
+                console.log($scope, $rootScope, $route, $location);
+            });
+        });
+
+        var viewController = app.controller("ViewController", function ($scope, $route) {
+
+            $scope.changeRoute = function () {
+                console.log($scope);
+                $location.path("/new");
+            }
+        });
+
+        app.controller("NewController", function () {
+
+        });
+
+        viewController.loadData = function ($q, $timeout) {
+            var defer = $q.defer();
+
+            $timeout(function () {
+                defer.resolve({ message: "Success" });
+            }, 1000);
+
+            return defer.promise;
+        };
+    </script>
+</body>
+</html>

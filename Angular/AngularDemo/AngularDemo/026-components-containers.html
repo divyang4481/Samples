@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-route.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap-theme.css" rel="stylesheet" />
+</head>
+<body>
+    <div ng-app="app">
+        
+        <!-- Component -->
+        <clock timezone="MST"></clock>
+
+        <!-- Container -->
+        <panel title="test">
+
+            <span>dsfkjsdf sdlfkjsd flksdfj sdkl</span>
+            <clock timezone="PST"></clock>
+        </panel>
+
+    </div>
+
+    <script type="text/javascript">
+        var app = angular.module("app", []);
+
+        app.directive("clock", function () {
+            return {
+                restrict: "E",
+                scope: {
+                    timezone: "@"
+                },
+                template: "<div>12:00pm {{timezone}}</div>"
+            }
+        });
+
+        app.directive("panel", function () {
+            return {
+                restrict: "E",
+                transclude: true,
+                scope: {
+                    title: "@"
+                },
+                template: "<div style='border: 2px solid red'>" +
+                    "<div>{{title}}</div>" +
+                    "<div ng-transclude></div>" +
+                    "</div>"
+            }
+        })
+
+    </script>
+</body>
+</html>
