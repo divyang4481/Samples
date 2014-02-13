@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-route.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap-theme.css" rel="stylesheet" />
+</head>
+<body>
+    <div ng-app="app">
+        <div class="btn btn-default"
+             ng-repeat="item in 'dksjlew'.split('')"
+             ng-click="$log.debug($event)">
+            {{$index + 1}}, {{item}}
+            {{ec.pageX}}
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var app = angular.module("app", []);
+
+        app.config(function ($logProvider) {
+            $logProvider.debugEnabled(false);
+        });
+
+        app.run(function ($rootScope, $log) {
+            $rootScope.$log = $log;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-route.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap-theme.css" rel="stylesheet" />
+    <title></title>
+</head>
+<body ng-app="BasicApp" ng-controller="BasicController">
+    <div>
+        What is your name?
+        <input type="text" ng-model="greeter.name" />
+    </div>
+    <div>
+        {{greeter.getGreeting()}}
+    </div>
+
+    <script type="text/javascript">
+        var app = angular.module("BasicApp", []);
+
+        app.service("ServiceGreeter1", function () {
+            this.getGreeting = function (name) {
+                return name ? ("Hello, " + name + "!!!") : "";
+            };
+        });
+
+        app.service("ServiceGreeter2", function (ServiceGreeter1) {
+            this.name = "";
+            this.getGreeting = function () {
+                return "ServiceGreeter2: " + ServiceGreeter1.getGreeting(this.name);
+            };
+
+        });
+
+        app.controller("BasicController", function ($scope, ServiceGreeter2) {
+            $scope.greeter = ServiceGreeter2;
+        });
+    </script>
+</body>
+</html>
